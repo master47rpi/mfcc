@@ -16,6 +16,9 @@ namespace mirada_finanza_control_central
         private byte[] selectedFileBytes = null;
         private string selectedFileExt = "";
 
+        private byte[] selectedFileBytesProductPicture = null;
+        private string selectedFileExtensionProductPicture = "";
+
         public Form1()
         {
             InitializeComponent();
@@ -42,6 +45,18 @@ namespace mirada_finanza_control_central
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
             dataGridViewAssets.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
 
+            // Entfernt die Linien zwischen den Spaltenköpfen
+            dataGridViewCustomers.EnableHeadersVisualStyles = false;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewCustomers.ColumnHeadersDefaultCellStyle.BackColor;
+            // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
+            dataGridViewCustomers.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+
+            // Entfernt die Linien zwischen den Spaltenköpfen
+            dataGridViewProducts.EnableHeadersVisualStyles = false;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewProducts.ColumnHeadersDefaultCellStyle.BackColor;
+            // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
+            dataGridViewProducts.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+
             this.SetupDatabase();
             this.LoadCategories();
 
@@ -49,6 +64,9 @@ namespace mirada_finanza_control_central
 
             RefreshJournal();
             dataGridViewAssetsRefresh();
+            tabPageOverviewRefresh();
+            tabPageCustomersRefresh();
+            tabPageProductsRefresh();
 
             // 1. TABS AUSBLENDEN (TRICK)
             // Wir machen die Reiter 1 Pixel hoch und schalten auf Flat-Style um
@@ -80,6 +98,12 @@ namespace mirada_finanza_control_central
             buttonAssets.BackColor = Color.DarkSlateBlue;
             buttonSettings.BackColor = Color.DarkSlateBlue;
             buttonExport.BackColor = Color.DarkSlateBlue;
+            buttonCustomerEntry.BackColor = Color.DarkSlateBlue;
+            buttonCustomers.BackColor = Color.DarkSlateBlue;
+            buttonItemEntry.BackColor = Color.DarkSlateBlue;
+            buttonItems.BackColor = Color.DarkSlateBlue;
+            buttonInvoiceEntry.BackColor = Color.DarkSlateBlue;
+            buttonInvoices.BackColor = Color.DarkSlateBlue;
 
             // Hebe den aktiven Button hervor (z.B. dunkleres Blau)
             activeBtn.BackColor = Color.DodgerBlue;
@@ -129,6 +153,7 @@ namespace mirada_finanza_control_central
                         Reversal INTEGER DEFAULT 0,
                         ReversalReferenceVoucher TEXT,
                         InvoiceReference TEXT,
+                        AssetId TEXT,
                         FOREIGN KEY(EntryCategoryName) REFERENCES EntryCategory(Name)
                     );";
 
@@ -356,6 +381,36 @@ namespace mirada_finanza_control_central
             return $"{year}-{nextId:D4}";
         }
 
+        private int GetNextAssetId()
+        {
+            int nextId = 1; // Standardwert, falls noch nichts in der DB ist
+            string sql = "SELECT MAX(AssetId) FROM Entrytransaction";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+
+                        // Falls die Tabelle leer ist oder noch nie eine AssetId vergeben wurde
+                        if (result != null && result != DBNull.Value)
+                        {
+                            nextId = Convert.ToInt32(result) + 1;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Abrufen der nächsten Anlagen-Nummer: " + ex.Message);
+            }
+
+            return nextId;
+        }
+
         private void buttonVoucherPost_Click(object sender, EventArgs e)
         {
             try
@@ -371,13 +426,20 @@ namespace mirada_finanza_control_central
                 int voucherYear = dateTimePickerVoucherDate.Value.Year;
                 string voucher = GetNextVoucher(voucherYear);
 
+                string assetId = "";
+                // New AssetId if its an asset.
+                if (textBoxEntryPostingType.Text == "Anlage" && checkBoxReversal.Checked == false)
+                {
+                    assetId = GetNextAssetId().ToString();
+                }
+
                 using (var conn = new SQLiteConnection(connString))
                 {
                     conn.Open();
                     string sql = @"INSERT INTO EntryTransaction 
-                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference) 
+                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference, AssetId) 
                 VALUES 
-                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference)";
+                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference, @assetId)";
 
                     using (var cmd = new SQLiteCommand(sql, conn))
                     {
@@ -402,6 +464,8 @@ namespace mirada_finanza_control_central
 
                         cmd.Parameters.AddWithValue("@invoiceReference", DBNull.Value);
 
+                        cmd.Parameters.AddWithValue("@assetId", assetId != "" ? assetId : DBNull.Value);
+
                         if (selectedFileBytes != null)
                         {
                             cmd.Parameters.Add("@file", System.Data.DbType.Binary).Value = selectedFileBytes;
@@ -420,6 +484,7 @@ namespace mirada_finanza_control_central
                 MessageBox.Show($"Erfolgreich gespeichert! Belegnummer: {voucher}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshJournal();
                 dataGridViewAssetsRefresh();
+                tabPageOverviewRefresh();
                 ClearForm(); // Felder leeren für den nächsten Beleg
             }
             catch (Exception ex)
@@ -468,7 +533,7 @@ namespace mirada_finanza_control_central
                     conn.Open();
                     // Wir holen alle wichtigen Spalten
                     string sql = "SELECT " +
-             "Voucher, TransDate, TransactionType, Amount, Reversal, EntryCategoryName, Description, ReversalReferenceVoucher, InvoiceReference, " +
+             "Voucher, TransDate, TransactionType, Amount, Reversal, EntryCategoryName, Description, ReversalReferenceVoucher, InvoiceReference, AssetId, " +
              "Voucher || char(10) || TransDate AS Disp_VoucherDate, " +
              "TransactionType || char(10) || EntryCategoryName AS Disp_TypeCategory, " +
              "Amount || ' €' || char(10) || Description AS Disp_AmountDesc " +
@@ -531,6 +596,14 @@ namespace mirada_finanza_control_central
                         dataGridViewJournal.Columns["InvoiceReference"].Width = 102;
                         dataGridViewJournal.Columns["InvoiceReference"].DisplayIndex = 5;
                         dataGridViewJournal.Columns["InvoiceReference"].Visible = true;
+                    }
+
+                    if (dataGridViewJournal.Columns["AssetId"] != null)
+                    {
+                        dataGridViewJournal.Columns["AssetId"].HeaderText = "Anlagen-Nr.";
+                        dataGridViewJournal.Columns["AssetId"].Width = 102;
+                        dataGridViewJournal.Columns["AssetId"].DisplayIndex = 5;
+                        dataGridViewJournal.Columns["AssetId"].Visible = true;
                     }
                 }
             }
@@ -639,7 +712,7 @@ namespace mirada_finanza_control_central
                     {
                         conn.Open();
                         // Wir holen Note und CreatedDate basierend auf dem Voucher (Belegnummer)
-                        string sql = "SELECT Note, CreatedDate, Amount, EntryCategoryName, Voucher, TransDate, ReversalReferenceVoucher, Reversal, Description, TransactionType, InvoiceReference FROM EntryTransaction WHERE Voucher = @nr";
+                        string sql = "SELECT Note, CreatedDate, Amount, EntryCategoryName, Voucher, TransDate, ReversalReferenceVoucher, Reversal, Description, TransactionType, InvoiceReference, AssetId FROM EntryTransaction WHERE Voucher = @nr";
 
                         using (var cmd = new SQLiteCommand(sql, conn))
                         {
@@ -948,6 +1021,7 @@ namespace mirada_finanza_control_central
                     conn.Open();
                     // Wir holen alle wichtigen Spalten
                     string sql = @"SELECT 
+                        t1.AssetId,
                         t1.Voucher, 
                         t1.TransDate, 
                         t1.TransactionType, 
@@ -1004,11 +1078,12 @@ namespace mirada_finanza_control_central
                             dataGridViewAssets.Columns["Restwert"].HeaderText = "Aktueller Buchwert";
                             dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
                             dataGridViewAssets.Columns["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
-
+                            dataGridViewAssets.Columns["AssetId"].DisplayIndex = 0;
 
                             // --- AB HIER: Spalten sprechend machen ---
                             if (dataGridViewAssets.Columns.Count > 0)
                             {
+                                dataGridViewAssets.Columns["AssetId"].HeaderText = "Anlagen-Nr.";
                                 dataGridViewAssets.Columns["Voucher"].HeaderText = "Beleg-Nr.";
                                 dataGridViewAssets.Columns["TransDate"].HeaderText = "Kaufdatum";
                                 dataGridViewAssets.Columns["TransactionType"].HeaderText = "Typ";
@@ -1031,6 +1106,507 @@ namespace mirada_finanza_control_central
             {
                 MessageBox.Show("Fehler beim Laden: " + ex.Message);
             }
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabPageOverview)
+            {
+                tabPageOverviewRefresh();
+            }
+            else if (tabControl.SelectedTab == tabPageCustomers)
+            {
+                tabPageCustomersRefresh();
+            }
+        }
+
+        private void tabPageOverviewRefresh()
+        {
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    string sql = @"
+                SELECT 
+                    -- MONATE (Revenue)
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now') THEN Amount ELSE 0 END) as RevenueM0,
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-1 month') THEN Amount ELSE 0 END) as RevenueM1,
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-2 month') THEN Amount ELSE 0 END) as RevenueM2,
+                    -- MONATE (Expenses)
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now') THEN Amount ELSE 0 END) as ExpensesM0,
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-1 month') THEN Amount ELSE 0 END) as ExpensesM1,
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-2 month') THEN Amount ELSE 0 END) as ExpensesM2,
+                    -- JAHRE
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now') THEN Amount ELSE 0 END) as RevenueY0,
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-1 year') THEN Amount ELSE 0 END) as RevenueY1,
+                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-2 year') THEN Amount ELSE 0 END) as RevenueY2,
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now') THEN Amount ELSE 0 END) as ExpensesY0,
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-1 year') THEN Amount ELSE 0 END) as ExpensesY1,
+                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-2 year') THEN Amount ELSE 0 END) as ExpensesY2
+                FROM EntryTransaction 
+                WHERE Reversal = 0 
+                  AND Voucher NOT IN (SELECT IFNULL(ReversalReferenceVoucher, '') FROM EntryTransaction WHERE ReversalReferenceVoucher IS NOT NULL)";
+
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Daten zuweisen & Gewinne berechnen
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "M0",
+                                textBoxOverviewRevenueCurrentMonth,
+                                textBoxOverviewCostsCurrentMonth,
+                                textBoxOverviewEarningsCurrentMonth);
+
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "M1",
+                                textBoxOverviewRevenuePreMonth,
+                                textBoxOverviewCostsPreMonth,
+                                textBoxOverviewEarningsPreMonth);
+
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "M2",
+                                textBoxOverviewRevenuePrePreMonth,
+                                textBoxOverviewCostsPrePreMonth,
+                                textBoxOverviewEarningsPrePreMonth);
+
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "Y0",
+                                textBoxOverviewRevenueCurrentYear,
+                                textBoxOverviewCostsCurrentYear,
+                                textBoxOverviewEarningsCurrentYear);
+
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "Y1",
+                                textBoxOverviewRevenuePreYear,
+                                textBoxOverviewCostsPreYear,
+                                textBoxOverviewEarningsPreYear);
+
+                            tapPageOverviewUpdateBlock(
+                                reader,
+                                "Y2",
+                                textBoxOverviewRevenuePrePreYear,
+                                textBoxOverviewCostsPrePreYear,
+                                textBoxOverviewEarningsPrePreYear);
+                        }
+                    }
+
+                    // Dynamische Beschriftung der Header
+                    labelOverviewCurrentMonth.Text = DateTime.Now.ToString("MMMM yyyy");
+                    labelOverviewPreMonth.Text = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
+                    labelOverviewPrePreMonth.Text = DateTime.Now.AddMonths(-2).ToString("MMMM yyyy");
+                    labelOverviewCurrentYear.Text = "Jahr " + DateTime.Now.Year;
+                    labelOverviewPreYear.Text = "Jahr " + DateTime.Now.AddYears(-1).Year;
+                    labelOverviewPrePreYear.Text = "Jahr " + DateTime.Now.AddYears(-2).Year;
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Dashboard Error: " + ex.Message); }
+        }
+
+        private void tapPageOverviewUpdateBlock(SQLiteDataReader r, string suffix, TextBox tRev, TextBox tExp, TextBox tProf)
+        {
+            decimal rev = r["Revenue" + suffix] != DBNull.Value ? Convert.ToDecimal(r["Revenue" + suffix]) : 0;
+            decimal exp = r["Expenses" + suffix] != DBNull.Value ? Convert.ToDecimal(r["Expenses" + suffix]) : 0;
+            decimal prof = rev - exp;
+
+            tRev.Text = rev.ToString("C2");
+            tExp.Text = exp.ToString("C2");
+            tProf.Text = prof.ToString("C2");
+            tProf.ForeColor = prof >= 0 ? Color.ForestGreen : Color.Firebrick;
+        }
+
+        private void tabPageCustomerEntrySaveCustomer()
+        {
+            // 1. Daten aus den Textboxen sammeln
+            string name = textBoxCustomerEntryName.Text.Trim();
+            string street = textBoxCustomerEntryStreet.Text.Trim();
+            string zip = textBoxCustomerEntryZipCode.Text.Trim();
+            string city = textBoxCustomerEntryCity.Text.Trim();
+            string country = textBoxCustomerEntryCountry.Text.Trim();
+            string email = textBoxCustomerEntryEmail.Text.Trim();
+
+            // Validierung: Name ist Pflicht
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Bitte geben Sie mindestens einen Namen ein.", "Eingabe fehlt");
+                return;
+            }
+
+            // 2. SQL Insert (ID wird automatisch per AUTOINCREMENT vergeben)
+            string sql = @"INSERT INTO customer (Name, Street, Zipcode, City, Country, Email) 
+                   VALUES (@Name, @Street, @Zipcode, @City, @Country, @Email);
+                   SELECT last_insert_rowid();"; // Gibt die neue ID direkt zurück
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        // Parameter für maximale Sicherheit (SQL-Injection Schutz)
+                        cmd.Parameters.AddWithValue("@Name", name);
+                        cmd.Parameters.AddWithValue("@Street", street);
+                        cmd.Parameters.AddWithValue("@Zipcode", zip);
+                        cmd.Parameters.AddWithValue("@City", city);
+                        cmd.Parameters.AddWithValue("@Country", country);
+                        cmd.Parameters.AddWithValue("@Email", email);
+
+                        // ExecuteScalar, weil wir die neue ID als Rückgabewert erwarten
+                        object newId = cmd.ExecuteScalar();
+
+                        MessageBox.Show($"Kunde erfolgreich unter ID {newId} angelegt!", "Erfolg");
+                    }
+                }
+
+                // 3. Maske für den nächsten Kunden leeren
+                tabPageCustomerEntryClear();
+
+                // Optional: Hier die Kundenliste im Grid aktualisieren
+                tabPageCustomersRefresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Speichern des Kunden: " + ex.Message, "Datenbankfehler");
+            }
+        }
+
+        private void tabPageCustomerEntryClear()
+        {
+            textBoxCustomerEntryName.Clear();
+            textBoxCustomerEntryStreet.Clear();
+            textBoxCustomerEntryZipCode.Clear();
+            textBoxCustomerEntryCity.Clear();
+            textBoxCustomerEntryCountry.Clear();
+            textBoxCustomerEntryEmail.Clear();
+
+            // Setzt den Fokus zurück auf das Namensfeld
+            textBoxCustomerEntryName.Focus();
+        }
+
+        private void buttonCustomerEntrySave_Click(object sender, EventArgs e)
+        {
+            tabPageCustomerEntrySaveCustomer();
+        }
+
+        private void tabPageCustomersRefresh()
+        {
+
+            // SQL-Abfrage: Alle Kunden laden, Neueste zuerst
+            string sql = "SELECT Id, Name, Street, Zipcode, City, Country, Email FROM customer ORDER BY Id DESC";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        using (var adapter = new SQLiteDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            // Daten binden
+                            dataGridViewCustomers.DataSource = null; // Alte Bindung lösen
+                            dataGridViewCustomers.AutoGenerateColumns = true; // Spalten automatisch erstellen
+                            dataGridViewCustomers.DataSource = dt; // Neue Daten binden
+
+                            // Ein Style-Objekt erstellen, das Umbrüche erlaubt
+                            DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle();
+                            wrapStyle.WrapMode = DataGridViewTriState.True;
+
+                            dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+                            // --- Optik-Finishing (wie bei den Anlagen) ---
+                            if (dataGridViewCustomers.Columns.Count > 0)
+                            {
+                                // 1. Spaltenbreiten optimieren
+                                if (dataGridViewCustomers.Columns["Id"] != null)
+                                {
+                                    dataGridViewCustomers.Columns["Id"].Width = 40; // ID schön schmal halten
+                                }
+
+                                if (dataGridViewCustomers.Columns["Name"] != null)
+                                {
+                                    dataGridViewCustomers.Columns["Name"].Width = 110; // ID schön schmal halten
+                                    dataGridViewCustomers.Columns["Name"].DefaultCellStyle = wrapStyle;
+                                }
+
+                                if (dataGridViewCustomers.Columns["Street"] != null)
+                                {
+                                    dataGridViewCustomers.Columns["Street"].Width = 120; // ID schön schmal halten
+                                    dataGridViewCustomers.Columns["Street"].DefaultCellStyle = wrapStyle;
+                                }
+
+                                if (dataGridViewCustomers.Columns["ZipCode"] != null)
+                                {
+                                    dataGridViewCustomers.Columns["ZipCode"].Width = 70; // ID schön schmal halten
+                                }
+
+                                if (dataGridViewCustomers.Columns["Email"] != null)
+                                {
+                                    dataGridViewCustomers.Columns["Email"].Width = 220; // ID schön schmal halten
+                                    dataGridViewCustomers.Columns["Email"].DefaultCellStyle = wrapStyle;
+                                }
+
+                                // 2. Bearbeitung im Grid verhindern
+                                dataGridViewCustomers.AllowUserToAddRows = false;
+                                dataGridViewCustomers.ReadOnly = true;
+                                dataGridViewCustomers.RowHeadersVisible = false;
+
+                                // 3. Selektions-Stil (Ganze Zeile)
+                                dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                                dataGridViewCustomers.MultiSelect = false;
+
+                                // 4. Hintergrundfarbe und Header-Design (wie besprochen)
+                                dataGridViewCustomers.EnableHeadersVisualStyles = false;
+                                dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+
+                                // Fokus entfernen
+                                dataGridViewCustomers.ClearSelection();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden der Kundenliste: " + ex.Message);
+            }
+        }
+
+        private void buttonCustomerEntry_Click(object sender, EventArgs e)
+        {
+            tabControl.SelectedTab = tabPageCustomerEntry;
+            HighlightButton(buttonCustomerEntry);
+        }
+
+        private void buttonCustomers_Click(object sender, EventArgs e)
+        {
+            tabPageCustomers.Refresh();
+            tabControl.SelectedTab = tabPageCustomers;
+            HighlightButton(buttonCustomers);
+        }
+
+        private void buttonProductEntryAddPicture_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                // Filter für gängige Bildformate
+                ofd.Filter = "Bilder (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+                ofd.Title = "Produktbild auswählen";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Bild in die PictureBox laden
+                    pictureBoxProductEntry.Image = Image.FromFile(ofd.FileName);
+
+                    // Die Dateiendung für die DB speichern
+                    selectedFileExtensionProductPicture = Path.GetExtension(ofd.FileName).ToLower();
+                }
+            }
+        }
+
+        private void tabPageProductEntrySave()
+        {
+            string name = textBoxProductEntryName.Text.Trim();
+            string description = textBoxProductEntryDescription.Text.Trim();
+            string priceRaw = textBoxProductEntryPrice.Text.Replace(",", ".");
+
+            if (string.IsNullOrWhiteSpace(name)) { MessageBox.Show("Name fehlt!"); return; }
+
+            if (!double.TryParse(priceRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double price))
+            {
+                MessageBox.Show("Preis ungültig!"); return;
+            }
+
+            string sql = @"INSERT INTO product (Name, Description, Price, Picture, PictureExtension) 
+                   VALUES (@Name, @Description, @Price, @Picture, @Extension)";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Name", name);
+                        cmd.Parameters.AddWithValue("@Description", description);
+                        cmd.Parameters.AddWithValue("@Price", price);
+
+                        // Bild-Logik
+                        if (pictureBoxProductEntry.Image != null)
+                        {
+                            // Bild in Byte-Array umwandeln
+                            byte[] imageBytes = selectedFileBytesProductPicture;
+                            cmd.Parameters.AddWithValue("@Picture", imageBytes);
+                            cmd.Parameters.AddWithValue("@Extension", selectedFileExtensionProductPicture);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@Picture", DBNull.Value);
+                            cmd.Parameters.AddWithValue("@Extension", DBNull.Value);
+                        }
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Produkt inklusive Bild gespeichert!");
+                tabPageProductEntryClear();
+            }
+            catch (Exception ex) { MessageBox.Show("Fehler: " + ex.Message); }
+        }
+
+        private void buttonPictureEntry_LoadFile(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                // Filter für gängige Bildformate
+                ofd.Filter = "Bilder (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+                ofd.Title = "Produktbild auswählen";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Datei in Bytes umwandeln
+                    selectedFileBytesProductPicture = File.ReadAllBytes(ofd.FileName);
+                    // Dateiendung merken
+                    selectedFileExtensionProductPicture = Path.GetExtension(ofd.FileName);
+
+                    labelSelectedFilename.Text = Path.GetFileName(ofd.FileName);
+
+                    // Vorschau, falls es ein Bild ist
+                    if (selectedFileExtensionProductPicture.ToLower() != ".pdf")
+                    {
+                        using (var ms = new MemoryStream(selectedFileBytesProductPicture))
+                        {
+                            pictureBoxProductEntry.Image = Image.FromStream(ms);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void tabPageProductEntryClear()
+        {
+            textBoxProductEntryName.Clear();
+            textBoxProductEntryDescription.Clear();
+            textBoxProductEntryPrice.Clear();
+            pictureBoxProductEntry.Image = null; // Bild löschen
+            selectedFileExtensionProductPicture = "";           // Endung leeren
+            selectedFileBytesProductPicture = null;
+        }
+
+        private void buttonProductEntrySave_Click(object sender, EventArgs e)
+        {
+            tabPageProductEntrySave();
+            tabPageProductEntryClear();
+            tabPageProductsRefresh();
+        }
+
+        private void buttonItemEntry_Click(object sender, EventArgs e)
+        {
+            tabPageProductEntry.Refresh();
+            tabControl.SelectedTab = tabPageProductEntry;
+            HighlightButton(buttonItemEntry);
+        }
+
+        private void buttonItems_Click(object sender, EventArgs e)
+        {
+            tabPageProducts.Refresh();
+            tabControl.SelectedTab = tabPageProducts;
+            HighlightButton(buttonItems);
+        }
+
+        private void tabPageProductsRefresh()
+        {
+            string sql = "SELECT Id, Name, Description, Price FROM product ORDER BY Name ASC";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        using (var adapter = new SQLiteDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+                            dataGridViewProducts.DataSource = dt;
+                        }
+                    }
+                }
+
+                // Optik-Finishing
+                if (dataGridViewProducts.Columns.Count > 0)
+                {
+                    //dataGridViewProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    if (dataGridViewProducts.Columns.Contains("Price"))
+                    {
+                        dataGridViewProducts.Columns["Price"].DefaultCellStyle.Format = "N2";
+                        dataGridViewProducts.Columns["Price"].Width = 80;
+                        dataGridViewProducts.Columns["Price"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    }
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Fehler beim Laden: " + ex.Message); }
+        }
+
+        private void dataGridViewProducts_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewProducts.SelectedRows.Count > 0)
+            {
+                // Die Id aus der ausgewählten Zeile holen
+                var selectedId = dataGridViewProducts.SelectedRows[0].Cells["Id"].Value;
+
+                LoadProductDetails(selectedId);
+            }
+        }
+
+        private void LoadProductDetails(object productId)
+        {
+            string sql = "SELECT Picture, PictureExtension FROM product WHERE Id = @Id";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", productId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                byte[] fileBytes = reader["Picture"] as byte[];
+                                string ext = reader["PictureExtension"]?.ToString().ToLower();
+
+                                if (fileBytes != null && fileBytes.Length > 0)
+                                {
+                                    using (var ms = new MemoryStream(fileBytes))
+                                    {
+                                        pictureBoxProducts.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                else
+                                {
+                                    pictureBoxProducts.Image = null;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { /* Fehler ignorieren oder loggen */ }
         }
     }
 }

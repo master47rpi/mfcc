@@ -28,10 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             panel1 = new Panel();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
@@ -50,6 +54,50 @@
             buttonEntry = new Button();
             tabControl = new TabControl();
             tabPageOverview = new TabPage();
+            panel2 = new Panel();
+            textBoxOverviewEarningsPrePreYear = new TextBox();
+            label11 = new Label();
+            textBoxOverviewCostsPrePreYear = new TextBox();
+            label12 = new Label();
+            label13 = new Label();
+            textBoxOverviewRevenuePrePreYear = new TextBox();
+            labelOverviewPrePreYear = new Label();
+            textBoxOverviewEarningsPreYear = new TextBox();
+            label15 = new Label();
+            textBoxOverviewCostsPreYear = new TextBox();
+            label16 = new Label();
+            label17 = new Label();
+            textBoxOverviewRevenuePreYear = new TextBox();
+            labelOverviewPreYear = new Label();
+            textBoxOverviewEarningsCurrentYear = new TextBox();
+            label19 = new Label();
+            textBoxOverviewCostsCurrentYear = new TextBox();
+            label20 = new Label();
+            label21 = new Label();
+            textBoxOverviewRevenueCurrentYear = new TextBox();
+            labelOverviewCurrentYear = new Label();
+            panelOverview = new Panel();
+            textBoxOverviewEarningsPrePreMonth = new TextBox();
+            label7 = new Label();
+            textBoxOverviewCostsPrePreMonth = new TextBox();
+            label8 = new Label();
+            label9 = new Label();
+            textBoxOverviewRevenuePrePreMonth = new TextBox();
+            labelOverviewPrePreMonth = new Label();
+            textBoxOverviewEarningsPreMonth = new TextBox();
+            label3 = new Label();
+            textBoxOverviewCostsPreMonth = new TextBox();
+            label4 = new Label();
+            label5 = new Label();
+            textBoxOverviewRevenuePreMonth = new TextBox();
+            labelOverviewPreMonth = new Label();
+            textBoxOverviewEarningsCurrentMonth = new TextBox();
+            labelOverviewEarningsCurrentMonth = new Label();
+            textBoxOverviewCostsCurrentMonth = new TextBox();
+            labelOverviewCostsCurrentMonth = new Label();
+            labelOverviewCurrentMonthRevenue = new Label();
+            textBoxOverviewRevenueCurrentMonth = new TextBox();
+            labelOverviewCurrentMonth = new Label();
             labelOverview = new Label();
             tabPageEntry = new TabPage();
             textBoxEntryPostingType = new TextBox();
@@ -106,56 +154,49 @@
             tabPageAssets = new TabPage();
             dataGridViewAssets = new DataGridView();
             labelAssets = new Label();
+            tabPageCustomerEntry = new TabPage();
+            buttonCustomerEntrySave = new Button();
+            textBoxCustomerEntryEmail = new TextBox();
+            label22 = new Label();
+            textBoxCustomerEntryCountry = new TextBox();
+            label18 = new Label();
+            textBoxCustomerEntryCity = new TextBox();
+            label14 = new Label();
+            textBoxCustomerEntryZipCode = new TextBox();
+            label10 = new Label();
+            textBoxCustomerEntryStreet = new TextBox();
+            label6 = new Label();
+            textBoxCustomerEntryName = new TextBox();
+            labelCustomerEntryName = new Label();
+            labelCustomerEntry = new Label();
+            tabPageCustomers = new TabPage();
+            dataGridViewCustomers = new DataGridView();
+            labelCustomers = new Label();
+            tabPageProductEntry = new TabPage();
+            pictureBoxProductEntry = new PictureBox();
+            buttonProductEntryAddPicture = new Button();
+            buttonProductEntrySave = new Button();
+            textBoxProductEntryPrice = new TextBox();
+            labelProductEntryPrice = new Label();
+            textBoxProductEntryDescription = new TextBox();
+            label27 = new Label();
+            textBoxProductEntryName = new TextBox();
+            label28 = new Label();
+            labelProduct = new Label();
+            tabPageProducts = new TabPage();
+            pictureBoxProducts = new PictureBox();
+            dataGridViewProducts = new DataGridView();
+            labelProducts = new Label();
+            tabPageInvoiceEntry = new TabPage();
+            tabPageInvoices = new TabPage();
             tabPageDataexport = new TabPage();
             tabPageSettings = new TabPage();
             tabPageAbout = new TabPage();
-            panelOverview = new Panel();
-            labelOverviewCurrentMonth = new Label();
-            textBoxRevenueCurrentMonth = new TextBox();
-            labelOverviewCurrentMonthRevenue = new Label();
-            labelOverviewCostsCurrentMonth = new Label();
-            textBoxCostsCurrentMonth = new TextBox();
-            labelOverviewEarningsCurrentMonth = new Label();
-            textBoxOverviewEarningsCurrentMonth = new TextBox();
-            textBox1 = new TextBox();
-            label3 = new Label();
-            textBox2 = new TextBox();
-            label4 = new Label();
-            label5 = new Label();
-            textBox3 = new TextBox();
-            label6 = new Label();
-            textBox4 = new TextBox();
-            label7 = new Label();
-            textBox5 = new TextBox();
-            label8 = new Label();
-            label9 = new Label();
-            textBox6 = new TextBox();
-            label10 = new Label();
-            panel2 = new Panel();
-            textBox7 = new TextBox();
-            label11 = new Label();
-            textBox8 = new TextBox();
-            label12 = new Label();
-            label13 = new Label();
-            textBox9 = new TextBox();
-            label14 = new Label();
-            textBox10 = new TextBox();
-            label15 = new Label();
-            textBox11 = new TextBox();
-            label16 = new Label();
-            label17 = new Label();
-            textBox12 = new TextBox();
-            label18 = new Label();
-            textBox13 = new TextBox();
-            label19 = new Label();
-            textBox14 = new TextBox();
-            label20 = new Label();
-            label21 = new Label();
-            textBox15 = new TextBox();
-            label22 = new Label();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
+            panel2.SuspendLayout();
+            panelOverview.SuspendLayout();
             tabPageEntry.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxEntryPreview).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownAmount).BeginInit();
@@ -163,8 +204,14 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewJournal).BeginInit();
             tabPageAssets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewAssets).BeginInit();
-            panelOverview.SuspendLayout();
-            panel2.SuspendLayout();
+            tabPageCustomerEntry.SuspendLayout();
+            tabPageCustomers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCustomers).BeginInit();
+            tabPageProductEntry.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProductEntry).BeginInit();
+            tabPageProducts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -202,6 +249,7 @@
             buttonCustomers.TabIndex = 14;
             buttonCustomers.Text = "Kunden";
             buttonCustomers.UseVisualStyleBackColor = false;
+            buttonCustomers.Click += buttonCustomers_Click;
             // 
             // buttonInvoices
             // 
@@ -244,6 +292,7 @@
             buttonCustomerEntry.TabIndex = 13;
             buttonCustomerEntry.Text = "Kundenerfassung";
             buttonCustomerEntry.UseVisualStyleBackColor = false;
+            buttonCustomerEntry.Click += buttonCustomerEntry_Click;
             // 
             // buttonItems
             // 
@@ -258,6 +307,7 @@
             buttonItems.TabIndex = 10;
             buttonItems.Text = "Artikel";
             buttonItems.UseVisualStyleBackColor = false;
+            buttonItems.Click += buttonItems_Click;
             // 
             // buttonItemEntry
             // 
@@ -272,6 +322,7 @@
             buttonItemEntry.TabIndex = 9;
             buttonItemEntry.Text = "Artikelerfassung";
             buttonItemEntry.UseVisualStyleBackColor = false;
+            buttonItemEntry.Click += buttonItemEntry_Click;
             // 
             // labelControlCentral
             // 
@@ -406,6 +457,12 @@
             tabControl.Controls.Add(tabPageEntry);
             tabControl.Controls.Add(tabPageJournal);
             tabControl.Controls.Add(tabPageAssets);
+            tabControl.Controls.Add(tabPageCustomerEntry);
+            tabControl.Controls.Add(tabPageCustomers);
+            tabControl.Controls.Add(tabPageProductEntry);
+            tabControl.Controls.Add(tabPageProducts);
+            tabControl.Controls.Add(tabPageInvoiceEntry);
+            tabControl.Controls.Add(tabPageInvoices);
             tabControl.Controls.Add(tabPageDataexport);
             tabControl.Controls.Add(tabPageSettings);
             tabControl.Controls.Add(tabPageAbout);
@@ -414,6 +471,7 @@
             tabControl.SelectedIndex = 0;
             tabControl.Size = new Size(770, 696);
             tabControl.TabIndex = 1;
+            tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
             // 
             // tabPageOverview
             // 
@@ -426,6 +484,469 @@
             tabPageOverview.TabIndex = 2;
             tabPageOverview.Text = "Überblick";
             tabPageOverview.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = SystemColors.Control;
+            panel2.Controls.Add(textBoxOverviewEarningsPrePreYear);
+            panel2.Controls.Add(label11);
+            panel2.Controls.Add(textBoxOverviewCostsPrePreYear);
+            panel2.Controls.Add(label12);
+            panel2.Controls.Add(label13);
+            panel2.Controls.Add(textBoxOverviewRevenuePrePreYear);
+            panel2.Controls.Add(labelOverviewPrePreYear);
+            panel2.Controls.Add(textBoxOverviewEarningsPreYear);
+            panel2.Controls.Add(label15);
+            panel2.Controls.Add(textBoxOverviewCostsPreYear);
+            panel2.Controls.Add(label16);
+            panel2.Controls.Add(label17);
+            panel2.Controls.Add(textBoxOverviewRevenuePreYear);
+            panel2.Controls.Add(labelOverviewPreYear);
+            panel2.Controls.Add(textBoxOverviewEarningsCurrentYear);
+            panel2.Controls.Add(label19);
+            panel2.Controls.Add(textBoxOverviewCostsCurrentYear);
+            panel2.Controls.Add(label20);
+            panel2.Controls.Add(label21);
+            panel2.Controls.Add(textBoxOverviewRevenueCurrentYear);
+            panel2.Controls.Add(labelOverviewCurrentYear);
+            panel2.Location = new Point(8, 272);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(744, 208);
+            panel2.TabIndex = 21;
+            // 
+            // textBoxOverviewEarningsPrePreYear
+            // 
+            textBoxOverviewEarningsPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPrePreYear.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsPrePreYear.Location = new Point(376, 168);
+            textBoxOverviewEarningsPrePreYear.Name = "textBoxOverviewEarningsPrePreYear";
+            textBoxOverviewEarningsPrePreYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsPrePreYear.TabIndex = 20;
+            textBoxOverviewEarningsPrePreYear.TabStop = false;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(376, 144);
+            label11.Name = "label11";
+            label11.Size = new Size(63, 21);
+            label11.TabIndex = 19;
+            label11.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsPrePreYear
+            // 
+            textBoxOverviewCostsPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPrePreYear.Location = new Point(376, 112);
+            textBoxOverviewCostsPrePreYear.Name = "textBoxOverviewCostsPrePreYear";
+            textBoxOverviewCostsPrePreYear.Size = new Size(160, 29);
+            textBoxOverviewCostsPrePreYear.TabIndex = 18;
+            textBoxOverviewCostsPrePreYear.TabStop = false;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Location = new Point(376, 88);
+            label12.Name = "label12";
+            label12.Size = new Size(57, 21);
+            label12.TabIndex = 17;
+            label12.Text = "Kosten";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(376, 32);
+            label13.Name = "label13";
+            label13.Size = new Size(62, 21);
+            label13.TabIndex = 16;
+            label13.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenuePrePreYear
+            // 
+            textBoxOverviewRevenuePrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePrePreYear.Location = new Point(376, 56);
+            textBoxOverviewRevenuePrePreYear.Name = "textBoxOverviewRevenuePrePreYear";
+            textBoxOverviewRevenuePrePreYear.Size = new Size(160, 29);
+            textBoxOverviewRevenuePrePreYear.TabIndex = 15;
+            textBoxOverviewRevenuePrePreYear.TabStop = false;
+            // 
+            // labelOverviewPrePreYear
+            // 
+            labelOverviewPrePreYear.AutoSize = true;
+            labelOverviewPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPrePreYear.Location = new Point(376, 8);
+            labelOverviewPrePreYear.Name = "labelOverviewPrePreYear";
+            labelOverviewPrePreYear.Size = new Size(92, 21);
+            labelOverviewPrePreYear.TabIndex = 14;
+            labelOverviewPrePreYear.Text = "Vorvorjahr";
+            // 
+            // textBoxOverviewEarningsPreYear
+            // 
+            textBoxOverviewEarningsPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPreYear.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsPreYear.Location = new Point(192, 168);
+            textBoxOverviewEarningsPreYear.Name = "textBoxOverviewEarningsPreYear";
+            textBoxOverviewEarningsPreYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsPreYear.TabIndex = 13;
+            textBoxOverviewEarningsPreYear.TabStop = false;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Location = new Point(192, 144);
+            label15.Name = "label15";
+            label15.Size = new Size(63, 21);
+            label15.TabIndex = 12;
+            label15.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsPreYear
+            // 
+            textBoxOverviewCostsPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPreYear.Location = new Point(192, 112);
+            textBoxOverviewCostsPreYear.Name = "textBoxOverviewCostsPreYear";
+            textBoxOverviewCostsPreYear.Size = new Size(160, 29);
+            textBoxOverviewCostsPreYear.TabIndex = 11;
+            textBoxOverviewCostsPreYear.TabStop = false;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(192, 88);
+            label16.Name = "label16";
+            label16.Size = new Size(57, 21);
+            label16.TabIndex = 10;
+            label16.Text = "Kosten";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Location = new Point(192, 32);
+            label17.Name = "label17";
+            label17.Size = new Size(62, 21);
+            label17.TabIndex = 9;
+            label17.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenuePreYear
+            // 
+            textBoxOverviewRevenuePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePreYear.Location = new Point(192, 56);
+            textBoxOverviewRevenuePreYear.Name = "textBoxOverviewRevenuePreYear";
+            textBoxOverviewRevenuePreYear.Size = new Size(160, 29);
+            textBoxOverviewRevenuePreYear.TabIndex = 8;
+            textBoxOverviewRevenuePreYear.TabStop = false;
+            // 
+            // labelOverviewPreYear
+            // 
+            labelOverviewPreYear.AutoSize = true;
+            labelOverviewPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPreYear.Location = new Point(192, 8);
+            labelOverviewPreYear.Name = "labelOverviewPreYear";
+            labelOverviewPreYear.Size = new Size(66, 21);
+            labelOverviewPreYear.TabIndex = 7;
+            labelOverviewPreYear.Text = "Vorjahr";
+            // 
+            // textBoxOverviewEarningsCurrentYear
+            // 
+            textBoxOverviewEarningsCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsCurrentYear.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsCurrentYear.Location = new Point(8, 168);
+            textBoxOverviewEarningsCurrentYear.Name = "textBoxOverviewEarningsCurrentYear";
+            textBoxOverviewEarningsCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsCurrentYear.TabIndex = 6;
+            textBoxOverviewEarningsCurrentYear.TabStop = false;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label19.Location = new Point(8, 144);
+            label19.Name = "label19";
+            label19.Size = new Size(63, 21);
+            label19.TabIndex = 5;
+            label19.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsCurrentYear
+            // 
+            textBoxOverviewCostsCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsCurrentYear.Location = new Point(8, 112);
+            textBoxOverviewCostsCurrentYear.Name = "textBoxOverviewCostsCurrentYear";
+            textBoxOverviewCostsCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewCostsCurrentYear.TabIndex = 4;
+            textBoxOverviewCostsCurrentYear.TabStop = false;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label20.Location = new Point(8, 88);
+            label20.Name = "label20";
+            label20.Size = new Size(57, 21);
+            label20.TabIndex = 3;
+            label20.Text = "Kosten";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label21.Location = new Point(8, 32);
+            label21.Name = "label21";
+            label21.Size = new Size(62, 21);
+            label21.TabIndex = 2;
+            label21.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenueCurrentYear
+            // 
+            textBoxOverviewRevenueCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenueCurrentYear.Location = new Point(8, 56);
+            textBoxOverviewRevenueCurrentYear.Name = "textBoxOverviewRevenueCurrentYear";
+            textBoxOverviewRevenueCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewRevenueCurrentYear.TabIndex = 1;
+            textBoxOverviewRevenueCurrentYear.TabStop = false;
+            // 
+            // labelOverviewCurrentYear
+            // 
+            labelOverviewCurrentYear.AutoSize = true;
+            labelOverviewCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewCurrentYear.Location = new Point(8, 8);
+            labelOverviewCurrentYear.Name = "labelOverviewCurrentYear";
+            labelOverviewCurrentYear.Size = new Size(117, 21);
+            labelOverviewCurrentYear.TabIndex = 0;
+            labelOverviewCurrentYear.Text = "Aktuelles Jahr";
+            // 
+            // panelOverview
+            // 
+            panelOverview.BackColor = SystemColors.Control;
+            panelOverview.Controls.Add(textBoxOverviewEarningsPrePreMonth);
+            panelOverview.Controls.Add(label7);
+            panelOverview.Controls.Add(textBoxOverviewCostsPrePreMonth);
+            panelOverview.Controls.Add(label8);
+            panelOverview.Controls.Add(label9);
+            panelOverview.Controls.Add(textBoxOverviewRevenuePrePreMonth);
+            panelOverview.Controls.Add(labelOverviewPrePreMonth);
+            panelOverview.Controls.Add(textBoxOverviewEarningsPreMonth);
+            panelOverview.Controls.Add(label3);
+            panelOverview.Controls.Add(textBoxOverviewCostsPreMonth);
+            panelOverview.Controls.Add(label4);
+            panelOverview.Controls.Add(label5);
+            panelOverview.Controls.Add(textBoxOverviewRevenuePreMonth);
+            panelOverview.Controls.Add(labelOverviewPreMonth);
+            panelOverview.Controls.Add(textBoxOverviewEarningsCurrentMonth);
+            panelOverview.Controls.Add(labelOverviewEarningsCurrentMonth);
+            panelOverview.Controls.Add(textBoxOverviewCostsCurrentMonth);
+            panelOverview.Controls.Add(labelOverviewCostsCurrentMonth);
+            panelOverview.Controls.Add(labelOverviewCurrentMonthRevenue);
+            panelOverview.Controls.Add(textBoxOverviewRevenueCurrentMonth);
+            panelOverview.Controls.Add(labelOverviewCurrentMonth);
+            panelOverview.Location = new Point(8, 56);
+            panelOverview.Name = "panelOverview";
+            panelOverview.Size = new Size(744, 208);
+            panelOverview.TabIndex = 13;
+            // 
+            // textBoxOverviewEarningsPrePreMonth
+            // 
+            textBoxOverviewEarningsPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPrePreMonth.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsPrePreMonth.Location = new Point(376, 168);
+            textBoxOverviewEarningsPrePreMonth.Name = "textBoxOverviewEarningsPrePreMonth";
+            textBoxOverviewEarningsPrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsPrePreMonth.TabIndex = 20;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(376, 144);
+            label7.Name = "label7";
+            label7.Size = new Size(63, 21);
+            label7.TabIndex = 19;
+            label7.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsPrePreMonth
+            // 
+            textBoxOverviewCostsPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPrePreMonth.Location = new Point(376, 112);
+            textBoxOverviewCostsPrePreMonth.Name = "textBoxOverviewCostsPrePreMonth";
+            textBoxOverviewCostsPrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsPrePreMonth.TabIndex = 18;
+            textBoxOverviewCostsPrePreMonth.TabStop = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(376, 88);
+            label8.Name = "label8";
+            label8.Size = new Size(57, 21);
+            label8.TabIndex = 17;
+            label8.Text = "Kosten";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(376, 32);
+            label9.Name = "label9";
+            label9.Size = new Size(62, 21);
+            label9.TabIndex = 16;
+            label9.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenuePrePreMonth
+            // 
+            textBoxOverviewRevenuePrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePrePreMonth.Location = new Point(376, 56);
+            textBoxOverviewRevenuePrePreMonth.Name = "textBoxOverviewRevenuePrePreMonth";
+            textBoxOverviewRevenuePrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenuePrePreMonth.TabIndex = 15;
+            textBoxOverviewRevenuePrePreMonth.TabStop = false;
+            // 
+            // labelOverviewPrePreMonth
+            // 
+            labelOverviewPrePreMonth.AutoSize = true;
+            labelOverviewPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPrePreMonth.Location = new Point(376, 8);
+            labelOverviewPrePreMonth.Name = "labelOverviewPrePreMonth";
+            labelOverviewPrePreMonth.Size = new Size(112, 21);
+            labelOverviewPrePreMonth.TabIndex = 14;
+            labelOverviewPrePreMonth.Text = "Vorvormonat";
+            // 
+            // textBoxOverviewEarningsPreMonth
+            // 
+            textBoxOverviewEarningsPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPreMonth.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsPreMonth.Location = new Point(192, 168);
+            textBoxOverviewEarningsPreMonth.Name = "textBoxOverviewEarningsPreMonth";
+            textBoxOverviewEarningsPreMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsPreMonth.TabIndex = 13;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(192, 144);
+            label3.Name = "label3";
+            label3.Size = new Size(63, 21);
+            label3.TabIndex = 12;
+            label3.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsPreMonth
+            // 
+            textBoxOverviewCostsPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPreMonth.Location = new Point(192, 112);
+            textBoxOverviewCostsPreMonth.Name = "textBoxOverviewCostsPreMonth";
+            textBoxOverviewCostsPreMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsPreMonth.TabIndex = 11;
+            textBoxOverviewCostsPreMonth.TabStop = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(192, 88);
+            label4.Name = "label4";
+            label4.Size = new Size(57, 21);
+            label4.TabIndex = 10;
+            label4.Text = "Kosten";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(192, 32);
+            label5.Name = "label5";
+            label5.Size = new Size(62, 21);
+            label5.TabIndex = 9;
+            label5.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenuePreMonth
+            // 
+            textBoxOverviewRevenuePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePreMonth.Location = new Point(192, 56);
+            textBoxOverviewRevenuePreMonth.Name = "textBoxOverviewRevenuePreMonth";
+            textBoxOverviewRevenuePreMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenuePreMonth.TabIndex = 8;
+            textBoxOverviewRevenuePreMonth.TabStop = false;
+            // 
+            // labelOverviewPreMonth
+            // 
+            labelOverviewPreMonth.AutoSize = true;
+            labelOverviewPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPreMonth.Location = new Point(192, 8);
+            labelOverviewPreMonth.Name = "labelOverviewPreMonth";
+            labelOverviewPreMonth.Size = new Size(86, 21);
+            labelOverviewPreMonth.TabIndex = 7;
+            labelOverviewPreMonth.Text = "Vormonat";
+            // 
+            // textBoxOverviewEarningsCurrentMonth
+            // 
+            textBoxOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsCurrentMonth.ForeColor = Color.GreenYellow;
+            textBoxOverviewEarningsCurrentMonth.Location = new Point(8, 168);
+            textBoxOverviewEarningsCurrentMonth.Name = "textBoxOverviewEarningsCurrentMonth";
+            textBoxOverviewEarningsCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsCurrentMonth.TabIndex = 6;
+            // 
+            // labelOverviewEarningsCurrentMonth
+            // 
+            labelOverviewEarningsCurrentMonth.AutoSize = true;
+            labelOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewEarningsCurrentMonth.Location = new Point(8, 144);
+            labelOverviewEarningsCurrentMonth.Name = "labelOverviewEarningsCurrentMonth";
+            labelOverviewEarningsCurrentMonth.Size = new Size(63, 21);
+            labelOverviewEarningsCurrentMonth.TabIndex = 5;
+            labelOverviewEarningsCurrentMonth.Text = "Gewinn";
+            // 
+            // textBoxOverviewCostsCurrentMonth
+            // 
+            textBoxOverviewCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsCurrentMonth.Location = new Point(8, 112);
+            textBoxOverviewCostsCurrentMonth.Name = "textBoxOverviewCostsCurrentMonth";
+            textBoxOverviewCostsCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsCurrentMonth.TabIndex = 4;
+            textBoxOverviewCostsCurrentMonth.TabStop = false;
+            // 
+            // labelOverviewCostsCurrentMonth
+            // 
+            labelOverviewCostsCurrentMonth.AutoSize = true;
+            labelOverviewCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewCostsCurrentMonth.Location = new Point(8, 88);
+            labelOverviewCostsCurrentMonth.Name = "labelOverviewCostsCurrentMonth";
+            labelOverviewCostsCurrentMonth.Size = new Size(57, 21);
+            labelOverviewCostsCurrentMonth.TabIndex = 3;
+            labelOverviewCostsCurrentMonth.Text = "Kosten";
+            // 
+            // labelOverviewCurrentMonthRevenue
+            // 
+            labelOverviewCurrentMonthRevenue.AutoSize = true;
+            labelOverviewCurrentMonthRevenue.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewCurrentMonthRevenue.Location = new Point(8, 32);
+            labelOverviewCurrentMonthRevenue.Name = "labelOverviewCurrentMonthRevenue";
+            labelOverviewCurrentMonthRevenue.Size = new Size(62, 21);
+            labelOverviewCurrentMonthRevenue.TabIndex = 2;
+            labelOverviewCurrentMonthRevenue.Text = "Umsatz";
+            // 
+            // textBoxOverviewRevenueCurrentMonth
+            // 
+            textBoxOverviewRevenueCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenueCurrentMonth.Location = new Point(8, 56);
+            textBoxOverviewRevenueCurrentMonth.Name = "textBoxOverviewRevenueCurrentMonth";
+            textBoxOverviewRevenueCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenueCurrentMonth.TabIndex = 1;
+            textBoxOverviewRevenueCurrentMonth.TabStop = false;
+            // 
+            // labelOverviewCurrentMonth
+            // 
+            labelOverviewCurrentMonth.AutoSize = true;
+            labelOverviewCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewCurrentMonth.Location = new Point(8, 8);
+            labelOverviewCurrentMonth.Name = "labelOverviewCurrentMonth";
+            labelOverviewCurrentMonth.Size = new Size(134, 21);
+            labelOverviewCurrentMonth.TabIndex = 0;
+            labelOverviewCurrentMonth.Text = "Aktueller Monat";
             // 
             // labelOverview
             // 
@@ -595,9 +1116,9 @@
             label2.ForeColor = Color.Black;
             label2.Location = new Point(0, 16);
             label2.Name = "label2";
-            label2.Size = new Size(141, 37);
+            label2.Size = new Size(214, 37);
             label2.TabIndex = 10;
-            label2.Text = "Erfassung";
+            label2.Text = "Belegerfassung";
             // 
             // buttonVoucherPost
             // 
@@ -1005,23 +1526,23 @@
             dataGridViewJournal.BorderStyle = BorderStyle.None;
             dataGridViewJournal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewJournal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = SystemColors.Control;
-            dataGridViewCellStyle17.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle17.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle17.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewJournal.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = SystemColors.Window;
-            dataGridViewCellStyle18.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle18.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle18.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle18.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridViewJournal.GridColor = SystemColors.Window;
             dataGridViewJournal.Location = new Point(-40, 88);
             dataGridViewJournal.MultiSelect = false;
@@ -1058,23 +1579,23 @@
             dataGridViewAssets.BorderStyle = BorderStyle.None;
             dataGridViewAssets.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewAssets.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = SystemColors.Control;
-            dataGridViewCellStyle19.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle19.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle19.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle19.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridViewAssets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = SystemColors.Window;
-            dataGridViewCellStyle20.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle20.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle20.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle20.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewAssets.GridColor = SystemColors.Control;
             dataGridViewAssets.Location = new Point(-40, 88);
             dataGridViewAssets.MultiSelect = false;
@@ -1097,6 +1618,422 @@
             labelAssets.Size = new Size(123, 37);
             labelAssets.TabIndex = 13;
             labelAssets.Text = "Anlagen";
+            // 
+            // tabPageCustomerEntry
+            // 
+            tabPageCustomerEntry.Controls.Add(buttonCustomerEntrySave);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryEmail);
+            tabPageCustomerEntry.Controls.Add(label22);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryCountry);
+            tabPageCustomerEntry.Controls.Add(label18);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryCity);
+            tabPageCustomerEntry.Controls.Add(label14);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryZipCode);
+            tabPageCustomerEntry.Controls.Add(label10);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryStreet);
+            tabPageCustomerEntry.Controls.Add(label6);
+            tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryName);
+            tabPageCustomerEntry.Controls.Add(labelCustomerEntryName);
+            tabPageCustomerEntry.Controls.Add(labelCustomerEntry);
+            tabPageCustomerEntry.Location = new Point(4, 24);
+            tabPageCustomerEntry.Name = "tabPageCustomerEntry";
+            tabPageCustomerEntry.Size = new Size(762, 668);
+            tabPageCustomerEntry.TabIndex = 7;
+            tabPageCustomerEntry.Text = "Kundenerfassung";
+            tabPageCustomerEntry.UseVisualStyleBackColor = true;
+            // 
+            // buttonCustomerEntrySave
+            // 
+            buttonCustomerEntrySave.Location = new Point(8, 448);
+            buttonCustomerEntrySave.Name = "buttonCustomerEntrySave";
+            buttonCustomerEntrySave.Size = new Size(216, 32);
+            buttonCustomerEntrySave.TabIndex = 26;
+            buttonCustomerEntrySave.Text = "Speichern";
+            buttonCustomerEntrySave.UseVisualStyleBackColor = true;
+            buttonCustomerEntrySave.Click += buttonCustomerEntrySave_Click;
+            // 
+            // textBoxCustomerEntryEmail
+            // 
+            textBoxCustomerEntryEmail.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryEmail.Location = new Point(8, 408);
+            textBoxCustomerEntryEmail.Name = "textBoxCustomerEntryEmail";
+            textBoxCustomerEntryEmail.Size = new Size(216, 29);
+            textBoxCustomerEntryEmail.TabIndex = 25;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label22.Location = new Point(8, 384);
+            label22.Name = "label22";
+            label22.Size = new Size(54, 21);
+            label22.TabIndex = 24;
+            label22.Text = "E-Mail";
+            // 
+            // textBoxCustomerEntryCountry
+            // 
+            textBoxCustomerEntryCountry.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryCountry.Location = new Point(8, 344);
+            textBoxCustomerEntryCountry.Name = "textBoxCustomerEntryCountry";
+            textBoxCustomerEntryCountry.Size = new Size(216, 29);
+            textBoxCustomerEntryCountry.TabIndex = 23;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label18.Location = new Point(8, 320);
+            label18.Name = "label18";
+            label18.Size = new Size(44, 21);
+            label18.TabIndex = 22;
+            label18.Text = "Land";
+            // 
+            // textBoxCustomerEntryCity
+            // 
+            textBoxCustomerEntryCity.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryCity.Location = new Point(8, 280);
+            textBoxCustomerEntryCity.Name = "textBoxCustomerEntryCity";
+            textBoxCustomerEntryCity.Size = new Size(216, 29);
+            textBoxCustomerEntryCity.TabIndex = 21;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.Location = new Point(8, 256);
+            label14.Name = "label14";
+            label14.Size = new Size(45, 21);
+            label14.TabIndex = 20;
+            label14.Text = "Stadt";
+            // 
+            // textBoxCustomerEntryZipCode
+            // 
+            textBoxCustomerEntryZipCode.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryZipCode.Location = new Point(8, 216);
+            textBoxCustomerEntryZipCode.Name = "textBoxCustomerEntryZipCode";
+            textBoxCustomerEntryZipCode.Size = new Size(216, 29);
+            textBoxCustomerEntryZipCode.TabIndex = 19;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(8, 192);
+            label10.Name = "label10";
+            label10.Size = new Size(36, 21);
+            label10.TabIndex = 18;
+            label10.Text = "PLZ";
+            // 
+            // textBoxCustomerEntryStreet
+            // 
+            textBoxCustomerEntryStreet.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryStreet.Location = new Point(8, 152);
+            textBoxCustomerEntryStreet.Name = "textBoxCustomerEntryStreet";
+            textBoxCustomerEntryStreet.Size = new Size(216, 29);
+            textBoxCustomerEntryStreet.TabIndex = 17;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(8, 128);
+            label6.Name = "label6";
+            label6.Size = new Size(168, 21);
+            label6.TabIndex = 16;
+            label6.Text = "Straße + Hausnummer";
+            // 
+            // textBoxCustomerEntryName
+            // 
+            textBoxCustomerEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryName.Location = new Point(8, 96);
+            textBoxCustomerEntryName.Name = "textBoxCustomerEntryName";
+            textBoxCustomerEntryName.Size = new Size(216, 29);
+            textBoxCustomerEntryName.TabIndex = 15;
+            // 
+            // labelCustomerEntryName
+            // 
+            labelCustomerEntryName.AutoSize = true;
+            labelCustomerEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCustomerEntryName.Location = new Point(8, 72);
+            labelCustomerEntryName.Name = "labelCustomerEntryName";
+            labelCustomerEntryName.Size = new Size(52, 21);
+            labelCustomerEntryName.TabIndex = 14;
+            labelCustomerEntryName.Text = "Name";
+            // 
+            // labelCustomerEntry
+            // 
+            labelCustomerEntry.AutoSize = true;
+            labelCustomerEntry.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelCustomerEntry.Location = new Point(0, 16);
+            labelCustomerEntry.Name = "labelCustomerEntry";
+            labelCustomerEntry.Size = new Size(240, 37);
+            labelCustomerEntry.TabIndex = 13;
+            labelCustomerEntry.Text = "Kundenerfassung";
+            // 
+            // tabPageCustomers
+            // 
+            tabPageCustomers.Controls.Add(dataGridViewCustomers);
+            tabPageCustomers.Controls.Add(labelCustomers);
+            tabPageCustomers.Location = new Point(4, 24);
+            tabPageCustomers.Name = "tabPageCustomers";
+            tabPageCustomers.Size = new Size(762, 668);
+            tabPageCustomers.TabIndex = 8;
+            tabPageCustomers.Text = "Kunden";
+            tabPageCustomers.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewCustomers
+            // 
+            dataGridViewCustomers.AllowUserToAddRows = false;
+            dataGridViewCustomers.AllowUserToDeleteRows = false;
+            dataGridViewCustomers.AllowUserToResizeColumns = false;
+            dataGridViewCustomers.AllowUserToResizeRows = false;
+            dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCustomers.BackgroundColor = SystemColors.Control;
+            dataGridViewCustomers.BorderStyle = BorderStyle.None;
+            dataGridViewCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCustomers.GridColor = SystemColors.Control;
+            dataGridViewCustomers.Location = new Point(0, 88);
+            dataGridViewCustomers.MultiSelect = false;
+            dataGridViewCustomers.Name = "dataGridViewCustomers";
+            dataGridViewCustomers.ReadOnly = true;
+            dataGridViewCustomers.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCustomers.RowTemplate.Height = 50;
+            dataGridViewCustomers.RowTemplate.ReadOnly = true;
+            dataGridViewCustomers.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewCustomers.Size = new Size(760, 544);
+            dataGridViewCustomers.TabIndex = 16;
+            // 
+            // labelCustomers
+            // 
+            labelCustomers.AutoSize = true;
+            labelCustomers.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelCustomers.Location = new Point(0, 16);
+            labelCustomers.Name = "labelCustomers";
+            labelCustomers.Size = new Size(115, 37);
+            labelCustomers.TabIndex = 15;
+            labelCustomers.Text = "Kunden";
+            // 
+            // tabPageProductEntry
+            // 
+            tabPageProductEntry.Controls.Add(pictureBoxProductEntry);
+            tabPageProductEntry.Controls.Add(buttonProductEntryAddPicture);
+            tabPageProductEntry.Controls.Add(buttonProductEntrySave);
+            tabPageProductEntry.Controls.Add(textBoxProductEntryPrice);
+            tabPageProductEntry.Controls.Add(labelProductEntryPrice);
+            tabPageProductEntry.Controls.Add(textBoxProductEntryDescription);
+            tabPageProductEntry.Controls.Add(label27);
+            tabPageProductEntry.Controls.Add(textBoxProductEntryName);
+            tabPageProductEntry.Controls.Add(label28);
+            tabPageProductEntry.Controls.Add(labelProduct);
+            tabPageProductEntry.Location = new Point(4, 24);
+            tabPageProductEntry.Name = "tabPageProductEntry";
+            tabPageProductEntry.Size = new Size(762, 668);
+            tabPageProductEntry.TabIndex = 9;
+            tabPageProductEntry.Text = "Artikelerfassung";
+            tabPageProductEntry.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxProductEntry
+            // 
+            pictureBoxProductEntry.Location = new Point(8, 288);
+            pictureBoxProductEntry.Name = "pictureBoxProductEntry";
+            pictureBoxProductEntry.Size = new Size(216, 242);
+            pictureBoxProductEntry.TabIndex = 41;
+            pictureBoxProductEntry.TabStop = false;
+            // 
+            // buttonProductEntryAddPicture
+            // 
+            buttonProductEntryAddPicture.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonProductEntryAddPicture.Location = new Point(8, 248);
+            buttonProductEntryAddPicture.Name = "buttonProductEntryAddPicture";
+            buttonProductEntryAddPicture.Size = new Size(216, 32);
+            buttonProductEntryAddPicture.TabIndex = 40;
+            buttonProductEntryAddPicture.Text = "Bild hinzufügen...";
+            buttonProductEntryAddPicture.UseVisualStyleBackColor = true;
+            buttonProductEntryAddPicture.Click += buttonPictureEntry_LoadFile;
+            // 
+            // buttonProductEntrySave
+            // 
+            buttonProductEntrySave.Location = new Point(8, 552);
+            buttonProductEntrySave.Name = "buttonProductEntrySave";
+            buttonProductEntrySave.Size = new Size(216, 32);
+            buttonProductEntrySave.TabIndex = 39;
+            buttonProductEntrySave.Text = "Speichern";
+            buttonProductEntrySave.UseVisualStyleBackColor = true;
+            buttonProductEntrySave.Click += buttonProductEntrySave_Click;
+            // 
+            // textBoxProductEntryPrice
+            // 
+            textBoxProductEntryPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryPrice.Location = new Point(8, 200);
+            textBoxProductEntryPrice.Name = "textBoxProductEntryPrice";
+            textBoxProductEntryPrice.Size = new Size(216, 29);
+            textBoxProductEntryPrice.TabIndex = 32;
+            // 
+            // labelProductEntryPrice
+            // 
+            labelProductEntryPrice.AutoSize = true;
+            labelProductEntryPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryPrice.Location = new Point(8, 176);
+            labelProductEntryPrice.Name = "labelProductEntryPrice";
+            labelProductEntryPrice.Size = new Size(44, 21);
+            labelProductEntryPrice.TabIndex = 31;
+            labelProductEntryPrice.Text = "Preis";
+            // 
+            // textBoxProductEntryDescription
+            // 
+            textBoxProductEntryDescription.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryDescription.Location = new Point(8, 144);
+            textBoxProductEntryDescription.Name = "textBoxProductEntryDescription";
+            textBoxProductEntryDescription.Size = new Size(216, 29);
+            textBoxProductEntryDescription.TabIndex = 30;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label27.Location = new Point(8, 120);
+            label27.Name = "label27";
+            label27.Size = new Size(104, 21);
+            label27.TabIndex = 29;
+            label27.Text = "Beschreibung";
+            // 
+            // textBoxProductEntryName
+            // 
+            textBoxProductEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryName.Location = new Point(8, 88);
+            textBoxProductEntryName.Name = "textBoxProductEntryName";
+            textBoxProductEntryName.Size = new Size(216, 29);
+            textBoxProductEntryName.TabIndex = 28;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label28.Location = new Point(8, 64);
+            label28.Name = "label28";
+            label28.Size = new Size(52, 21);
+            label28.TabIndex = 27;
+            label28.Text = "Name";
+            // 
+            // labelProduct
+            // 
+            labelProduct.AutoSize = true;
+            labelProduct.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelProduct.ForeColor = Color.Black;
+            labelProduct.Location = new Point(0, 16);
+            labelProduct.Name = "labelProduct";
+            labelProduct.Size = new Size(230, 37);
+            labelProduct.TabIndex = 11;
+            labelProduct.Text = "Artikelerfassung";
+            // 
+            // tabPageProducts
+            // 
+            tabPageProducts.Controls.Add(pictureBoxProducts);
+            tabPageProducts.Controls.Add(dataGridViewProducts);
+            tabPageProducts.Controls.Add(labelProducts);
+            tabPageProducts.Location = new Point(4, 24);
+            tabPageProducts.Name = "tabPageProducts";
+            tabPageProducts.Size = new Size(762, 668);
+            tabPageProducts.TabIndex = 10;
+            tabPageProducts.Text = "Produkte";
+            tabPageProducts.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxProducts
+            // 
+            pictureBoxProducts.Location = new Point(536, 96);
+            pictureBoxProducts.Name = "pictureBoxProducts";
+            pictureBoxProducts.Size = new Size(216, 224);
+            pictureBoxProducts.TabIndex = 19;
+            pictureBoxProducts.TabStop = false;
+            // 
+            // dataGridViewProducts
+            // 
+            dataGridViewProducts.AllowUserToAddRows = false;
+            dataGridViewProducts.AllowUserToDeleteRows = false;
+            dataGridViewProducts.AllowUserToResizeColumns = false;
+            dataGridViewProducts.AllowUserToResizeRows = false;
+            dataGridViewProducts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewProducts.BackgroundColor = SystemColors.Control;
+            dataGridViewProducts.BorderStyle = BorderStyle.None;
+            dataGridViewProducts.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewProducts.GridColor = SystemColors.Control;
+            dataGridViewProducts.Location = new Point(-40, 98);
+            dataGridViewProducts.MultiSelect = false;
+            dataGridViewProducts.Name = "dataGridViewProducts";
+            dataGridViewProducts.ReadOnly = true;
+            dataGridViewProducts.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewProducts.RowTemplate.Height = 50;
+            dataGridViewProducts.RowTemplate.ReadOnly = true;
+            dataGridViewProducts.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewProducts.Size = new Size(568, 544);
+            dataGridViewProducts.TabIndex = 18;
+            dataGridViewProducts.SelectionChanged += dataGridViewProducts_SelectionChanged;
+            // 
+            // labelProducts
+            // 
+            labelProducts.AutoSize = true;
+            labelProducts.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelProducts.Location = new Point(0, 16);
+            labelProducts.Name = "labelProducts";
+            labelProducts.Size = new Size(105, 37);
+            labelProducts.TabIndex = 17;
+            labelProducts.Text = "Artikel";
+            // 
+            // tabPageInvoiceEntry
+            // 
+            tabPageInvoiceEntry.Location = new Point(4, 24);
+            tabPageInvoiceEntry.Name = "tabPageInvoiceEntry";
+            tabPageInvoiceEntry.Size = new Size(762, 668);
+            tabPageInvoiceEntry.TabIndex = 11;
+            tabPageInvoiceEntry.Text = "Rechnungserfassung";
+            tabPageInvoiceEntry.UseVisualStyleBackColor = true;
+            // 
+            // tabPageInvoices
+            // 
+            tabPageInvoices.Location = new Point(4, 24);
+            tabPageInvoices.Name = "tabPageInvoices";
+            tabPageInvoices.Size = new Size(762, 668);
+            tabPageInvoices.TabIndex = 12;
+            tabPageInvoices.Text = "Rechnungen";
+            tabPageInvoices.UseVisualStyleBackColor = true;
             // 
             // tabPageDataexport
             // 
@@ -1125,448 +2062,6 @@
             tabPageAbout.Text = "Über...";
             tabPageAbout.UseVisualStyleBackColor = true;
             // 
-            // panelOverview
-            // 
-            panelOverview.BackColor = SystemColors.Control;
-            panelOverview.Controls.Add(textBox4);
-            panelOverview.Controls.Add(label7);
-            panelOverview.Controls.Add(textBox5);
-            panelOverview.Controls.Add(label8);
-            panelOverview.Controls.Add(label9);
-            panelOverview.Controls.Add(textBox6);
-            panelOverview.Controls.Add(label10);
-            panelOverview.Controls.Add(textBox1);
-            panelOverview.Controls.Add(label3);
-            panelOverview.Controls.Add(textBox2);
-            panelOverview.Controls.Add(label4);
-            panelOverview.Controls.Add(label5);
-            panelOverview.Controls.Add(textBox3);
-            panelOverview.Controls.Add(label6);
-            panelOverview.Controls.Add(textBoxOverviewEarningsCurrentMonth);
-            panelOverview.Controls.Add(labelOverviewEarningsCurrentMonth);
-            panelOverview.Controls.Add(textBoxCostsCurrentMonth);
-            panelOverview.Controls.Add(labelOverviewCostsCurrentMonth);
-            panelOverview.Controls.Add(labelOverviewCurrentMonthRevenue);
-            panelOverview.Controls.Add(textBoxRevenueCurrentMonth);
-            panelOverview.Controls.Add(labelOverviewCurrentMonth);
-            panelOverview.Location = new Point(8, 56);
-            panelOverview.Name = "panelOverview";
-            panelOverview.Size = new Size(744, 208);
-            panelOverview.TabIndex = 13;
-            // 
-            // labelOverviewCurrentMonth
-            // 
-            labelOverviewCurrentMonth.AutoSize = true;
-            labelOverviewCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelOverviewCurrentMonth.Location = new Point(8, 8);
-            labelOverviewCurrentMonth.Name = "labelOverviewCurrentMonth";
-            labelOverviewCurrentMonth.Size = new Size(134, 21);
-            labelOverviewCurrentMonth.TabIndex = 0;
-            labelOverviewCurrentMonth.Text = "Aktueller Monat";
-            // 
-            // textBoxRevenueCurrentMonth
-            // 
-            textBoxRevenueCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxRevenueCurrentMonth.Location = new Point(8, 56);
-            textBoxRevenueCurrentMonth.Name = "textBoxRevenueCurrentMonth";
-            textBoxRevenueCurrentMonth.Size = new Size(160, 29);
-            textBoxRevenueCurrentMonth.TabIndex = 1;
-            // 
-            // labelOverviewCurrentMonthRevenue
-            // 
-            labelOverviewCurrentMonthRevenue.AutoSize = true;
-            labelOverviewCurrentMonthRevenue.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelOverviewCurrentMonthRevenue.Location = new Point(8, 32);
-            labelOverviewCurrentMonthRevenue.Name = "labelOverviewCurrentMonthRevenue";
-            labelOverviewCurrentMonthRevenue.Size = new Size(62, 21);
-            labelOverviewCurrentMonthRevenue.TabIndex = 2;
-            labelOverviewCurrentMonthRevenue.Text = "Umsatz";
-            // 
-            // labelOverviewCostsCurrentMonth
-            // 
-            labelOverviewCostsCurrentMonth.AutoSize = true;
-            labelOverviewCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelOverviewCostsCurrentMonth.Location = new Point(8, 88);
-            labelOverviewCostsCurrentMonth.Name = "labelOverviewCostsCurrentMonth";
-            labelOverviewCostsCurrentMonth.Size = new Size(57, 21);
-            labelOverviewCostsCurrentMonth.TabIndex = 3;
-            labelOverviewCostsCurrentMonth.Text = "Kosten";
-            // 
-            // textBoxCostsCurrentMonth
-            // 
-            textBoxCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCostsCurrentMonth.Location = new Point(8, 112);
-            textBoxCostsCurrentMonth.Name = "textBoxCostsCurrentMonth";
-            textBoxCostsCurrentMonth.Size = new Size(160, 29);
-            textBoxCostsCurrentMonth.TabIndex = 4;
-            // 
-            // labelOverviewEarningsCurrentMonth
-            // 
-            labelOverviewEarningsCurrentMonth.AutoSize = true;
-            labelOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelOverviewEarningsCurrentMonth.Location = new Point(8, 144);
-            labelOverviewEarningsCurrentMonth.Name = "labelOverviewEarningsCurrentMonth";
-            labelOverviewEarningsCurrentMonth.Size = new Size(63, 21);
-            labelOverviewEarningsCurrentMonth.TabIndex = 5;
-            labelOverviewEarningsCurrentMonth.Text = "Gewinn";
-            // 
-            // textBoxOverviewEarningsCurrentMonth
-            // 
-            textBoxOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewEarningsCurrentMonth.Location = new Point(8, 168);
-            textBoxOverviewEarningsCurrentMonth.Name = "textBoxOverviewEarningsCurrentMonth";
-            textBoxOverviewEarningsCurrentMonth.Size = new Size(160, 29);
-            textBoxOverviewEarningsCurrentMonth.TabIndex = 6;
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(192, 168);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(160, 29);
-            textBox1.TabIndex = 13;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(192, 144);
-            label3.Name = "label3";
-            label3.Size = new Size(63, 21);
-            label3.TabIndex = 12;
-            label3.Text = "Gewinn";
-            // 
-            // textBox2
-            // 
-            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(192, 112);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(160, 29);
-            textBox2.TabIndex = 11;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(192, 88);
-            label4.Name = "label4";
-            label4.Size = new Size(57, 21);
-            label4.TabIndex = 10;
-            label4.Text = "Kosten";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(192, 32);
-            label5.Name = "label5";
-            label5.Size = new Size(62, 21);
-            label5.TabIndex = 9;
-            label5.Text = "Umsatz";
-            // 
-            // textBox3
-            // 
-            textBox3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(192, 56);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(160, 29);
-            textBox3.TabIndex = 8;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(192, 8);
-            label6.Name = "label6";
-            label6.Size = new Size(86, 21);
-            label6.TabIndex = 7;
-            label6.Text = "Vormonat";
-            // 
-            // textBox4
-            // 
-            textBox4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(376, 168);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(160, 29);
-            textBox4.TabIndex = 20;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(376, 144);
-            label7.Name = "label7";
-            label7.Size = new Size(63, 21);
-            label7.TabIndex = 19;
-            label7.Text = "Gewinn";
-            // 
-            // textBox5
-            // 
-            textBox5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox5.Location = new Point(376, 112);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(160, 29);
-            textBox5.TabIndex = 18;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(376, 88);
-            label8.Name = "label8";
-            label8.Size = new Size(57, 21);
-            label8.TabIndex = 17;
-            label8.Text = "Kosten";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(376, 32);
-            label9.Name = "label9";
-            label9.Size = new Size(62, 21);
-            label9.TabIndex = 16;
-            label9.Text = "Umsatz";
-            // 
-            // textBox6
-            // 
-            textBox6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox6.Location = new Point(376, 56);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(160, 29);
-            textBox6.TabIndex = 15;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(376, 8);
-            label10.Name = "label10";
-            label10.Size = new Size(112, 21);
-            label10.TabIndex = 14;
-            label10.Text = "Vorvormonat";
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(textBox7);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(textBox8);
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(label13);
-            panel2.Controls.Add(textBox9);
-            panel2.Controls.Add(label14);
-            panel2.Controls.Add(textBox10);
-            panel2.Controls.Add(label15);
-            panel2.Controls.Add(textBox11);
-            panel2.Controls.Add(label16);
-            panel2.Controls.Add(label17);
-            panel2.Controls.Add(textBox12);
-            panel2.Controls.Add(label18);
-            panel2.Controls.Add(textBox13);
-            panel2.Controls.Add(label19);
-            panel2.Controls.Add(textBox14);
-            panel2.Controls.Add(label20);
-            panel2.Controls.Add(label21);
-            panel2.Controls.Add(textBox15);
-            panel2.Controls.Add(label22);
-            panel2.Location = new Point(8, 272);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(744, 208);
-            panel2.TabIndex = 21;
-            // 
-            // textBox7
-            // 
-            textBox7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox7.Location = new Point(376, 168);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(160, 29);
-            textBox7.TabIndex = 20;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(376, 144);
-            label11.Name = "label11";
-            label11.Size = new Size(63, 21);
-            label11.TabIndex = 19;
-            label11.Text = "Gewinn";
-            // 
-            // textBox8
-            // 
-            textBox8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox8.Location = new Point(376, 112);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(160, 29);
-            textBox8.TabIndex = 18;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(376, 88);
-            label12.Name = "label12";
-            label12.Size = new Size(57, 21);
-            label12.TabIndex = 17;
-            label12.Text = "Kosten";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(376, 32);
-            label13.Name = "label13";
-            label13.Size = new Size(62, 21);
-            label13.TabIndex = 16;
-            label13.Text = "Umsatz";
-            // 
-            // textBox9
-            // 
-            textBox9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox9.Location = new Point(376, 56);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(160, 29);
-            textBox9.TabIndex = 15;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(376, 8);
-            label14.Name = "label14";
-            label14.Size = new Size(92, 21);
-            label14.TabIndex = 14;
-            label14.Text = "Vorvorjahr";
-            // 
-            // textBox10
-            // 
-            textBox10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox10.Location = new Point(192, 168);
-            textBox10.Name = "textBox10";
-            textBox10.Size = new Size(160, 29);
-            textBox10.TabIndex = 13;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(192, 144);
-            label15.Name = "label15";
-            label15.Size = new Size(63, 21);
-            label15.TabIndex = 12;
-            label15.Text = "Gewinn";
-            // 
-            // textBox11
-            // 
-            textBox11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox11.Location = new Point(192, 112);
-            textBox11.Name = "textBox11";
-            textBox11.Size = new Size(160, 29);
-            textBox11.TabIndex = 11;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(192, 88);
-            label16.Name = "label16";
-            label16.Size = new Size(57, 21);
-            label16.TabIndex = 10;
-            label16.Text = "Kosten";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.Location = new Point(192, 32);
-            label17.Name = "label17";
-            label17.Size = new Size(62, 21);
-            label17.TabIndex = 9;
-            label17.Text = "Umsatz";
-            // 
-            // textBox12
-            // 
-            textBox12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox12.Location = new Point(192, 56);
-            textBox12.Name = "textBox12";
-            textBox12.Size = new Size(160, 29);
-            textBox12.TabIndex = 8;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.Location = new Point(192, 8);
-            label18.Name = "label18";
-            label18.Size = new Size(66, 21);
-            label18.TabIndex = 7;
-            label18.Text = "Vorjahr";
-            // 
-            // textBox13
-            // 
-            textBox13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox13.Location = new Point(8, 168);
-            textBox13.Name = "textBox13";
-            textBox13.Size = new Size(160, 29);
-            textBox13.TabIndex = 6;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.Location = new Point(8, 144);
-            label19.Name = "label19";
-            label19.Size = new Size(63, 21);
-            label19.TabIndex = 5;
-            label19.Text = "Gewinn";
-            // 
-            // textBox14
-            // 
-            textBox14.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox14.Location = new Point(8, 112);
-            textBox14.Name = "textBox14";
-            textBox14.Size = new Size(160, 29);
-            textBox14.TabIndex = 4;
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label20.Location = new Point(8, 88);
-            label20.Name = "label20";
-            label20.Size = new Size(57, 21);
-            label20.TabIndex = 3;
-            label20.Text = "Kosten";
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label21.Location = new Point(8, 32);
-            label21.Name = "label21";
-            label21.Size = new Size(62, 21);
-            label21.TabIndex = 2;
-            label21.Text = "Umsatz";
-            // 
-            // textBox15
-            // 
-            textBox15.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox15.Location = new Point(8, 56);
-            textBox15.Name = "textBox15";
-            textBox15.Size = new Size(160, 29);
-            textBox15.TabIndex = 1;
-            // 
-            // label22
-            // 
-            label22.AutoSize = true;
-            label22.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label22.Location = new Point(8, 8);
-            label22.Name = "label22";
-            label22.Size = new Size(117, 21);
-            label22.TabIndex = 0;
-            label22.Text = "Aktuelles Jahr";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1584,6 +2079,10 @@
             tabControl.ResumeLayout(false);
             tabPageOverview.ResumeLayout(false);
             tabPageOverview.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panelOverview.ResumeLayout(false);
+            panelOverview.PerformLayout();
             tabPageEntry.ResumeLayout(false);
             tabPageEntry.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxEntryPreview).EndInit();
@@ -1594,10 +2093,18 @@
             tabPageAssets.ResumeLayout(false);
             tabPageAssets.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewAssets).EndInit();
-            panelOverview.ResumeLayout(false);
-            panelOverview.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            tabPageCustomerEntry.ResumeLayout(false);
+            tabPageCustomerEntry.PerformLayout();
+            tabPageCustomers.ResumeLayout(false);
+            tabPageCustomers.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCustomers).EndInit();
+            tabPageProductEntry.ResumeLayout(false);
+            tabPageProductEntry.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProductEntry).EndInit();
+            tabPageProducts.ResumeLayout(false);
+            tabPageProducts.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).EndInit();
             ResumeLayout(false);
         }
 
@@ -1682,48 +2189,83 @@
         private DataGridView dataGridViewAssets;
         private Label labelAssets;
         private Panel panelOverview;
-        private TextBox textBoxCostsCurrentMonth;
+        private TextBox textBoxOverviewCostsCurrentMonth;
         private Label labelOverviewCostsCurrentMonth;
         private Label labelOverviewCurrentMonthRevenue;
-        private TextBox textBoxRevenueCurrentMonth;
+        private TextBox textBoxOverviewRevenueCurrentMonth;
         private Label labelOverviewCurrentMonth;
         private TextBox textBoxOverviewEarningsCurrentMonth;
         private Label labelOverviewEarningsCurrentMonth;
-        private TextBox textBox4;
+        private TextBox textBoxOverviewEarningsPrePreMonth;
         private Label label7;
-        private TextBox textBox5;
+        private TextBox textBoxOverviewCostsPrePreMonth;
         private Label label8;
         private Label label9;
-        private TextBox textBox6;
-        private Label label10;
-        private TextBox textBox1;
+        private TextBox textBoxOverviewRevenuePrePreMonth;
+        private Label labelOverviewPrePreMonth;
+        private TextBox textBoxOverviewEarningsPreMonth;
         private Label label3;
-        private TextBox textBox2;
+        private TextBox textBoxOverviewCostsPreMonth;
         private Label label4;
         private Label label5;
-        private TextBox textBox3;
-        private Label label6;
+        private TextBox textBoxOverviewRevenuePreMonth;
+        private Label labelOverviewPreMonth;
         private Panel panel2;
-        private TextBox textBox7;
+        private TextBox textBoxOverviewEarningsPrePreYear;
         private Label label11;
-        private TextBox textBox8;
+        private TextBox textBoxOverviewCostsPrePreYear;
         private Label label12;
         private Label label13;
-        private TextBox textBox9;
-        private Label label14;
-        private TextBox textBox10;
+        private TextBox textBoxOverviewRevenuePrePreYear;
+        private Label labelOverviewPrePreYear;
+        private TextBox textBoxOverviewEarningsPreYear;
         private Label label15;
-        private TextBox textBox11;
+        private TextBox textBoxOverviewCostsPreYear;
         private Label label16;
         private Label label17;
-        private TextBox textBox12;
-        private Label label18;
-        private TextBox textBox13;
+        private TextBox textBoxOverviewRevenuePreYear;
+        private Label labelOverviewPreYear;
+        private TextBox textBoxOverviewEarningsCurrentYear;
         private Label label19;
-        private TextBox textBox14;
+        private TextBox textBoxOverviewCostsCurrentYear;
         private Label label20;
         private Label label21;
-        private TextBox textBox15;
+        private TextBox textBoxOverviewRevenueCurrentYear;
+        private Label labelOverviewCurrentYear;
+        private TabPage tabPageCustomerEntry;
+        private TabPage tabPageCustomers;
+        private TabPage tabPageProductEntry;
+        private TabPage tabPageProducts;
+        private TabPage tabPageInvoiceEntry;
+        private TabPage tabPageInvoices;
+        private Label labelCustomerEntry;
+        private TextBox textBoxCustomerEntryZipCode;
+        private Label label10;
+        private TextBox textBoxCustomerEntryStreet;
+        private Label label6;
+        private TextBox textBoxCustomerEntryName;
+        private Label labelCustomerEntryName;
+        private TextBox textBoxCustomerEntryEmail;
         private Label label22;
+        private TextBox textBoxCustomerEntryCountry;
+        private Label label18;
+        private TextBox textBoxCustomerEntryCity;
+        private Label label14;
+        private Button buttonCustomerEntrySave;
+        private DataGridView dataGridViewCustomers;
+        private Label labelCustomers;
+        private Label labelProduct;
+        private Button buttonProductEntrySave;
+        private TextBox textBoxProductEntryPrice;
+        private Label labelProductEntryPrice;
+        private TextBox textBoxProductEntryDescription;
+        private Label label27;
+        private TextBox textBoxProductEntryName;
+        private Label label28;
+        private PictureBox pictureBoxProductEntry;
+        private Button buttonProductEntryAddPicture;
+        private DataGridView dataGridViewProducts;
+        private Label labelProducts;
+        private PictureBox pictureBoxProducts;
     }
 }
