@@ -36,12 +36,19 @@ namespace mirada_finanza_control_central
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
             dataGridViewJournal.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
 
+            // Entfernt die Linien zwischen den Spaltenköpfen
+            dataGridViewAssets.EnableHeadersVisualStyles = false;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewAssets.ColumnHeadersDefaultCellStyle.BackColor;
+            // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
+            dataGridViewAssets.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+
             this.SetupDatabase();
             this.LoadCategories();
 
 
 
             RefreshJournal();
+            dataGridViewAssetsRefresh();
 
             // 1. TABS AUSBLENDEN (TRICK)
             // Wir machen die Reiter 1 Pixel hoch und schalten auf Flat-Style um
@@ -412,6 +419,7 @@ namespace mirada_finanza_control_central
 
                 MessageBox.Show($"Erfolgreich gespeichert! Belegnummer: {voucher}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshJournal();
+                dataGridViewAssetsRefresh();
                 ClearForm(); // Felder leeren für den nächsten Beleg
             }
             catch (Exception ex)
@@ -460,7 +468,7 @@ namespace mirada_finanza_control_central
                     conn.Open();
                     // Wir holen alle wichtigen Spalten
                     string sql = "SELECT " +
-             "Voucher, TransDate, TransactionType, Amount, Reversal, EntryCategoryName, Description, ReversalReferenceVoucher, InvoiceReference " +
+             "Voucher, TransDate, TransactionType, Amount, Reversal, EntryCategoryName, Description, ReversalReferenceVoucher, InvoiceReference, " +
              "Voucher || char(10) || TransDate AS Disp_VoucherDate, " +
              "TransactionType || char(10) || EntryCategoryName AS Disp_TypeCategory, " +
              "Amount || ' €' || char(10) || Description AS Disp_AmountDesc " +
@@ -926,6 +934,103 @@ namespace mirada_finanza_control_central
         private void textBoxEntryPostingType_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridViewAssetsRefresh()
+        {
+            dataGridViewJournal.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridViewJournal.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    // Wir holen alle wichtigen Spalten
+                    string sql = @"SELECT 
+                        t1.Voucher, 
+                        t1.TransDate, 
+                        t1.TransactionType, 
+                        t1.Amount, 
+                        t1.Description 
+                    FROM EntryTransaction t1
+                    LEFT JOIN EntryTransaction t2 ON t1.Voucher = t2.ReversalReferenceVoucher
+                    WHERE t1.TransactionType = 'Anlage' 
+                      AND t1.Reversal = 0           -- Der Beleg selbst ist kein Storno
+                      AND t2.Voucher IS NULL        -- Es existiert kein Storno, der auf diesen Beleg zeigt
+                    ORDER BY t1.ID DESC;";
+
+                    // , 
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        using (var adapter = new SQLiteDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            // Der "Auto-Reset":
+                            dataGridViewAssets.DataSource = null; // Alte Bindung lösen
+                            dataGridViewAssets.AutoGenerateColumns = true; // Spalten automatisch erstellen
+                            dataGridViewAssets.DataSource = dt; // Neue Daten binden
+
+                            // 1. Spalten für die Berechnung hinzufügen
+                            dt.Columns.Add("Restwert", typeof(decimal));
+                            dt.Columns.Add("MonateVerbleibend", typeof(int));
+
+                            DateTime heute = DateTime.Now;
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                decimal anschaffungspreis = Convert.ToDecimal(row["Amount"]);
+                                DateTime kaufdatum = DateTime.Parse(row["TransDate"].ToString());
+
+                                // Differenz in Monaten berechnen
+                                int vergangeneMonate = ((heute.Year - kaufdatum.Year) * 12) + heute.Month - kaufdatum.Month;
+
+                                // Abschreibungs-Logik (36 Monate Standard)
+                                decimal monatlicheRate = anschaffungspreis / 36;
+                                int restMonate = 36 - vergangeneMonate;
+                                decimal restwert = anschaffungspreis - (monatlicheRate * vergangeneMonate);
+
+                                // Werte korrigieren, falls Gerät älter als 3 Jahre
+                                if (restwert < 0) restwert = 0;
+                                if (restMonate < 0) restMonate = 0;
+
+                                row["Restwert"] = Math.Round(restwert, 2);
+                                row["MonateVerbleibend"] = restMonate;
+                            }
+
+                            // Spalten im Grid schön benennen
+                            dataGridViewAssets.Columns["Restwert"].HeaderText = "Aktueller Buchwert";
+                            dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
+                            dataGridViewAssets.Columns["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
+
+
+                            // --- AB HIER: Spalten sprechend machen ---
+                            if (dataGridViewAssets.Columns.Count > 0)
+                            {
+                                dataGridViewAssets.Columns["Voucher"].HeaderText = "Beleg-Nr.";
+                                dataGridViewAssets.Columns["TransDate"].HeaderText = "Kaufdatum";
+                                dataGridViewAssets.Columns["TransactionType"].HeaderText = "Typ";
+                                dataGridViewAssets.Columns["Amount"].HeaderText = "Betrag (Brutto)";
+                                dataGridViewAssets.Columns["Description"].HeaderText = "Bezeichnung / Gerät";
+
+                                // Bonus: Betrag rechtsbündig und mit €-Zeichen formatieren
+                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2"; // Currency Format
+                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                                // Spaltenbreite automatisch anpassen
+                                dataGridViewAssets.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden: " + ex.Message);
+            }
         }
     }
 }
