@@ -173,6 +173,10 @@
             dataGridViewCustomers = new DataGridView();
             labelCustomers = new Label();
             tabPageProductEntry = new TabPage();
+            checkBoxProductEntryIsStocked = new CheckBox();
+            labelProductEntryStock = new Label();
+            textBoxProductEntryStock = new TextBox();
+            labelProductEntryIsStocked = new Label();
             pictureBoxProductEntry = new PictureBox();
             buttonProductEntryAddPicture = new Button();
             buttonProductEntrySave = new Button();
@@ -1834,6 +1838,10 @@
             // 
             // tabPageProductEntry
             // 
+            tabPageProductEntry.Controls.Add(checkBoxProductEntryIsStocked);
+            tabPageProductEntry.Controls.Add(labelProductEntryStock);
+            tabPageProductEntry.Controls.Add(textBoxProductEntryStock);
+            tabPageProductEntry.Controls.Add(labelProductEntryIsStocked);
             tabPageProductEntry.Controls.Add(pictureBoxProductEntry);
             tabPageProductEntry.Controls.Add(buttonProductEntryAddPicture);
             tabPageProductEntry.Controls.Add(buttonProductEntrySave);
@@ -1850,6 +1858,43 @@
             tabPageProductEntry.TabIndex = 9;
             tabPageProductEntry.Text = "Artikelerfassung";
             tabPageProductEntry.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxProductEntryIsStocked
+            // 
+            checkBoxProductEntryIsStocked.AutoSize = true;
+            checkBoxProductEntryIsStocked.Location = new Point(248, 96);
+            checkBoxProductEntryIsStocked.Name = "checkBoxProductEntryIsStocked";
+            checkBoxProductEntryIsStocked.Size = new Size(15, 14);
+            checkBoxProductEntryIsStocked.TabIndex = 45;
+            checkBoxProductEntryIsStocked.UseVisualStyleBackColor = true;
+            // 
+            // labelProductEntryStock
+            // 
+            labelProductEntryStock.AutoSize = true;
+            labelProductEntryStock.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryStock.Location = new Point(248, 120);
+            labelProductEntryStock.Name = "labelProductEntryStock";
+            labelProductEntryStock.Size = new Size(104, 21);
+            labelProductEntryStock.TabIndex = 44;
+            labelProductEntryStock.Text = "Lagerbestand";
+            // 
+            // textBoxProductEntryStock
+            // 
+            textBoxProductEntryStock.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryStock.Location = new Point(248, 144);
+            textBoxProductEntryStock.Name = "textBoxProductEntryStock";
+            textBoxProductEntryStock.Size = new Size(216, 29);
+            textBoxProductEntryStock.TabIndex = 43;
+            // 
+            // labelProductEntryIsStocked
+            // 
+            labelProductEntryIsStocked.AutoSize = true;
+            labelProductEntryIsStocked.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryIsStocked.Location = new Point(248, 64);
+            labelProductEntryIsStocked.Name = "labelProductEntryIsStocked";
+            labelProductEntryIsStocked.Size = new Size(161, 21);
+            labelProductEntryIsStocked.TabIndex = 42;
+            labelProductEntryIsStocked.Text = "Lagerbestand führen?";
             // 
             // pictureBoxProductEntry
             // 
@@ -2005,6 +2050,7 @@
             dataGridViewProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewProducts.Size = new Size(568, 544);
             dataGridViewProducts.TabIndex = 18;
+            dataGridViewProducts.CellFormatting += dataGridViewProducts_CellFormatting;
             dataGridViewProducts.SelectionChanged += dataGridViewProducts_SelectionChanged;
             // 
             // labelProducts
@@ -2267,5 +2313,9 @@
         private DataGridView dataGridViewProducts;
         private Label labelProducts;
         private PictureBox pictureBoxProducts;
+        private CheckBox checkBoxProductEntryIsStocked;
+        private Label labelProductEntryStock;
+        private TextBox textBoxProductEntryStock;
+        private Label labelProductEntryIsStocked;
     }
 }

@@ -153,7 +153,6 @@ namespace mirada_finanza_control_central
                         Reversal INTEGER DEFAULT 0,
                         ReversalReferenceVoucher TEXT,
                         InvoiceReference TEXT,
-                        AssetId TEXT,
                         FOREIGN KEY(EntryCategoryName) REFERENCES EntryCategory(Name)
                     );";
 
@@ -177,7 +176,9 @@ namespace mirada_finanza_control_central
                         Description TEXT,
                         Price REAL NOT NULL,        -- Brutto-Preis
                         Picture BLOB,               -- Das Bild selbst als Binärdaten
-                        PictureExtension TEXT       -- Dateiendung (z.B. "".png"", "".jpg"")
+                        PictureExtension TEXT,       -- Dateiendung (z.B. "".png"", "".jpg"")
+                        Stock INT DEFAULT 0,
+                        Stocked INT DEFAULT 0
                     );";
 
                     // Invoice
@@ -258,6 +259,26 @@ namespace mirada_finanza_control_central
                     {
                         cmd.ExecuteNonQuery();
                     }
+
+                    string sqlAsset = @"
+                    CREATE TABLE IF NOT EXISTS asset (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        EntryTransactionId INTEGER NOT NULL,
+                        Description TEXT NOT NULL,
+                        PurchaseDate DATE NOT NULL,
+                        Amount REAL NOT NULL,           -- Der Brutto-Betrag (da Kleinunternehmer)
+                        UsefulLifeYears INTEGER NOT NULL, -- AfA-Dauer in Jahren
+                        Note TEXT,                      -- Optionales Notizfeld
+                        Status INTEGER DEFAULT 0,
+                        FOREIGN KEY(EntryTransactionId) REFERENCES entryTransaction(Id) ON DELETE CASCADE
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlAsset, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+
                 }
             }
             catch (Exception ex)
@@ -427,19 +448,15 @@ namespace mirada_finanza_control_central
                 string voucher = GetNextVoucher(voucherYear);
 
                 string assetId = "";
-                // New AssetId if its an asset.
-                if (textBoxEntryPostingType.Text == "Anlage" && checkBoxReversal.Checked == false)
-                {
-                    assetId = GetNextAssetId().ToString();
-                }
+                long newId;
 
                 using (var conn = new SQLiteConnection(connString))
                 {
                     conn.Open();
                     string sql = @"INSERT INTO EntryTransaction 
-                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference, AssetId) 
+                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference) 
                 VALUES 
-                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference, @assetId)";
+                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference)";
 
                     using (var cmd = new SQLiteCommand(sql, conn))
                     {
@@ -464,7 +481,6 @@ namespace mirada_finanza_control_central
 
                         cmd.Parameters.AddWithValue("@invoiceReference", DBNull.Value);
 
-                        cmd.Parameters.AddWithValue("@assetId", assetId != "" ? assetId : DBNull.Value);
 
                         if (selectedFileBytes != null)
                         {
@@ -478,6 +494,63 @@ namespace mirada_finanza_control_central
                         }
 
                         cmd.ExecuteNonQuery();
+
+                        using (var cmdId = new SQLiteCommand("SELECT last_insert_rowid();", conn))
+                        {
+                            newId = (long)cmdId.ExecuteScalar();
+                        }
+                    }
+
+                    if (textBoxEntryPostingType.Text == "Anlage")
+                    {
+                        if (checkBoxReversal.Checked == false)
+                        {
+                            string sqlAsset = @"INSERT INTO asset 
+                    (EntryTransactionId, Description, PurchaseDate, Amount, UsefulLifeYears, Status) 
+                    VALUES 
+                    (@transId, @desc, @pDate, @amount, @years, 0)";
+
+                            using (var cmdAsset = new SQLiteCommand(sqlAsset, conn))
+                            {
+                                cmdAsset.Parameters.AddWithValue("@transId", newId);
+                                cmdAsset.Parameters.AddWithValue("@desc", textBoxText.Text); // Oder eigenes Feld für Asset-Name
+                                cmdAsset.Parameters.AddWithValue("@pDate", dateTimePickerVoucherDate.Value.ToString("yyyy-MM-dd"));
+                                cmdAsset.Parameters.AddWithValue("@amount", amount);
+                                cmdAsset.Parameters.AddWithValue("@years", 4); //  (int)numericUpDownAssetYears.Value);
+
+                                cmdAsset.ExecuteNonQuery();
+                            }
+                        }
+                        else
+                        {
+                            long foundId = 0;
+                            string voucherText = comboBoxReferenceVoucher.Text.Split(' ')[0];
+
+                            // Wir suchen die ID zum Belegtext
+                            string sqlFind = "SELECT Id FROM entryTransaction WHERE Voucher = @vouch AND Reversal = 0 LIMIT 1";
+                            using (var cmd = new SQLiteCommand(sqlFind, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@vouch", voucherText);
+                                var result = cmd.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    foundId = Convert.ToInt64(result);
+                                }
+                            }
+
+                            string sqlUpdateAsset = "UPDATE asset SET Status = 1 WHERE entryTransactionId = @id";
+                            using (var cmdAsset = new SQLiteCommand(sqlUpdateAsset, conn))
+                            {
+                                cmdAsset.Parameters.AddWithValue("@id", foundId);
+                                int assetsAffected = cmdAsset.ExecuteNonQuery();
+
+                                if (assetsAffected > 0)
+                                {
+                                    // Optional: Rückmeldung, dass ein Asset mit storniert wurde
+                                    MessageBox.Show("Zugehöriges Asset wurde ebenfalls storniert.");
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -532,14 +605,31 @@ namespace mirada_finanza_control_central
                 {
                     conn.Open();
                     // Wir holen alle wichtigen Spalten
-                    string sql = "SELECT " +
-             "Voucher, TransDate, TransactionType, Amount, Reversal, EntryCategoryName, Description, ReversalReferenceVoucher, InvoiceReference, AssetId, " +
-             "Voucher || char(10) || TransDate AS Disp_VoucherDate, " +
-             "TransactionType || char(10) || EntryCategoryName AS Disp_TypeCategory, " +
-             "Amount || ' €' || char(10) || Description AS Disp_AmountDesc " +
-             "FROM EntryTransaction ORDER BY ID DESC";
+                    string sql = @"
+                    SELECT 
+                        t.Voucher, 
+                        t.TransDate, 
+                        t.TransactionType, 
+                        t.Amount, 
+                        t.Reversal, 
+                        t.EntryCategoryName, 
+                        t.Description, 
+                        t.ReversalReferenceVoucher, 
+                        t.InvoiceReference, 
+                        -- Logik: Nimm die AssetId vom Beleg selbst ODER vom referenzierten Originalbeleg
+                        COALESCE(a.Id, a_ref.Id) AS AssetId,
+                        t.Voucher || char(10) || t.TransDate AS Disp_VoucherDate, 
+                        t.TransactionType || char(10) || t.EntryCategoryName AS Disp_TypeCategory, 
+                        t.Amount || ' €' || char(10) || t.Description AS Disp_AmountDesc 
+                    FROM EntryTransaction t
+                    -- 1. Normaler Join für die Original-Anlage
+                    LEFT JOIN asset a ON t.Id = a.EntryTransactionId 
+                    -- 2. Join über den Umweg der ReversalReferenceVoucher für Storno-Zeilen
+                    LEFT JOIN EntryTransaction t_orig ON t.ReversalReferenceVoucher = t_orig.Voucher AND t.Reversal = 1
+                    LEFT JOIN asset a_ref ON t_orig.Id = a_ref.EntryTransactionId
+                    ORDER BY t.ID DESC";
 
-                    // , 
+
                     using (var cmd = new SQLiteCommand(sql, conn))
                     {
                         using (var adapter = new SQLiteDataAdapter(cmd))
@@ -712,7 +802,7 @@ namespace mirada_finanza_control_central
                     {
                         conn.Open();
                         // Wir holen Note und CreatedDate basierend auf dem Voucher (Belegnummer)
-                        string sql = "SELECT Note, CreatedDate, Amount, EntryCategoryName, Voucher, TransDate, ReversalReferenceVoucher, Reversal, Description, TransactionType, InvoiceReference, AssetId FROM EntryTransaction WHERE Voucher = @nr";
+                        string sql = "SELECT Note, CreatedDate, Amount, EntryCategoryName, Voucher, TransDate, ReversalReferenceVoucher, Reversal, Description, TransactionType, InvoiceReference FROM EntryTransaction WHERE Voucher = @nr";
 
                         using (var cmd = new SQLiteCommand(sql, conn))
                         {
@@ -1011,30 +1101,34 @@ namespace mirada_finanza_control_central
 
         private void dataGridViewAssetsRefresh()
         {
-            dataGridViewJournal.DefaultCellStyle.SelectionBackColor = Color.Transparent;
-            dataGridViewJournal.DefaultCellStyle.SelectionForeColor = Color.Black;
+            // Optik-Reset für das Grid
+            dataGridViewAssets.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            dataGridViewAssets.DefaultCellStyle.SelectionForeColor = Color.Black;
 
             try
             {
                 using (var conn = new SQLiteConnection(connString))
                 {
                     conn.Open();
-                    // Wir holen alle wichtigen Spalten
-                    string sql = @"SELECT 
-                        t1.AssetId,
-                        t1.Voucher, 
-                        t1.TransDate, 
-                        t1.TransactionType, 
-                        t1.Amount, 
-                        t1.Description 
-                    FROM EntryTransaction t1
-                    LEFT JOIN EntryTransaction t2 ON t1.Voucher = t2.ReversalReferenceVoucher
-                    WHERE t1.TransactionType = 'Anlage' 
-                      AND t1.Reversal = 0           -- Der Beleg selbst ist kein Storno
-                      AND t2.Voucher IS NULL        -- Es existiert kein Storno, der auf diesen Beleg zeigt
-                    ORDER BY t1.ID DESC;";
 
-                    // , 
+                    // Wir joinen die asset-Tabelle mit der transaction-Tabelle
+                    // Nur aktive Anlagen (Status = 0)
+                    string sql = @"
+                    SELECT 
+                        a.Id AS AssetNr,
+                        t.Voucher,             -- Holen wir uns aus der Buchungstabelle
+                        a.Description,
+                        a.PurchaseDate,
+                        a.Amount,
+                        a.UsefulLifeYears,
+                        a.EntryTransactionId,  -- Dein korrekter Spaltenname
+                        a.Status,
+                        a.Note
+                    FROM asset a
+                    INNER JOIN EntryTransaction t ON a.EntryTransactionId = t.Id
+                    WHERE a.Status = 0
+                    ORDER BY a.PurchaseDate DESC;";
+
                     using (var cmd = new SQLiteCommand(sql, conn))
                     {
                         using (var adapter = new SQLiteDataAdapter(cmd))
@@ -1042,69 +1136,82 @@ namespace mirada_finanza_control_central
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Der "Auto-Reset":
-                            dataGridViewAssets.DataSource = null; // Alte Bindung lösen
-                            dataGridViewAssets.AutoGenerateColumns = true; // Spalten automatisch erstellen
-                            dataGridViewAssets.DataSource = dt; // Neue Daten binden
-
-                            // 1. Spalten für die Berechnung hinzufügen
+                            // Hilfsspalten für die Anzeige-Logik hinzufügen
                             dt.Columns.Add("Restwert", typeof(decimal));
                             dt.Columns.Add("MonateVerbleibend", typeof(int));
+                            dt.Columns.Add("AbgeschriebenProzent", typeof(int));
 
                             DateTime heute = DateTime.Now;
 
                             foreach (DataRow row in dt.Rows)
                             {
                                 decimal anschaffungspreis = Convert.ToDecimal(row["Amount"]);
-                                DateTime kaufdatum = DateTime.Parse(row["TransDate"].ToString());
+                                DateTime kaufdatum = Convert.ToDateTime(row["PurchaseDate"]);
+                                int nutzungsdauerJahre = Convert.ToInt32(row["UsefulLifeYears"]);
+                                int nutzungsdauerMonate = nutzungsdauerJahre * 12;
 
-                                // Differenz in Monaten berechnen
+                                // Differenz in Monaten berechnen (angebrochene Monate zählen mit)
                                 int vergangeneMonate = ((heute.Year - kaufdatum.Year) * 12) + heute.Month - kaufdatum.Month;
+                                if (vergangeneMonate < 0) vergangeneMonate = 0;
 
-                                // Abschreibungs-Logik (36 Monate Standard)
-                                decimal monatlicheRate = anschaffungspreis / 36;
-                                int restMonate = 36 - vergangeneMonate;
+                                // Individuelle Abschreibungs-Logik basierend auf UsefulLifeYears
+                                decimal monatlicheRate = nutzungsdauerMonate > 0 ? anschaffungspreis / nutzungsdauerMonate : 0;
+                                int restMonate = nutzungsdauerMonate - vergangeneMonate;
                                 decimal restwert = anschaffungspreis - (monatlicheRate * vergangeneMonate);
 
-                                // Werte korrigieren, falls Gerät älter als 3 Jahre
-                                if (restwert < 0) restwert = 0;
-                                if (restMonate < 0) restMonate = 0;
+                                // Grenzwerte prüfen (0 € oder Erinnerungswert 1 €)
+                                if (restwert <= 0)
+                                {
+                                    restwert = 0;
+                                    restMonate = 0;
+                                }
 
                                 row["Restwert"] = Math.Round(restwert, 2);
                                 row["MonateVerbleibend"] = restMonate;
+
+                                // Prozentualer Fortschritt für die Optik
+                                int prozent = nutzungsdauerMonate > 0 ? (vergangeneMonate * 100 / nutzungsdauerMonate) : 100;
+                                row["AbgeschriebenProzent"] = prozent > 100 ? 100 : prozent;
                             }
 
-                            // Spalten im Grid schön benennen
-                            dataGridViewAssets.Columns["Restwert"].HeaderText = "Aktueller Buchwert";
-                            dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
-                            dataGridViewAssets.Columns["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
-                            dataGridViewAssets.Columns["AssetId"].DisplayIndex = 0;
+                            // Grid binden
+                            dataGridViewAssets.DataSource = null;
+                            dataGridViewAssets.AutoGenerateColumns = true;
+                            dataGridViewAssets.DataSource = dt;
 
-                            // --- AB HIER: Spalten sprechend machen ---
+                            // --- Styling & Spalten-Setup ---
                             if (dataGridViewAssets.Columns.Count > 0)
                             {
-                                dataGridViewAssets.Columns["AssetId"].HeaderText = "Anlagen-Nr.";
+                                dataGridViewAssets.Columns["AssetNr"].HeaderText = "Anlagen-Nr.";
                                 dataGridViewAssets.Columns["Voucher"].HeaderText = "Beleg-Nr.";
-                                dataGridViewAssets.Columns["TransDate"].HeaderText = "Kaufdatum";
-                                dataGridViewAssets.Columns["TransactionType"].HeaderText = "Typ";
-                                dataGridViewAssets.Columns["Amount"].HeaderText = "Betrag (Brutto)";
-                                dataGridViewAssets.Columns["Description"].HeaderText = "Bezeichnung / Gerät";
+                                dataGridViewAssets.Columns["Description"].HeaderText = "Bezeichnung";
+                                dataGridViewAssets.Columns["PurchaseDate"].HeaderText = "Kaufdatum";
+                                dataGridViewAssets.Columns["Amount"].HeaderText = "Anschaffungspreis";
+                                dataGridViewAssets.Columns["UsefulLifeYears"].HeaderText = "Dauer (Jahre)";
+                                dataGridViewAssets.Columns["Restwert"].HeaderText = "Akt. Buchwert";
+                                dataGridViewAssets.Columns["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
 
-                                // Bonus: Betrag rechtsbündig und mit €-Zeichen formatieren
-                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2"; // Currency Format
-                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                                // Formate
+                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2";
+                                dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
 
-                                // Spaltenbreite automatisch anpassen
+                                // Ausblenden technischer Felder
+                                if (dataGridViewAssets.Columns.Contains("TransactionEntryId"))
+                                    dataGridViewAssets.Columns["TransactionEntryId"].Visible = false;
+                                if (dataGridViewAssets.Columns.Contains("Status"))
+                                    dataGridViewAssets.Columns["Status"].Visible = false;
+                                if (dataGridViewAssets.Columns.Contains("AbgeschriebenProzent"))
+                                    dataGridViewAssets.Columns["AbgeschriebenProzent"].Visible = false;
+
                                 dataGridViewAssets.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                             }
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden: " + ex.Message);
+                MessageBox.Show("Fehler beim Laden der Anlagen: " + ex.Message);
             }
         }
 
@@ -1420,6 +1527,17 @@ namespace mirada_finanza_control_central
             string name = textBoxProductEntryName.Text.Trim();
             string description = textBoxProductEntryDescription.Text.Trim();
             string priceRaw = textBoxProductEntryPrice.Text.Replace(",", ".");
+            bool isStocked = checkBoxProductEntryIsStocked.Checked;
+            int stock;
+            if (isStocked)
+            {
+                stock = Convert.ToInt32(textBoxProductEntryStock.Text);
+            }
+            else
+            {
+                stock = 0;
+            }
+
 
             if (string.IsNullOrWhiteSpace(name)) { MessageBox.Show("Name fehlt!"); return; }
 
@@ -1428,8 +1546,8 @@ namespace mirada_finanza_control_central
                 MessageBox.Show("Preis ungültig!"); return;
             }
 
-            string sql = @"INSERT INTO product (Name, Description, Price, Picture, PictureExtension) 
-                   VALUES (@Name, @Description, @Price, @Picture, @Extension)";
+            string sql = @"INSERT INTO product (Name, Description, Price, Picture, PictureExtension, Stock, Stocked) 
+                   VALUES (@Name, @Description, @Price, @Picture, @Extension, @stock, @stocked)";
 
             try
             {
@@ -1441,6 +1559,8 @@ namespace mirada_finanza_control_central
                         cmd.Parameters.AddWithValue("@Name", name);
                         cmd.Parameters.AddWithValue("@Description", description);
                         cmd.Parameters.AddWithValue("@Price", price);
+                        cmd.Parameters.AddWithValue("@stock", stock);
+                        cmd.Parameters.AddWithValue("@stocked", isStocked);
 
                         // Bild-Logik
                         if (pictureBoxProductEntry.Image != null)
@@ -1502,6 +1622,8 @@ namespace mirada_finanza_control_central
             pictureBoxProductEntry.Image = null; // Bild löschen
             selectedFileExtensionProductPicture = "";           // Endung leeren
             selectedFileBytesProductPicture = null;
+            checkBoxProductEntryIsStocked.Checked = false;
+            textBoxProductEntryStock.Clear();
         }
 
         private void buttonProductEntrySave_Click(object sender, EventArgs e)
@@ -1527,7 +1649,7 @@ namespace mirada_finanza_control_central
 
         private void tabPageProductsRefresh()
         {
-            string sql = "SELECT Id, Name, Description, Price FROM product ORDER BY Name ASC";
+            string sql = "SELECT Id, Name, Description, Price, Stocked, Stock FROM product ORDER BY Name ASC";
 
             try
             {
@@ -1558,6 +1680,17 @@ namespace mirada_finanza_control_central
                 }
             }
             catch (Exception ex) { MessageBox.Show("Fehler beim Laden: " + ex.Message); }
+        }
+
+        private void dataGridViewProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Wir prüfen, ob wir gerade die Spalte "Stocked" zeichnen
+            if (dataGridViewProducts.Columns[e.ColumnIndex].Name == "Stocked" && e.Value != null)
+            {
+                int val = Convert.ToInt32(e.Value);
+                e.Value = (val == 1) ? "Ja" : "Nein";
+                e.FormattingApplied = true; // Sagt dem Grid: "Ich hab's erledigt, fass es nicht mehr an"
+            }
         }
 
         private void dataGridViewProducts_SelectionChanged(object sender, EventArgs e)
