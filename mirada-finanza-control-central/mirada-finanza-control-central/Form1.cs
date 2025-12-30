@@ -21,13 +21,38 @@ namespace mirada_finanza_control_central
         private byte[] selectedFileBytesProductPicture = null;
         private string selectedFileExtensionProductPicture = "";
 
+        private byte[] selectedFileBytesCompanyLogo = null;
+        private string selectedFileExtensionCompanyLogo = "";
+
         public Form1()
         {
             InitializeComponent();
 
-            dbManager = new DBManager(dbFile);
+            dbManager = new DBManager();
             dbManager.SetupDatabase();
             this.LoadCategories();
+
+            foreach (Control ctrl in panelSettings.Controls) // panelSettings ist dein scrollbares Panel
+            {
+                if (ctrl is TextBox tb)
+                {
+                    tb.Leave += (s, e) => AutoSaveSettings();
+                }
+                // Falls du GroupBoxen nutzt, musst du auch deren Controls durchlaufen:
+                if (ctrl is GroupBox gb)
+                {
+                    foreach (Control subCtrl in gb.Controls)
+                    {
+                        if (subCtrl is TextBox subTb) subTb.Leave += (s, e) => AutoSaveSettings();
+                    }
+                }
+            }
+
+            // Speichern beim Verlassen des Tabs:
+            tabPageSettings.Leave += (s, e) => AutoSaveSettings();
+
+            // Speichern beim Schließen des Programms:
+            this.FormClosing += (s, e) => AutoSaveSettings();
 
             // Entfernt die Linien zwischen den Spaltenköpfen
             dataGridViewJournal.EnableHeadersVisualStyles = false;
@@ -58,6 +83,8 @@ namespace mirada_finanza_control_central
             tabPageOverviewRefresh();
             tabPageCustomersRefresh();
             tabPageProductsRefresh();
+
+            LoadSettingsIntoUI();
 
             // 1. TABS AUSBLENDEN (TRICK)
             // Wir machen die Reiter 1 Pixel hoch und schalten auf Flat-Style um
@@ -164,112 +191,28 @@ namespace mirada_finanza_control_central
                 int voucherYear = dateTimePickerVoucherDate.Value.Year;
                 string voucher = dbManager.GetNextVoucher(voucherYear);
 
-                string assetId = "";
-                long newId;
-
-                using (var conn = new SQLiteConnection(connString))
+                EntryTransaction entryTransaction = new EntryTransaction
                 {
-                    conn.Open();
-                    string sql = @"INSERT INTO EntryTransaction 
-                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference) 
-                VALUES 
-                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference)";
+                    Voucher = voucher,
+                    Year = voucherYear,
+                    EntryCategoryName = comboBoxEntryCategory.SelectedItem.ToString(),
+                    TransactionType = textBoxEntryPostingType.Text,
+                    Amount = amount,
+                    Description = textBoxText.Text,
+                    Note = textBoxEntryNote.Text,
+                    TransDate = dateTimePickerVoucherDate.Value.ToString("yyyy-MM-dd"),
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    // Wenn Bytes da sind (Länge > 0), dann nimm sie, sonst null
+                    Attachment = (selectedFileBytes != null && selectedFileBytes.Length > 0) ? selectedFileBytes : null,
+                    FileExt = (selectedFileBytes != null && selectedFileBytes.Length > 0) ? selectedFileExt : null,
+                    Reversal = checkBoxReversal.Checked ? true : false,
+                    // Bei ReversalReferenceVoucher prüfen wir auf null beim SelectedValue
+                    ReversalReferenceVoucher = checkBoxReversal.Checked ? comboBoxReferenceVoucher.SelectedValue?.ToString() : null,
+                    // InvoiceReference einfach null lassen, wenn sie leer ist
+                    InvoiceReference = null
+                };
 
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@vouch", voucher);
-                        cmd.Parameters.AddWithValue("@year", voucherYear);
-                        cmd.Parameters.AddWithValue("@cat", comboBoxEntryCategory.SelectedItem.ToString());
-                        cmd.Parameters.AddWithValue("@type", textBoxEntryPostingType.Text); // Aus dem farbigen Feld
-                        cmd.Parameters.AddWithValue("@amount", amount);
-                        cmd.Parameters.AddWithValue("@desc", textBoxText.Text);
-                        cmd.Parameters.AddWithValue("@note", textBoxEntryNote.Text);
-                        cmd.Parameters.AddWithValue("@tDate", dateTimePickerVoucherDate.Value.ToString("yyyy-MM-dd"));
-                        cmd.Parameters.AddWithValue("@cDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-
-                        // --- NEUE PARAMETER ---
-                        // Wenn Checkbox an, dann 1, sonst 0
-                        cmd.Parameters.AddWithValue("@rev", checkBoxReversal.Checked ? 1 : 0);
-
-                        // Wenn Checkbox an, nimm den Wert aus dem ComboBox-Value (Referenz-Voucher)
-                        // Falls kein Storno, speichern wir DBNull.Value
-                        cmd.Parameters.AddWithValue("@revRef", checkBoxReversal.Checked ? comboBoxReferenceVoucher.SelectedValue : DBNull.Value);
-
-                        cmd.Parameters.AddWithValue("@invoiceReference", DBNull.Value);
-
-
-                        if (selectedFileBytes != null)
-                        {
-                            cmd.Parameters.Add("@file", System.Data.DbType.Binary).Value = selectedFileBytes;
-                            cmd.Parameters.AddWithValue("@ext", selectedFileExt);
-                        }
-                        else
-                        {
-                            cmd.Parameters.Add("@file", System.Data.DbType.Binary).Value = DBNull.Value;
-                            cmd.Parameters.AddWithValue("@ext", DBNull.Value);
-                        }
-
-                        cmd.ExecuteNonQuery();
-
-                        using (var cmdId = new SQLiteCommand("SELECT last_insert_rowid();", conn))
-                        {
-                            newId = (long)cmdId.ExecuteScalar();
-                        }
-                    }
-
-                    if (textBoxEntryPostingType.Text == "Anlage")
-                    {
-                        if (checkBoxReversal.Checked == false)
-                        {
-                            string sqlAsset = @"INSERT INTO asset 
-                    (EntryTransactionId, Description, PurchaseDate, Amount, UsefulLifeYears, Status) 
-                    VALUES 
-                    (@transId, @desc, @pDate, @amount, @years, 0)";
-
-                            using (var cmdAsset = new SQLiteCommand(sqlAsset, conn))
-                            {
-                                cmdAsset.Parameters.AddWithValue("@transId", newId);
-                                cmdAsset.Parameters.AddWithValue("@desc", textBoxText.Text); // Oder eigenes Feld für Asset-Name
-                                cmdAsset.Parameters.AddWithValue("@pDate", dateTimePickerVoucherDate.Value.ToString("yyyy-MM-dd"));
-                                cmdAsset.Parameters.AddWithValue("@amount", amount);
-                                cmdAsset.Parameters.AddWithValue("@years", 4); //  (int)numericUpDownAssetYears.Value);
-
-                                cmdAsset.ExecuteNonQuery();
-                            }
-                        }
-                        else
-                        {
-                            long foundId = 0;
-                            string voucherText = comboBoxReferenceVoucher.Text.Split(' ')[0];
-
-                            // Wir suchen die ID zum Belegtext
-                            string sqlFind = "SELECT Id FROM entryTransaction WHERE Voucher = @vouch AND Reversal = 0 LIMIT 1";
-                            using (var cmd = new SQLiteCommand(sqlFind, conn))
-                            {
-                                cmd.Parameters.AddWithValue("@vouch", voucherText);
-                                var result = cmd.ExecuteScalar();
-                                if (result != null)
-                                {
-                                    foundId = Convert.ToInt64(result);
-                                }
-                            }
-
-                            string sqlUpdateAsset = "UPDATE asset SET Status = 1 WHERE entryTransactionId = @id";
-                            using (var cmdAsset = new SQLiteCommand(sqlUpdateAsset, conn))
-                            {
-                                cmdAsset.Parameters.AddWithValue("@id", foundId);
-                                int assetsAffected = cmdAsset.ExecuteNonQuery();
-
-                                if (assetsAffected > 0)
-                                {
-                                    // Optional: Rückmeldung, dass ein Asset mit storniert wurde
-                                    MessageBox.Show("Zugehöriges Asset wurde ebenfalls storniert.");
-                                }
-                            }
-                        }
-                    }
-                }
+                dbManager.PostEntryTransaction(entryTransaction);
 
                 MessageBox.Show($"Erfolgreich gespeichert! Belegnummer: {voucher}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshJournal();
@@ -313,61 +256,24 @@ namespace mirada_finanza_control_central
 
         private void RefreshJournal()
         {
+            // UI-Einstellungen vorab
             dataGridViewJournal.DefaultCellStyle.SelectionBackColor = Color.Transparent;
             dataGridViewJournal.DefaultCellStyle.SelectionForeColor = Color.Black;
 
             try
             {
-                using (var conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    // Wir holen alle wichtigen Spalten
-                    string sql = @"
-                    SELECT 
-                        t.Voucher, 
-                        t.TransDate, 
-                        t.TransactionType, 
-                        t.Amount, 
-                        t.Reversal, 
-                        t.EntryCategoryName, 
-                        t.Description, 
-                        t.ReversalReferenceVoucher, 
-                        t.InvoiceReference, 
-                        -- Logik: Nimm die AssetId vom Beleg selbst ODER vom referenzierten Originalbeleg
-                        COALESCE(a.Id, a_ref.Id) AS AssetId,
-                        t.Voucher || char(10) || t.TransDate AS Disp_VoucherDate, 
-                        t.TransactionType || char(10) || t.EntryCategoryName AS Disp_TypeCategory, 
-                        t.Amount || ' €' || char(10) || t.Description AS Disp_AmountDesc 
-                    FROM EntryTransaction t
-                    -- 1. Normaler Join für die Original-Anlage
-                    LEFT JOIN asset a ON t.Id = a.EntryTransactionId 
-                    -- 2. Join über den Umweg der ReversalReferenceVoucher für Storno-Zeilen
-                    LEFT JOIN EntryTransaction t_orig ON t.ReversalReferenceVoucher = t_orig.Voucher AND t.Reversal = 1
-                    LEFT JOIN asset a_ref ON t_orig.Id = a_ref.EntryTransactionId
-                    ORDER BY t.ID DESC";
+                // 1. DATEN HOLEN (über den Manager)
+                DataTable dt = dbManager.FetchEntryTransactionData();
 
+                // 2. DATEN BINDEN
+                dataGridViewJournal.DataSource = null;
+                dataGridViewJournal.AutoGenerateColumns = true;
+                dataGridViewJournal.DataSource = dt;
 
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        using (var adapter = new SQLiteDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            // Der "Auto-Reset":
-                            dataGridViewJournal.DataSource = null; // Alte Bindung lösen
-                            dataGridViewJournal.AutoGenerateColumns = true; // Spalten automatisch erstellen
-                            dataGridViewJournal.DataSource = dt; // Neue Daten binden
-                        }
-                    }
-                }
-
-                // Jetzt sind die Spalten da! Jetzt können wir sie hübsch machen:
+                // 3. OPTIK (Spalten konfigurieren)
                 if (dataGridViewJournal.Columns.Count > 0)
                 {
-
-
-                    // 1. Alle Original-Daten-Spalten ausblenden
+                    // Original-Daten-Spalten ausblenden
                     string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description" };
                     foreach (var colName in hiddenCols)
                     {
@@ -375,48 +281,34 @@ namespace mirada_finanza_control_central
                             dataGridViewJournal.Columns[colName].Visible = false;
                     }
 
-                    // 1. Anzeige-Spalten konfigurieren und nach vorne schieben
+                    // Anzeige-Spalten konfigurieren (Ich gehe davon aus, ConfigureDisplayColumn existiert noch bei dir)
                     ConfigureDisplayColumn("Disp_VoucherDate", "Beleg\nDatum", 100, 0);
                     ConfigureDisplayColumn("Disp_TypeCategory", "Typ\nKategorie", 140, 1);
                     ConfigureDisplayColumn("Disp_AmountDesc", "Betrag\nBeschreibung", 140, 2);
 
-                    // 2. Storno-Spalten nach hinten schieben (hoher Index = weiter rechts)
-                    if (dataGridViewJournal.Columns["Reversal"] != null)
-                    {
-                        dataGridViewJournal.Columns["Reversal"].HeaderText = "Storno";
-                        dataGridViewJournal.Columns["Reversal"].Width = 60;
-                        dataGridViewJournal.Columns["Reversal"].DisplayIndex = 3;
-                        dataGridViewJournal.Columns["Reversal"].Visible = true;
-                    }
-
-                    if (dataGridViewJournal.Columns["ReversalReferenceVoucher"] != null)
-                    {
-                        dataGridViewJournal.Columns["ReversalReferenceVoucher"].HeaderText = "Stornobeleg";
-                        dataGridViewJournal.Columns["ReversalReferenceVoucher"].Width = 102;
-                        dataGridViewJournal.Columns["ReversalReferenceVoucher"].DisplayIndex = 4;
-                        dataGridViewJournal.Columns["ReversalReferenceVoucher"].Visible = true;
-                    }
-
-                    if (dataGridViewJournal.Columns["InvoiceReference"] != null)
-                    {
-                        dataGridViewJournal.Columns["InvoiceReference"].HeaderText = "Rechnungsbeleg";
-                        dataGridViewJournal.Columns["InvoiceReference"].Width = 102;
-                        dataGridViewJournal.Columns["InvoiceReference"].DisplayIndex = 5;
-                        dataGridViewJournal.Columns["InvoiceReference"].Visible = true;
-                    }
-
-                    if (dataGridViewJournal.Columns["AssetId"] != null)
-                    {
-                        dataGridViewJournal.Columns["AssetId"].HeaderText = "Anlagen-Nr.";
-                        dataGridViewJournal.Columns["AssetId"].Width = 102;
-                        dataGridViewJournal.Columns["AssetId"].DisplayIndex = 5;
-                        dataGridViewJournal.Columns["AssetId"].Visible = true;
-                    }
+                    // Storno- & Asset-Spalten
+                    SetColumnStyle("Reversal", "Storno", 60, 3);
+                    SetColumnStyle("ReversalReferenceVoucher", "Stornobeleg", 102, 4);
+                    SetColumnStyle("InvoiceReference", "Rechnungsbeleg", 102, 5);
+                    SetColumnStyle("AssetId", "Anlagen-Nr.", 102, 6);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden: " + ex.Message);
+                MessageBox.Show("Fehler beim Laden des Journals: " + ex.Message);
+            }
+        }
+
+        // Kleine Hilfsmethode, um den Code noch cleaner zu machen
+        private void SetColumnStyle(string name, string header, int width, int displayIndex)
+        {
+            if (dataGridViewJournal.Columns[name] != null)
+            {
+                var col = dataGridViewJournal.Columns[name];
+                col.HeaderText = header;
+                col.Width = width;
+                col.DisplayIndex = displayIndex;
+                col.Visible = true;
             }
         }
 
@@ -504,69 +396,60 @@ namespace mirada_finanza_control_central
 
         private void dataGridViewJournal_SelectionChanged(object sender, EventArgs e)
         {
-            // 1. Prüfen, ob eine Zeile ausgewählt ist
             if (dataGridViewJournal.SelectedRows.Count > 0)
             {
-                // Wir holen die Belegnummer (Voucher) aus der ausgewählten Zeile
                 string voucherNr = dataGridViewJournal.SelectedRows[0].Cells["Voucher"].Value?.ToString();
-
                 if (string.IsNullOrEmpty(voucherNr)) return;
 
-                // 2. Datenbank-Abruf mit SQLite
-                try
+                // DATEN ÜBER MANAGER HOLEN
+                EntryTransaction entry = dbManager.GetTransactionByVoucher(voucherNr);
+
+                if (entry != null)
                 {
-                    using (var conn = new SQLiteConnection(connString))
+                    // TEXTBOXEN BEFÜLLEN
+                    textBoxJournalNote.Text = entry.Note ?? "";
+                    textBoxJournalAmount.Text = entry.Amount.ToString("N2") + " €";
+                    textBoxJournalCategory.Text = entry.EntryCategoryName;
+                    textBoxJournalVoucher.Text = entry.Voucher;
+                    textBoxJournalVoucherDate.Text = entry.TransDate;
+                    textBoxJournalReversalVoucher.Text = entry.ReversalReferenceVoucher ?? "";
+                    textBoxJournalReversal.Text = entry.Reversal ? "Ja" : "Nein";
+                    textBoxJournalPostingText.Text = entry.Description;
+                    textBoxJournalPostingType.Text = entry.TransactionType;
+
+                    // DATUM FORMATIEREN
+                    if (!string.IsNullOrEmpty(entry.CreatedDate))
                     {
-                        conn.Open();
-                        // Wir holen Note und CreatedDate basierend auf dem Voucher (Belegnummer)
-                        string sql = "SELECT Note, CreatedDate, Amount, EntryCategoryName, Voucher, TransDate, ReversalReferenceVoucher, Reversal, Description, TransactionType, InvoiceReference FROM EntryTransaction WHERE Voucher = @nr";
-
-                        using (var cmd = new SQLiteCommand(sql, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@nr", voucherNr);
-
-                            using (var reader = cmd.ExecuteReader())
-                            {
-                                if (reader.Read())
-                                {
-                                    // 3. Textboxen befüllen
-                                    textBoxJournalNote.Text = reader["Note"]?.ToString() ?? "";
-                                    textBoxJournalAmount.Text = reader["Amount"]?.ToString();
-                                    textBoxJournalCategory.Text = reader["EntryCategoryName"]?.ToString();
-                                    textBoxJournalVoucher.Text = reader["Voucher"]?.ToString();
-                                    textBoxJournalVoucherDate.Text = reader["TransDate"]?.ToString();
-                                    textBoxJournalReversalVoucher.Text = reader["ReversalReferenceVoucher"]?.ToString();
-                                    textBoxJournalReversal.Text = reader["Reversal"]?.ToString();
-                                    textBoxJournalPostingText.Text = reader["Description"]?.ToString();
-                                    textBoxJournalPostingType.Text = reader["TransactionType"]?.ToString();
-
-                                    // Datum formatieren, falls vorhanden
-                                    if (reader["CreatedDate"] != DBNull.Value)
-                                    {
-                                        DateTime dt = Convert.ToDateTime(reader["CreatedDate"]);
-                                        textBoxJournalCreationDate.Text = dt.ToString("dd.MM.yyyy HH:mm");
-                                    }
-                                    else
-                                    {
-                                        textBoxJournalCreationDate.Text = "Kein Datum";
-                                    }
-                                }
-                            }
-                        }
+                        if (DateTime.TryParse(entry.CreatedDate, out DateTime dt))
+                            textBoxJournalCreationDate.Text = dt.ToString("dd.MM.yyyy HH:mm");
+                        else
+                            textBoxJournalCreationDate.Text = entry.CreatedDate;
                     }
-                }
-                catch (Exception ex)
-                {
-                    // Fehler im Debug-Fenster ausgeben, um das Scrollen nicht zu blockieren
-                    System.Diagnostics.Debug.WriteLine("Fehler beim Laden der Details: " + ex.Message);
+                    else
+                    {
+                        textBoxJournalCreationDate.Text = "Kein Datum";
+                    }
                 }
             }
             else
             {
-                // Nichts ausgewählt -> Felder leeren
-                textBoxJournalNote.Clear();
-                textBoxJournalCreationDate.Clear();
+                ClearJournalDetails();
             }
+        }
+
+        // Hilfsmethode zum Leeren der Felder
+        private void ClearJournalDetails()
+        {
+            textBoxJournalNote.Clear();
+            textBoxJournalAmount.Clear();
+            textBoxJournalCategory.Clear();
+            textBoxJournalVoucher.Clear();
+            textBoxJournalVoucherDate.Clear();
+            textBoxJournalReversalVoucher.Clear();
+            textBoxJournalReversal.Clear();
+            textBoxJournalPostingText.Clear();
+            textBoxJournalPostingType.Clear();
+            textBoxJournalCreationDate.Clear();
         }
 
         private void checkBoxReversal_CheckedChanged(object sender, EventArgs e)
@@ -596,50 +479,24 @@ namespace mirada_finanza_control_central
 
         private void LoadVouchersIntoComboBox()
         {
-            // Wir holen Belegnummer und Beschreibung, damit man weiß, was man auswählt
-            string sql = "SELECT Voucher, (Voucher || ' - ' || Description) as DisplayText FROM entryTransaction WHERE Reversal = 0 " +
-                "AND Voucher NOT IN (SELECT ReversalReferenceVoucher FROM entryTransaction WHERE ReversalReferenceVoucher IS NOT NULL) " +
-                "ORDER BY ID DESC";
-
-            // Hier dein üblicher Code zum Laden in eine DataTable
-            DataTable dt = GetData(sql); // Deine Hilfsmethode für SQL
-
-            comboBoxReferenceVoucher.DisplayMember = "DisplayText";
-            comboBoxReferenceVoucher.ValueMember = "Voucher";
-            comboBoxReferenceVoucher.DataSource = dt;
-        }
-
-        private DataTable GetData(string sql, Dictionary<string, object> parameters = null)
-        {
-            DataTable dt = new DataTable();
             try
             {
-                using (SQLiteConnection conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
-                    {
-                        // Falls Parameter übergeben wurden (z.B. für WHERE-Klauseln)
-                        if (parameters != null)
-                        {
-                            foreach (var param in parameters)
-                            {
-                                cmd.Parameters.AddWithValue(param.Key, param.Value);
-                            }
-                        }
+                // Daten vom Manager holen
+                DataTable dt = dbManager.GetAvailableVouchersForReversal();
 
-                        using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
-                        {
-                            adapter.Fill(dt);
-                        }
-                    }
-                }
+                // UI binden
+                comboBoxReferenceVoucher.DataSource = null; // Reset
+                comboBoxReferenceVoucher.DisplayMember = "DisplayText";
+                comboBoxReferenceVoucher.ValueMember = "Voucher";
+                comboBoxReferenceVoucher.DataSource = dt;
+
+                // Optional: Falls die Box leer starten soll
+                comboBoxReferenceVoucher.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden der Daten: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
-            return dt;
         }
 
         private void comboBoxReferenceVoucher_SelectedIndexChanged(object sender, EventArgs e)
@@ -647,36 +504,38 @@ namespace mirada_finanza_control_central
             if (comboBoxReferenceVoucher.SelectedValue != null && checkBoxReversal.Checked)
             {
                 string selectedVoucher = comboBoxReferenceVoucher.SelectedValue.ToString();
-                selectedVoucher = selectedVoucher.Split(' ')[0];
-                string sql = "SELECT * FROM entryTransaction WHERE Voucher = @Voucher LIMIT 1";
 
-                // Parameter für die Suche vorbereiten
-                var paramsDict = new Dictionary<string, object> { { "@Voucher", selectedVoucher } };
+                // DATEN ÜBER MANAGER HOLEN
+                EntryTransaction original = dbManager.GetTransactionForReversal(selectedVoucher);
 
-                DataTable dt = GetData(sql, paramsDict);
-
-                if (dt.Rows.Count > 0)
+                if (original != null)
                 {
-                    DataRow row = dt.Rows[0];
-
                     // Felder automatisch füllen
-                    textBoxText.Text = "STORNO zu: " + row["Description"].ToString();
-                    numericUpDownAmount.Value = Convert.ToDecimal(row["Amount"]);
-                    textBoxEntryNote.Text = "STORNO zu: " + row["Note"].ToString();
-                    dateTimePickerVoucherDate.Value = Convert.ToDateTime(row["TransDate"]);
-                    comboBoxEntryCategory.Text = row["EntryCategoryName"].ToString();
-                    textBoxEntryPostingType.Text = row["TransactionType"].ToString();
+                    textBoxText.Text = "STORNO zu: " + original.Description;
+                    numericUpDownAmount.Value = original.Amount;
+                    textBoxEntryNote.Text = "STORNO zu: " + original.Note;
+
+                    if (DateTime.TryParse(original.TransDate, out DateTime vDate))
+                        dateTimePickerVoucherDate.Value = vDate;
+
+                    comboBoxEntryCategory.Text = original.EntryCategoryName;
+                    textBoxEntryPostingType.Text = original.TransactionType;
 
                     // --- FELDER SPERREN ---
-                    // Damit der Storno eine exakte Kopie bleibt (außer Belegnummer)
-                    numericUpDownAmount.Enabled = false;
-                    comboBoxEntryCategory.Enabled = false;
-                    textBoxEntryPostingType.Enabled = false;
-                    textBoxText.Enabled = false;
-                    textBoxEntryNote.Enabled = false;
-                    dateTimePickerVoucherDate.Enabled = false;
+                    SetEntryFieldsEnabled(false);
                 }
             }
+        }
+
+        // Hilfsmethode, um den Code sauber zu halten
+        private void SetEntryFieldsEnabled(bool enabled)
+        {
+            numericUpDownAmount.Enabled = enabled;
+            comboBoxEntryCategory.Enabled = enabled;
+            textBoxEntryPostingType.Enabled = enabled;
+            textBoxText.Enabled = enabled;
+            textBoxEntryNote.Enabled = enabled;
+            dateTimePickerVoucherDate.Enabled = enabled;
         }
 
         private void buttonLoadFile_Click(object sender, EventArgs e)
@@ -725,8 +584,10 @@ namespace mirada_finanza_control_central
 
         private void buttonSettings_Click(object sender, EventArgs e)
         {
+            LoadSettingsIntoUI();
             tabControl.SelectedTab = tabPageSettings;
             HighlightButton(buttonSettings);
+            
         }
 
         private void buttonAbout_Click(object sender, EventArgs e)
@@ -742,53 +603,40 @@ namespace mirada_finanza_control_central
             string voucherNr = dataGridViewJournal.SelectedRows[0].Cells["Voucher"].Value?.ToString();
             if (string.IsNullOrEmpty(voucherNr)) return;
 
-            byte[] fileData = null;
-            string extension = "";
-
             try
             {
-                using (var conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    // Wir holen Attachment und die Dateiendung
-                    string sql = "SELECT Attachment, FileExt FROM EntryTransaction WHERE Voucher = @nr";
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@nr", voucherNr);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read() && reader["Attachment"] != DBNull.Value)
-                            {
-                                fileData = (byte[])reader["Attachment"];
-                                extension = reader["FileExt"].ToString().ToLower().Trim();
-                            }
-                        }
-                    }
-                }
+                // 1. DATEN HOLEN
+                EntryTransaction doc = dbManager.GetAttachmentByVoucher(voucherNr);
 
-                if (fileData == null)
+                if (doc == null || doc.Attachment == null)
                 {
                     MessageBox.Show("Kein Beleg für diesen Eintrag gefunden.");
                     return;
                 }
 
-                // Punkt vor die Extension setzen, falls er fehlt
+                // 2. DATEI VORBEREITEN
+                string extension = doc.FileExt.ToLower().Trim();
                 if (!extension.StartsWith(".")) extension = "." + extension;
 
-                // Temporäre Datei erstellen
+                // Temporären Pfad generieren
                 string tempPath = Path.Combine(Path.GetTempPath(), $"Beleg_{voucherNr}{extension}");
-                File.WriteAllBytes(tempPath, fileData);
+                File.WriteAllBytes(tempPath, doc.Attachment);
 
-                // Unterscheidung: PDF oder Bild
+                // 3. ANZEIGELOGIK (UI-Aufgabe)
                 if (extension == ".pdf")
                 {
-                    // PDF im Standard-Browser öffnen (z.B. Firefox)
+                    // PDF im Standard-Viewer öffnen
                     Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
                 }
-                else if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".bmp")
+                else if (new[] { ".jpg", ".jpeg", ".png", ".bmp" }.Contains(extension))
                 {
-                    // Bild in deiner neuen modalen Form anzeigen
+                    // Bild in der modalen Form anzeigen
                     ZeigeBildModal(tempPath);
+                }
+                else
+                {
+                    // Unbekanntes Format? Einfach mal versuchen mit Windows-Standard zu öffnen
+                    Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
                 }
             }
             catch (Exception ex)
@@ -818,118 +666,57 @@ namespace mirada_finanza_control_central
 
         private void dataGridViewAssetsRefresh()
         {
-            // Optik-Reset für das Grid
+            // Optik-Reset
             dataGridViewAssets.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
             dataGridViewAssets.DefaultCellStyle.SelectionForeColor = Color.Black;
 
             try
             {
-                using (var conn = new SQLiteConnection(connString))
+                // 1. Daten fix und fertig berechnet vom Manager holen
+                DataTable dt = dbManager.FetchAssetData();
+
+                // 2. Binden
+                dataGridViewAssets.DataSource = null;
+                dataGridViewAssets.AutoGenerateColumns = true;
+                dataGridViewAssets.DataSource = dt;
+
+                // 3. Styling
+                if (dataGridViewAssets.Columns.Count > 0)
                 {
-                    conn.Open();
+                    SetAssetGridHeaders();
 
-                    // Wir joinen die asset-Tabelle mit der transaction-Tabelle
-                    // Nur aktive Anlagen (Status = 0)
-                    string sql = @"
-                    SELECT 
-                        a.Id AS AssetNr,
-                        t.Voucher,             -- Holen wir uns aus der Buchungstabelle
-                        a.Description,
-                        a.PurchaseDate,
-                        a.Amount,
-                        a.UsefulLifeYears,
-                        a.EntryTransactionId,  -- Dein korrekter Spaltenname
-                        a.Status,
-                        a.Note
-                    FROM asset a
-                    INNER JOIN EntryTransaction t ON a.EntryTransactionId = t.Id
-                    WHERE a.Status = 0
-                    ORDER BY a.PurchaseDate DESC;";
+                    // Währungsformate
+                    dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2";
+                    dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
 
-                    using (var cmd = new SQLiteCommand(sql, conn))
+                    // Unnötiges ausblenden
+                    string[] toHide = { "EntryTransactionId", "Status", "AbgeschriebenProzent", "Note" };
+                    foreach (string col in toHide)
                     {
-                        using (var adapter = new SQLiteDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            // Hilfsspalten für die Anzeige-Logik hinzufügen
-                            dt.Columns.Add("Restwert", typeof(decimal));
-                            dt.Columns.Add("MonateVerbleibend", typeof(int));
-                            dt.Columns.Add("AbgeschriebenProzent", typeof(int));
-
-                            DateTime heute = DateTime.Now;
-
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                decimal anschaffungspreis = Convert.ToDecimal(row["Amount"]);
-                                DateTime kaufdatum = Convert.ToDateTime(row["PurchaseDate"]);
-                                int nutzungsdauerJahre = Convert.ToInt32(row["UsefulLifeYears"]);
-                                int nutzungsdauerMonate = nutzungsdauerJahre * 12;
-
-                                // Differenz in Monaten berechnen (angebrochene Monate zählen mit)
-                                int vergangeneMonate = ((heute.Year - kaufdatum.Year) * 12) + heute.Month - kaufdatum.Month;
-                                if (vergangeneMonate < 0) vergangeneMonate = 0;
-
-                                // Individuelle Abschreibungs-Logik basierend auf UsefulLifeYears
-                                decimal monatlicheRate = nutzungsdauerMonate > 0 ? anschaffungspreis / nutzungsdauerMonate : 0;
-                                int restMonate = nutzungsdauerMonate - vergangeneMonate;
-                                decimal restwert = anschaffungspreis - (monatlicheRate * vergangeneMonate);
-
-                                // Grenzwerte prüfen (0 € oder Erinnerungswert 1 €)
-                                if (restwert <= 0)
-                                {
-                                    restwert = 0;
-                                    restMonate = 0;
-                                }
-
-                                row["Restwert"] = Math.Round(restwert, 2);
-                                row["MonateVerbleibend"] = restMonate;
-
-                                // Prozentualer Fortschritt für die Optik
-                                int prozent = nutzungsdauerMonate > 0 ? (vergangeneMonate * 100 / nutzungsdauerMonate) : 100;
-                                row["AbgeschriebenProzent"] = prozent > 100 ? 100 : prozent;
-                            }
-
-                            // Grid binden
-                            dataGridViewAssets.DataSource = null;
-                            dataGridViewAssets.AutoGenerateColumns = true;
-                            dataGridViewAssets.DataSource = dt;
-
-                            // --- Styling & Spalten-Setup ---
-                            if (dataGridViewAssets.Columns.Count > 0)
-                            {
-                                dataGridViewAssets.Columns["AssetNr"].HeaderText = "Anlagen-Nr.";
-                                dataGridViewAssets.Columns["Voucher"].HeaderText = "Beleg-Nr.";
-                                dataGridViewAssets.Columns["Description"].HeaderText = "Bezeichnung";
-                                dataGridViewAssets.Columns["PurchaseDate"].HeaderText = "Kaufdatum";
-                                dataGridViewAssets.Columns["Amount"].HeaderText = "Anschaffungspreis";
-                                dataGridViewAssets.Columns["UsefulLifeYears"].HeaderText = "Dauer (Jahre)";
-                                dataGridViewAssets.Columns["Restwert"].HeaderText = "Akt. Buchwert";
-                                dataGridViewAssets.Columns["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
-
-                                // Formate
-                                dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2";
-                                dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
-
-                                // Ausblenden technischer Felder
-                                if (dataGridViewAssets.Columns.Contains("TransactionEntryId"))
-                                    dataGridViewAssets.Columns["TransactionEntryId"].Visible = false;
-                                if (dataGridViewAssets.Columns.Contains("Status"))
-                                    dataGridViewAssets.Columns["Status"].Visible = false;
-                                if (dataGridViewAssets.Columns.Contains("AbgeschriebenProzent"))
-                                    dataGridViewAssets.Columns["AbgeschriebenProzent"].Visible = false;
-
-                                dataGridViewAssets.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                            }
-                        }
+                        if (dataGridViewAssets.Columns.Contains(col))
+                            dataGridViewAssets.Columns[col].Visible = false;
                     }
+
+                    dataGridViewAssets.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden der Anlagen: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void SetAssetGridHeaders()
+        {
+            var cols = dataGridViewAssets.Columns;
+            if (cols.Contains("AssetNr")) cols["AssetNr"].HeaderText = "Anlagen-Nr.";
+            if (cols.Contains("Voucher")) cols["Voucher"].HeaderText = "Beleg-Nr.";
+            if (cols.Contains("Description")) cols["Description"].HeaderText = "Bezeichnung";
+            if (cols.Contains("PurchaseDate")) cols["PurchaseDate"].HeaderText = "Kaufdatum";
+            if (cols.Contains("Amount")) cols["Amount"].HeaderText = "Anschaffungspreis";
+            if (cols.Contains("UsefulLifeYears")) cols["UsefulLifeYears"].HeaderText = "Dauer (Jahre)";
+            if (cols.Contains("Restwert")) cols["Restwert"].HeaderText = "Akt. Buchwert";
+            if (cols.Contains("MonateVerbleibend")) cols["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -948,157 +735,92 @@ namespace mirada_finanza_control_central
         {
             try
             {
-                using (var conn = new SQLiteConnection(connString))
+                // 1. Daten vom Manager holen
+                DataRow stats = dbManager.FetchDashboardStats();
+
+                if (stats != null)
                 {
-                    conn.Open();
-                    string sql = @"
-                SELECT 
-                    -- MONATE (Revenue)
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now') THEN Amount ELSE 0 END) as RevenueM0,
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-1 month') THEN Amount ELSE 0 END) as RevenueM1,
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-2 month') THEN Amount ELSE 0 END) as RevenueM2,
-                    -- MONATE (Expenses)
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now') THEN Amount ELSE 0 END) as ExpensesM0,
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-1 month') THEN Amount ELSE 0 END) as ExpensesM1,
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%m-%Y', TransDate) = strftime('%m-%Y', 'now', '-2 month') THEN Amount ELSE 0 END) as ExpensesM2,
-                    -- JAHRE
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now') THEN Amount ELSE 0 END) as RevenueY0,
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-1 year') THEN Amount ELSE 0 END) as RevenueY1,
-                    SUM(CASE WHEN TransactionType = 'Einnahme' AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-2 year') THEN Amount ELSE 0 END) as RevenueY2,
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now') THEN Amount ELSE 0 END) as ExpensesY0,
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-1 year') THEN Amount ELSE 0 END) as ExpensesY1,
-                    SUM(CASE WHEN TransactionType IN ('Ausgabe', 'Anlage') AND strftime('%Y', TransDate) = strftime('%Y', 'now', '-2 year') THEN Amount ELSE 0 END) as ExpensesY2
-                FROM EntryTransaction 
-                WHERE Reversal = 0 
-                  AND Voucher NOT IN (SELECT IFNULL(ReversalReferenceVoucher, '') FROM EntryTransaction WHERE ReversalReferenceVoucher IS NOT NULL)";
+                    // 2. UI-Blöcke aktualisieren (Monate)
+                    UpdateOverviewBlock(stats, "M0", textBoxOverviewRevenueCurrentMonth, textBoxOverviewCostsCurrentMonth, textBoxOverviewEarningsCurrentMonth);
+                    UpdateOverviewBlock(stats, "M1", textBoxOverviewRevenuePreMonth, textBoxOverviewCostsPreMonth, textBoxOverviewEarningsPreMonth);
+                    UpdateOverviewBlock(stats, "M2", textBoxOverviewRevenuePrePreMonth, textBoxOverviewCostsPrePreMonth, textBoxOverviewEarningsPrePreMonth);
 
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            // Daten zuweisen & Gewinne berechnen
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "M0",
-                                textBoxOverviewRevenueCurrentMonth,
-                                textBoxOverviewCostsCurrentMonth,
-                                textBoxOverviewEarningsCurrentMonth);
-
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "M1",
-                                textBoxOverviewRevenuePreMonth,
-                                textBoxOverviewCostsPreMonth,
-                                textBoxOverviewEarningsPreMonth);
-
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "M2",
-                                textBoxOverviewRevenuePrePreMonth,
-                                textBoxOverviewCostsPrePreMonth,
-                                textBoxOverviewEarningsPrePreMonth);
-
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "Y0",
-                                textBoxOverviewRevenueCurrentYear,
-                                textBoxOverviewCostsCurrentYear,
-                                textBoxOverviewEarningsCurrentYear);
-
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "Y1",
-                                textBoxOverviewRevenuePreYear,
-                                textBoxOverviewCostsPreYear,
-                                textBoxOverviewEarningsPreYear);
-
-                            tapPageOverviewUpdateBlock(
-                                reader,
-                                "Y2",
-                                textBoxOverviewRevenuePrePreYear,
-                                textBoxOverviewCostsPrePreYear,
-                                textBoxOverviewEarningsPrePreYear);
-                        }
-                    }
-
-                    // Dynamische Beschriftung der Header
-                    labelOverviewCurrentMonth.Text = DateTime.Now.ToString("MMMM yyyy");
-                    labelOverviewPreMonth.Text = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
-                    labelOverviewPrePreMonth.Text = DateTime.Now.AddMonths(-2).ToString("MMMM yyyy");
-                    labelOverviewCurrentYear.Text = "Jahr " + DateTime.Now.Year;
-                    labelOverviewPreYear.Text = "Jahr " + DateTime.Now.AddYears(-1).Year;
-                    labelOverviewPrePreYear.Text = "Jahr " + DateTime.Now.AddYears(-2).Year;
+                    // 3. UI-Blöcke aktualisieren (Jahre)
+                    UpdateOverviewBlock(stats, "Y0", textBoxOverviewRevenueCurrentYear, textBoxOverviewCostsCurrentYear, textBoxOverviewEarningsCurrentYear);
+                    UpdateOverviewBlock(stats, "Y1", textBoxOverviewRevenuePreYear, textBoxOverviewCostsPreYear, textBoxOverviewEarningsPreYear);
+                    UpdateOverviewBlock(stats, "Y2", textBoxOverviewRevenuePrePreYear, textBoxOverviewCostsPrePreYear, textBoxOverviewEarningsPrePreYear);
                 }
+
+                // 4. Dynamische Labels setzen
+                UpdateOverviewLabels();
             }
-            catch (Exception ex) { MessageBox.Show("Dashboard Error: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Dashboard Error: " + ex.Message);
+            }
         }
 
-        private void tapPageOverviewUpdateBlock(SQLiteDataReader r, string suffix, TextBox tRev, TextBox tExp, TextBox tProf)
+        // Hilfsmethode für die Labels
+        private void UpdateOverviewLabels()
         {
-            decimal rev = r["Revenue" + suffix] != DBNull.Value ? Convert.ToDecimal(r["Revenue" + suffix]) : 0;
-            decimal exp = r["Expenses" + suffix] != DBNull.Value ? Convert.ToDecimal(r["Expenses" + suffix]) : 0;
-            decimal prof = rev - exp;
+            labelOverviewCurrentMonth.Text = DateTime.Now.ToString("MMMM yyyy");
+            labelOverviewPreMonth.Text = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
+            labelOverviewPrePreMonth.Text = DateTime.Now.AddMonths(-2).ToString("MMMM yyyy");
+            labelOverviewCurrentYear.Text = "Jahr " + DateTime.Now.Year;
+            labelOverviewPreYear.Text = "Jahr " + (DateTime.Now.Year - 1);
+            labelOverviewPrePreYear.Text = "Jahr " + (DateTime.Now.Year - 2);
+        }
 
-            tRev.Text = rev.ToString("C2");
-            tExp.Text = exp.ToString("C2");
-            tProf.Text = prof.ToString("C2");
-            tProf.ForeColor = prof >= 0 ? Color.ForestGreen : Color.Firebrick;
+        // Deine bestehende Block-Update-Logik (leicht angepasst auf DataRow)
+        private void UpdateOverviewBlock(DataRow row, string suffix, TextBox txtRev, TextBox txtExp, TextBox txtEarn)
+        {
+            // Sicherer Abruf: Wenn die DB NULL liefert, nehmen wir 0
+            decimal rev = row["Revenue" + suffix] == DBNull.Value ? 0 : Convert.ToDecimal(row["Revenue" + suffix]);
+            decimal exp = row["Expenses" + suffix] == DBNull.Value ? 0 : Convert.ToDecimal(row["Expenses" + suffix]);
+
+            decimal earn = rev - exp;
+
+            txtRev.Text = rev.ToString("C2");
+            txtExp.Text = exp.ToString("C2");
+            txtEarn.Text = earn.ToString("C2");
+
+            txtEarn.ForeColor = earn >= 0 ? Color.Green : Color.Red;
         }
 
         private void tabPageCustomerEntrySaveCustomer()
         {
-            // 1. Daten aus den Textboxen sammeln
-            string name = textBoxCustomerEntryName.Text.Trim();
-            string street = textBoxCustomerEntryStreet.Text.Trim();
-            string zip = textBoxCustomerEntryZipCode.Text.Trim();
-            string city = textBoxCustomerEntryCity.Text.Trim();
-            string country = textBoxCustomerEntryCountry.Text.Trim();
-            string email = textBoxCustomerEntryEmail.Text.Trim();
+            // 1. Model-Objekt befüllen
+            Customer newCust = new Customer
+            {
+                Name = textBoxCustomerEntryName.Text.Trim(),
+                Street = textBoxCustomerEntryStreet.Text.Trim(),
+                Zipcode = textBoxCustomerEntryZipCode.Text.Trim(),
+                City = textBoxCustomerEntryCity.Text.Trim(),
+                Country = textBoxCustomerEntryCountry.Text.Trim(),
+                Email = textBoxCustomerEntryEmail.Text.Trim()
+            };
 
-            // Validierung: Name ist Pflicht
-            if (string.IsNullOrWhiteSpace(name))
+            // Validierung: Name ist Pflicht (Bleibt in der UI, da es die Benutzerführung betrifft)
+            if (string.IsNullOrWhiteSpace(newCust.Name))
             {
                 MessageBox.Show("Bitte geben Sie mindestens einen Namen ein.", "Eingabe fehlt");
                 return;
             }
 
-            // 2. SQL Insert (ID wird automatisch per AUTOINCREMENT vergeben)
-            string sql = @"INSERT INTO customer (Name, Street, Zipcode, City, Country, Email) 
-                   VALUES (@Name, @Street, @Zipcode, @City, @Country, @Email);
-                   SELECT last_insert_rowid();"; // Gibt die neue ID direkt zurück
-
             try
             {
-                using (var conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        // Parameter für maximale Sicherheit (SQL-Injection Schutz)
-                        cmd.Parameters.AddWithValue("@Name", name);
-                        cmd.Parameters.AddWithValue("@Street", street);
-                        cmd.Parameters.AddWithValue("@Zipcode", zip);
-                        cmd.Parameters.AddWithValue("@City", city);
-                        cmd.Parameters.AddWithValue("@Country", country);
-                        cmd.Parameters.AddWithValue("@Email", email);
+                // 2. Über Manager speichern und ID erhalten
+                int newId = dbManager.SaveCustomer(newCust);
 
-                        // ExecuteScalar, weil wir die neue ID als Rückgabewert erwarten
-                        object newId = cmd.ExecuteScalar();
+                MessageBox.Show($"Kunde erfolgreich unter ID {newId} angelegt!", "Erfolg");
 
-                        MessageBox.Show($"Kunde erfolgreich unter ID {newId} angelegt!", "Erfolg");
-                    }
-                }
-
-                // 3. Maske für den nächsten Kunden leeren
+                // 3. UI aufräumen
                 tabPageCustomerEntryClear();
-
-                // Optional: Hier die Kundenliste im Grid aktualisieren
-                tabPageCustomersRefresh();
+                tabPageCustomersRefresh(); // Falls vorhanden, Liste aktualisieren
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Speichern des Kunden: " + ex.Message, "Datenbankfehler");
+                MessageBox.Show(ex.Message, "Datenbankfehler");
             }
         }
 
@@ -1122,89 +844,69 @@ namespace mirada_finanza_control_central
 
         private void tabPageCustomersRefresh()
         {
-
-            // SQL-Abfrage: Alle Kunden laden, Neueste zuerst
-            string sql = "SELECT Id, Name, Street, Zipcode, City, Country, Email FROM customer ORDER BY Id DESC";
-
             try
             {
-                using (var conn = new SQLiteConnection(connString))
+                // 1. Daten vom Manager holen
+                DataTable dt = dbManager.FetchAllCustomers();
+
+                // 2. Binden
+                dataGridViewCustomers.DataSource = null;
+                dataGridViewCustomers.AutoGenerateColumns = true;
+                dataGridViewCustomers.DataSource = dt;
+
+                // 3. Optik-Finishing
+                if (dataGridViewCustomers.Columns.Count > 0)
                 {
-                    conn.Open();
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        using (var adapter = new SQLiteDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            // Daten binden
-                            dataGridViewCustomers.DataSource = null; // Alte Bindung lösen
-                            dataGridViewCustomers.AutoGenerateColumns = true; // Spalten automatisch erstellen
-                            dataGridViewCustomers.DataSource = dt; // Neue Daten binden
-
-                            // Ein Style-Objekt erstellen, das Umbrüche erlaubt
-                            DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle();
-                            wrapStyle.WrapMode = DataGridViewTriState.True;
-
-                            dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-                            // --- Optik-Finishing (wie bei den Anlagen) ---
-                            if (dataGridViewCustomers.Columns.Count > 0)
-                            {
-                                // 1. Spaltenbreiten optimieren
-                                if (dataGridViewCustomers.Columns["Id"] != null)
-                                {
-                                    dataGridViewCustomers.Columns["Id"].Width = 40; // ID schön schmal halten
-                                }
-
-                                if (dataGridViewCustomers.Columns["Name"] != null)
-                                {
-                                    dataGridViewCustomers.Columns["Name"].Width = 110; // ID schön schmal halten
-                                    dataGridViewCustomers.Columns["Name"].DefaultCellStyle = wrapStyle;
-                                }
-
-                                if (dataGridViewCustomers.Columns["Street"] != null)
-                                {
-                                    dataGridViewCustomers.Columns["Street"].Width = 120; // ID schön schmal halten
-                                    dataGridViewCustomers.Columns["Street"].DefaultCellStyle = wrapStyle;
-                                }
-
-                                if (dataGridViewCustomers.Columns["ZipCode"] != null)
-                                {
-                                    dataGridViewCustomers.Columns["ZipCode"].Width = 70; // ID schön schmal halten
-                                }
-
-                                if (dataGridViewCustomers.Columns["Email"] != null)
-                                {
-                                    dataGridViewCustomers.Columns["Email"].Width = 220; // ID schön schmal halten
-                                    dataGridViewCustomers.Columns["Email"].DefaultCellStyle = wrapStyle;
-                                }
-
-                                // 2. Bearbeitung im Grid verhindern
-                                dataGridViewCustomers.AllowUserToAddRows = false;
-                                dataGridViewCustomers.ReadOnly = true;
-                                dataGridViewCustomers.RowHeadersVisible = false;
-
-                                // 3. Selektions-Stil (Ganze Zeile)
-                                dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                                dataGridViewCustomers.MultiSelect = false;
-
-                                // 4. Hintergrundfarbe und Header-Design (wie besprochen)
-                                dataGridViewCustomers.EnableHeadersVisualStyles = false;
-                                dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-
-                                // Fokus entfernen
-                                dataGridViewCustomers.ClearSelection();
-                            }
-                        }
-                    }
+                    ApplyCustomerGridStyle();
                 }
+
+                dataGridViewCustomers.ClearSelection();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden der Kundenliste: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ApplyCustomerGridStyle()
+        {
+            // Umbruch-Style definieren
+            DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True };
+            dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // Spalten konfigurieren
+            var cols = dataGridViewCustomers.Columns;
+
+            if (cols["Id"] != null) cols["Id"].Width = 40;
+
+            if (cols["Name"] != null)
+            {
+                cols["Name"].Width = 110;
+                cols["Name"].DefaultCellStyle = wrapStyle;
+            }
+
+            if (cols["Street"] != null)
+            {
+                cols["Street"].Width = 120;
+                cols["Street"].DefaultCellStyle = wrapStyle;
+            }
+
+            if (cols["Zipcode"] != null) cols["Zipcode"].Width = 70;
+
+            if (cols["Email"] != null)
+            {
+                cols["Email"].Width = 220;
+                cols["Email"].DefaultCellStyle = wrapStyle;
+            }
+
+            // Allgemeine Einstellungen
+            dataGridViewCustomers.AllowUserToAddRows = false;
+            dataGridViewCustomers.ReadOnly = true;
+            dataGridViewCustomers.RowHeadersVisible = false;
+            dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewCustomers.MultiSelect = false;
+            dataGridViewCustomers.EnableHeadersVisualStyles = false;
+            dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
         }
 
         private void buttonCustomerEntry_Click(object sender, EventArgs e)
@@ -1241,65 +943,65 @@ namespace mirada_finanza_control_central
 
         private void tabPageProductEntrySave()
         {
+            // 1. Validierung (Pflichtfelder)
             string name = textBoxProductEntryName.Text.Trim();
-            string description = textBoxProductEntryDescription.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Bitte geben Sie einen Produktnamen an!", "Eingabe fehlt");
+                return;
+            }
+
+            // Preis-Validierung
             string priceRaw = textBoxProductEntryPrice.Text.Replace(",", ".");
-            bool isStocked = checkBoxProductEntryIsStocked.Checked;
-            int stock;
-            if (isStocked)
+            if (!decimal.TryParse(priceRaw, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out decimal price))
             {
-                stock = Convert.ToInt32(textBoxProductEntryStock.Text);
+                MessageBox.Show("Bitte geben Sie einen gültigen Preis ein!", "Ungültiger Wert");
+                return;
             }
-            else
-            {
-                stock = 0;
-            }
-
-
-            if (string.IsNullOrWhiteSpace(name)) { MessageBox.Show("Name fehlt!"); return; }
-
-            if (!double.TryParse(priceRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double price))
-            {
-                MessageBox.Show("Preis ungültig!"); return;
-            }
-
-            string sql = @"INSERT INTO product (Name, Description, Price, Picture, PictureExtension, Stock, Stocked) 
-                   VALUES (@Name, @Description, @Price, @Picture, @Extension, @stock, @stocked)";
 
             try
             {
-                using (var conn = new SQLiteConnection(connString))
+                // 2. Produkt-Objekt erstellen
+                Product newProduct = new Product
                 {
-                    conn.Open();
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Name", name);
-                        cmd.Parameters.AddWithValue("@Description", description);
-                        cmd.Parameters.AddWithValue("@Price", price);
-                        cmd.Parameters.AddWithValue("@stock", stock);
-                        cmd.Parameters.AddWithValue("@stocked", isStocked);
+                    Name = name,
+                    Description = textBoxProductEntryDescription.Text.Trim(),
+                    Price = price,
+                    Stocked = checkBoxProductEntryIsStocked.Checked ? 1 : 0
+                };
 
-                        // Bild-Logik
-                        if (pictureBoxProductEntry.Image != null)
-                        {
-                            // Bild in Byte-Array umwandeln
-                            byte[] imageBytes = selectedFileBytesProductPicture;
-                            cmd.Parameters.AddWithValue("@Picture", imageBytes);
-                            cmd.Parameters.AddWithValue("@Extension", selectedFileExtensionProductPicture);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@Picture", DBNull.Value);
-                            cmd.Parameters.AddWithValue("@Extension", DBNull.Value);
-                        }
-
-                        cmd.ExecuteNonQuery();
-                    }
+                // Lagerbestand nur setzen, wenn Lagerführung aktiv ist
+                if (newProduct.Stocked == 1)
+                {
+                    int.TryParse(textBoxProductEntryStock.Text, out int currentStock);
+                    newProduct.Stock = currentStock;
                 }
-                MessageBox.Show("Produkt inklusive Bild gespeichert!");
+                else
+                {
+                    newProduct.Stock = 0;
+                }
+
+                // Bild-Daten aus den globalen Variablen der Form übernehmen
+                if (pictureBoxProductEntry.Image != null)
+                {
+                    newProduct.Picture = selectedFileBytesProductPicture; // Die Bytes, die beim Laden des Bildes gespeichert wurden
+                    newProduct.PictureExtension = selectedFileExtensionProductPicture;
+                }
+
+                // 3. Speichern über DBManager
+                dbManager.SaveProduct(newProduct);
+
+                MessageBox.Show("Produkt erfolgreich gespeichert!", "Erfolg");
+
+                // 4. UI aufräumen
                 tabPageProductEntryClear();
+                // Falls du eine Liste hast: tabPageProductsRefresh();
             }
-            catch (Exception ex) { MessageBox.Show("Fehler: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Speichern: " + ex.Message);
+            }
         }
 
         private void buttonPictureEntry_LoadFile(object sender, EventArgs e)
@@ -1366,37 +1068,51 @@ namespace mirada_finanza_control_central
 
         private void tabPageProductsRefresh()
         {
-            string sql = "SELECT Id, Name, Description, Price, Stocked, Stock FROM product ORDER BY Name ASC";
-
             try
             {
-                using (var conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        using (var adapter = new SQLiteDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-                            dataGridViewProducts.DataSource = dt;
-                        }
-                    }
-                }
+                // 1. Daten ohne Bilder holen
+                DataTable dt = dbManager.FetchProductList();
 
-                // Optik-Finishing
+                // 2. Binden
+                dataGridViewProducts.DataSource = null;
+                dataGridViewProducts.AutoGenerateColumns = true;
+                dataGridViewProducts.DataSource = dt;
+
+                // 3. Optik-Finishing
                 if (dataGridViewProducts.Columns.Count > 0)
                 {
-                    //dataGridViewProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    if (dataGridViewProducts.Columns.Contains("Price"))
-                    {
-                        dataGridViewProducts.Columns["Price"].DefaultCellStyle.Format = "N2";
-                        dataGridViewProducts.Columns["Price"].Width = 80;
-                        dataGridViewProducts.Columns["Price"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    }
+                    ApplyProductGridStyle();
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Fehler beim Laden: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ApplyProductGridStyle()
+        {
+            var cols = dataGridViewProducts.Columns;
+
+            // Header-Texte verschönern
+            if (cols.Contains("Price"))
+            {
+                cols["Price"].HeaderText = "Preis";
+                cols["Price"].DefaultCellStyle.Format = "C2"; // C2 formatiert direkt als Währung (€)
+                // cols["Price"].Width = 80;
+                cols["Price"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            }
+
+            if (cols.Contains("Stocked")) cols["Stocked"].HeaderText = "Lagerartikel";
+            if (cols.Contains("Stock")) cols["Stock"].HeaderText = "Bestand";
+            if (cols.Contains("Description")) cols["Description"].HeaderText = "Beschreibung";
+
+            // Allgemeine Grid-Einstellungen
+            dataGridViewProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewProducts.AllowUserToAddRows = false;
+            dataGridViewProducts.ReadOnly = true;
+            dataGridViewProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewProducts.RowHeadersVisible = false;
         }
 
         private void dataGridViewProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -1414,49 +1130,103 @@ namespace mirada_finanza_control_central
         {
             if (dataGridViewProducts.SelectedRows.Count > 0)
             {
-                // Die Id aus der ausgewählten Zeile holen
-                var selectedId = dataGridViewProducts.SelectedRows[0].Cells["Id"].Value;
-
-                LoadProductDetails(selectedId);
+                // Sicherstellen, dass die Zelle "Id" existiert und nicht null ist
+                var cellValue = dataGridViewProducts.SelectedRows[0].Cells["Id"].Value;
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int productId))
+                {
+                    LoadProductDetails(productId);
+                }
             }
         }
 
-        private void LoadProductDetails(object productId)
+        private void LoadProductDetails(int productId)
         {
-            string sql = "SELECT Picture, PictureExtension FROM product WHERE Id = @Id";
-
             try
             {
-                using (var conn = new SQLiteConnection(connString))
-                {
-                    conn.Open();
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Id", productId);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                byte[] fileBytes = reader["Picture"] as byte[];
-                                string ext = reader["PictureExtension"]?.ToString().ToLower();
+                // 1. Bild-Daten vom Manager holen
+                byte[] imageBytes = dbManager.FetchProductPicture(productId);
 
-                                if (fileBytes != null && fileBytes.Length > 0)
-                                {
-                                    using (var ms = new MemoryStream(fileBytes))
-                                    {
-                                        pictureBoxProducts.Image = Image.FromStream(ms);
-                                    }
-                                }
-                                else
-                                {
-                                    pictureBoxProducts.Image = null;
-                                }
-                            }
-                        }
+                // 2. Vorhandenes Bild aufräumen (Speichermanagement)
+                if (pictureBoxProducts.Image != null)
+                {
+                    pictureBoxProducts.Image.Dispose();
+                    pictureBoxProducts.Image = null;
+                }
+
+                // 3. Umwandeln und anzeigen
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        // Wir erzeugen eine Kopie für die PictureBox, damit der Stream geschlossen werden kann
+                        pictureBoxProducts.Image = Image.FromStream(ms);
                     }
                 }
             }
-            catch { /* Fehler ignorieren oder loggen */ }
+            catch
+            {
+                pictureBoxProducts.Image = null; // Im Fehlerfall Bild leeren
+            }
+        }
+
+        private void AutoSaveSettings()
+        {
+            Settings s = new Settings
+            {
+                CompanyName = textBoxSettingsCompanyName.Text.Trim(),
+                Owner = textBoxSettingsOwner.Text.Trim(),
+                Street = textBoxSettingsStreet.Text.Trim(),
+                ZipCode = textBoxSettingsZipCode.Text.Trim(),
+                City = textBoxSettingsCity.Text.Trim(),
+                Country = textBoxSettingsCountry.Text.Trim(),
+                Phone = textBoxSettingsPhone.Text.Trim(),
+                Email = textBoxSettingsEmail.Text.Trim(),
+                TaxNumber = textBoxSettingsTaxNumber.Text.Trim(),
+                BankName = textBoxSettingsBankname.Text.Trim(),
+                IBAN = textBoxSettingsIBAN.Text.Trim(),
+                BIC = textBoxSettingsBIC.Text.Trim(),
+                IntroText = textBoxSettingsInvoiceIntroText.Text.Trim(),
+                FooterText = textBoxSettingsInvoiceFooterText.Text.Trim(),
+                SmallBusinessNote = textBoxSettingsInvoiceSmallBusinessNote.Text.Trim(),
+
+                // Nutze die globalen Variablen für das Logo
+                CompanyImage = selectedFileBytesCompanyLogo,
+                CompanyImageExtension = selectedFileExtensionCompanyLogo
+            };
+
+            dbManager.SaveSettings(s);
+        }
+
+        private void LoadSettingsIntoUI()
+        {
+            var s = dbManager.GetSettings();
+            if (s == null) return;
+
+            textBoxSettingsCompanyName.Text = s.CompanyName;
+            textBoxSettingsOwner.Text = s.Owner;
+            textBoxSettingsStreet.Text = s.Street;
+            textBoxSettingsZipCode.Text = s.ZipCode;
+            textBoxSettingsCity.Text = s.City;
+            textBoxSettingsCountry.Text = s.Country;
+            textBoxSettingsPhone.Text = s.Phone;
+            textBoxSettingsEmail.Text = s.Email;
+            textBoxSettingsTaxNumber.Text = s.TaxNumber;
+            textBoxSettingsBankname.Text = s.BankName;
+            textBoxSettingsIBAN.Text = s.IBAN;
+            textBoxSettingsBIC.Text = s.BIC;
+            textBoxSettingsInvoiceIntroText.Text = s.IntroText;
+            textBoxSettingsInvoiceFooterText.Text = s.FooterText;
+            textBoxSettingsInvoiceSmallBusinessNote.Text = s.SmallBusinessNote;
+            /*
+            if (s.CompanyImage != null)
+            {
+                using (var ms = new MemoryStream(s.CompanyImage))
+                {
+                    pictureBoxLogo.Image = Image.FromStream(ms);
+                }
+                selectedFileBytesCompanyLogo = s.CompanyImage;
+                selectedFileExtensionCompanyLogo = s.CompanyImageExtension;
+            }*/
         }
     }
 }

@@ -195,7 +195,45 @@
             tabPageInvoices = new TabPage();
             tabPageDataexport = new TabPage();
             tabPageSettings = new TabPage();
+            panelSettings = new Panel();
+            groupBoxSettingsInvoiceConfiguration = new GroupBox();
+            buttonSettingsCompanyImage = new Button();
+            labelSettingsCompanyImage = new Label();
+            textBoxSettingsInvoiceSmallBusinessNote = new TextBox();
+            labelSettingsCompanySmallBusinessNote = new Label();
+            textBoxSettingsInvoiceFooterText = new TextBox();
+            labelSettingsInvoiceFooterText = new Label();
+            textBoxSettingsInvoiceIntroText = new TextBox();
+            labelSettingsInvoiceIntroText = new Label();
+            groupBoxSettingsBankData = new GroupBox();
+            labelSettingsBIC = new Label();
+            textBoxSettingsBIC = new TextBox();
+            labelSettingsIBAN = new Label();
+            textBoxSettingsIBAN = new TextBox();
+            labelSettingsBankname = new Label();
+            textBoxSettingsBankname = new TextBox();
+            groupBoxSettingsAddress = new GroupBox();
+            textBoxSettingsCountry = new TextBox();
+            labelSettingsCountry = new Label();
+            textBoxSettingsCity = new TextBox();
+            labelSettingsCity = new Label();
+            textBoxSettingsZipCode = new TextBox();
+            labelSettingsZipCode = new Label();
+            textBoxSettingsStreet = new TextBox();
+            labelSettingsStreet = new Label();
+            groupBoxSettingsCompanyData = new GroupBox();
+            textBoxSettingsTaxNumber = new TextBox();
+            labelSettingsTaxNumber = new Label();
+            textBoxSettingsOwner = new TextBox();
+            labelSettingsOwner = new Label();
+            textBoxSettingsCompanyName = new TextBox();
+            labelSettingsCompanyName = new Label();
+            labelSettings = new Label();
             tabPageAbout = new TabPage();
+            textBoxSettingsEmail = new TextBox();
+            labelSettingsEmail = new Label();
+            textBoxSettingsPhone = new TextBox();
+            labelSettingsPhone = new Label();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -216,6 +254,12 @@
             tabPageProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
+            tabPageSettings.SuspendLayout();
+            panelSettings.SuspendLayout();
+            groupBoxSettingsInvoiceConfiguration.SuspendLayout();
+            groupBoxSettingsBankData.SuspendLayout();
+            groupBoxSettingsAddress.SuspendLayout();
+            groupBoxSettingsCompanyData.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -1007,7 +1051,7 @@
             // 
             // textBoxEntryNote
             // 
-            textBoxEntryNote.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEntryNote.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEntryNote.Location = new Point(288, 88);
             textBoxEntryNote.Multiline = true;
             textBoxEntryNote.Name = "textBoxEntryNote";
@@ -2092,12 +2136,331 @@
             // 
             // tabPageSettings
             // 
+            tabPageSettings.Controls.Add(panelSettings);
+            tabPageSettings.Controls.Add(labelSettings);
             tabPageSettings.Location = new Point(4, 24);
             tabPageSettings.Name = "tabPageSettings";
             tabPageSettings.Size = new Size(762, 668);
             tabPageSettings.TabIndex = 5;
             tabPageSettings.Text = "Einstellungen";
             tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // panelSettings
+            // 
+            panelSettings.AutoScroll = true;
+            panelSettings.Controls.Add(groupBoxSettingsInvoiceConfiguration);
+            panelSettings.Controls.Add(groupBoxSettingsBankData);
+            panelSettings.Controls.Add(groupBoxSettingsAddress);
+            panelSettings.Controls.Add(groupBoxSettingsCompanyData);
+            panelSettings.Location = new Point(8, 56);
+            panelSettings.Name = "panelSettings";
+            panelSettings.Size = new Size(744, 600);
+            panelSettings.TabIndex = 13;
+            // 
+            // groupBoxSettingsInvoiceConfiguration
+            // 
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(buttonSettingsCompanyImage);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(labelSettingsCompanyImage);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(textBoxSettingsInvoiceSmallBusinessNote);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(labelSettingsCompanySmallBusinessNote);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(textBoxSettingsInvoiceFooterText);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(labelSettingsInvoiceFooterText);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(textBoxSettingsInvoiceIntroText);
+            groupBoxSettingsInvoiceConfiguration.Controls.Add(labelSettingsInvoiceIntroText);
+            groupBoxSettingsInvoiceConfiguration.Location = new Point(8, 721);
+            groupBoxSettingsInvoiceConfiguration.Name = "groupBoxSettingsInvoiceConfiguration";
+            groupBoxSettingsInvoiceConfiguration.Size = new Size(712, 256);
+            groupBoxSettingsInvoiceConfiguration.TabIndex = 3;
+            groupBoxSettingsInvoiceConfiguration.TabStop = false;
+            groupBoxSettingsInvoiceConfiguration.Text = "Mein Kleinunternehmen - Rechnungs-Konfiguration";
+            // 
+            // buttonSettingsCompanyImage
+            // 
+            buttonSettingsCompanyImage.Location = new Point(8, 216);
+            buttonSettingsCompanyImage.Name = "buttonSettingsCompanyImage";
+            buttonSettingsCompanyImage.Size = new Size(696, 23);
+            buttonSettingsCompanyImage.TabIndex = 8;
+            buttonSettingsCompanyImage.Text = "Bild laden...";
+            buttonSettingsCompanyImage.UseVisualStyleBackColor = true;
+            // 
+            // labelSettingsCompanyImage
+            // 
+            labelSettingsCompanyImage.AutoSize = true;
+            labelSettingsCompanyImage.Location = new Point(8, 192);
+            labelSettingsCompanyImage.Name = "labelSettingsCompanyImage";
+            labelSettingsCompanyImage.Size = new Size(68, 15);
+            labelSettingsCompanyImage.TabIndex = 6;
+            labelSettingsCompanyImage.Text = "Firmenlogo";
+            // 
+            // textBoxSettingsInvoiceSmallBusinessNote
+            // 
+            textBoxSettingsInvoiceSmallBusinessNote.Location = new Point(8, 160);
+            textBoxSettingsInvoiceSmallBusinessNote.Name = "textBoxSettingsInvoiceSmallBusinessNote";
+            textBoxSettingsInvoiceSmallBusinessNote.Size = new Size(696, 23);
+            textBoxSettingsInvoiceSmallBusinessNote.TabIndex = 5;
+            // 
+            // labelSettingsCompanySmallBusinessNote
+            // 
+            labelSettingsCompanySmallBusinessNote.AutoSize = true;
+            labelSettingsCompanySmallBusinessNote.Location = new Point(8, 136);
+            labelSettingsCompanySmallBusinessNote.Name = "labelSettingsCompanySmallBusinessNote";
+            labelSettingsCompanySmallBusinessNote.Size = new Size(188, 15);
+            labelSettingsCompanySmallBusinessNote.TabIndex = 4;
+            labelSettingsCompanySmallBusinessNote.Text = "Kleinunternehmerreglung Hinweis";
+            // 
+            // textBoxSettingsInvoiceFooterText
+            // 
+            textBoxSettingsInvoiceFooterText.Location = new Point(8, 104);
+            textBoxSettingsInvoiceFooterText.Name = "textBoxSettingsInvoiceFooterText";
+            textBoxSettingsInvoiceFooterText.Size = new Size(696, 23);
+            textBoxSettingsInvoiceFooterText.TabIndex = 3;
+            // 
+            // labelSettingsInvoiceFooterText
+            // 
+            labelSettingsInvoiceFooterText.AutoSize = true;
+            labelSettingsInvoiceFooterText.Location = new Point(8, 80);
+            labelSettingsInvoiceFooterText.Name = "labelSettingsInvoiceFooterText";
+            labelSettingsInvoiceFooterText.Size = new Size(77, 15);
+            labelSettingsInvoiceFooterText.TabIndex = 2;
+            labelSettingsInvoiceFooterText.Text = "Fußzeilentext";
+            // 
+            // textBoxSettingsInvoiceIntroText
+            // 
+            textBoxSettingsInvoiceIntroText.Location = new Point(8, 48);
+            textBoxSettingsInvoiceIntroText.Name = "textBoxSettingsInvoiceIntroText";
+            textBoxSettingsInvoiceIntroText.Size = new Size(696, 23);
+            textBoxSettingsInvoiceIntroText.TabIndex = 1;
+            // 
+            // labelSettingsInvoiceIntroText
+            // 
+            labelSettingsInvoiceIntroText.AutoSize = true;
+            labelSettingsInvoiceIntroText.Location = new Point(8, 24);
+            labelSettingsInvoiceIntroText.Name = "labelSettingsInvoiceIntroText";
+            labelSettingsInvoiceIntroText.Size = new Size(85, 15);
+            labelSettingsInvoiceIntroText.TabIndex = 0;
+            labelSettingsInvoiceIntroText.Text = "Einleitungstext";
+            // 
+            // groupBoxSettingsBankData
+            // 
+            groupBoxSettingsBankData.Controls.Add(labelSettingsBIC);
+            groupBoxSettingsBankData.Controls.Add(textBoxSettingsBIC);
+            groupBoxSettingsBankData.Controls.Add(labelSettingsIBAN);
+            groupBoxSettingsBankData.Controls.Add(textBoxSettingsIBAN);
+            groupBoxSettingsBankData.Controls.Add(labelSettingsBankname);
+            groupBoxSettingsBankData.Controls.Add(textBoxSettingsBankname);
+            groupBoxSettingsBankData.Location = new Point(8, 537);
+            groupBoxSettingsBankData.Name = "groupBoxSettingsBankData";
+            groupBoxSettingsBankData.Size = new Size(712, 176);
+            groupBoxSettingsBankData.TabIndex = 2;
+            groupBoxSettingsBankData.TabStop = false;
+            groupBoxSettingsBankData.Text = "Mein Kleinunternehmen - Bankdaten";
+            // 
+            // labelSettingsBIC
+            // 
+            labelSettingsBIC.AutoSize = true;
+            labelSettingsBIC.Location = new Point(8, 120);
+            labelSettingsBIC.Name = "labelSettingsBIC";
+            labelSettingsBIC.Size = new Size(25, 15);
+            labelSettingsBIC.TabIndex = 5;
+            labelSettingsBIC.Text = "BIC";
+            // 
+            // textBoxSettingsBIC
+            // 
+            textBoxSettingsBIC.Location = new Point(8, 136);
+            textBoxSettingsBIC.Name = "textBoxSettingsBIC";
+            textBoxSettingsBIC.Size = new Size(696, 23);
+            textBoxSettingsBIC.TabIndex = 4;
+            // 
+            // labelSettingsIBAN
+            // 
+            labelSettingsIBAN.AutoSize = true;
+            labelSettingsIBAN.Location = new Point(8, 72);
+            labelSettingsIBAN.Name = "labelSettingsIBAN";
+            labelSettingsIBAN.Size = new Size(34, 15);
+            labelSettingsIBAN.TabIndex = 3;
+            labelSettingsIBAN.Text = "IBAN";
+            // 
+            // textBoxSettingsIBAN
+            // 
+            textBoxSettingsIBAN.Location = new Point(8, 88);
+            textBoxSettingsIBAN.Name = "textBoxSettingsIBAN";
+            textBoxSettingsIBAN.Size = new Size(696, 23);
+            textBoxSettingsIBAN.TabIndex = 2;
+            // 
+            // labelSettingsBankname
+            // 
+            labelSettingsBankname.AutoSize = true;
+            labelSettingsBankname.Location = new Point(8, 24);
+            labelSettingsBankname.Name = "labelSettingsBankname";
+            labelSettingsBankname.Size = new Size(63, 15);
+            labelSettingsBankname.TabIndex = 1;
+            labelSettingsBankname.Text = "Bankname";
+            // 
+            // textBoxSettingsBankname
+            // 
+            textBoxSettingsBankname.Location = new Point(8, 40);
+            textBoxSettingsBankname.Name = "textBoxSettingsBankname";
+            textBoxSettingsBankname.Size = new Size(696, 23);
+            textBoxSettingsBankname.TabIndex = 0;
+            // 
+            // groupBoxSettingsAddress
+            // 
+            groupBoxSettingsAddress.Controls.Add(textBoxSettingsCountry);
+            groupBoxSettingsAddress.Controls.Add(labelSettingsCountry);
+            groupBoxSettingsAddress.Controls.Add(textBoxSettingsCity);
+            groupBoxSettingsAddress.Controls.Add(labelSettingsCity);
+            groupBoxSettingsAddress.Controls.Add(textBoxSettingsZipCode);
+            groupBoxSettingsAddress.Controls.Add(labelSettingsZipCode);
+            groupBoxSettingsAddress.Controls.Add(textBoxSettingsStreet);
+            groupBoxSettingsAddress.Controls.Add(labelSettingsStreet);
+            groupBoxSettingsAddress.Location = new Point(8, 289);
+            groupBoxSettingsAddress.Name = "groupBoxSettingsAddress";
+            groupBoxSettingsAddress.Size = new Size(712, 216);
+            groupBoxSettingsAddress.TabIndex = 1;
+            groupBoxSettingsAddress.TabStop = false;
+            groupBoxSettingsAddress.Text = "Mein Kleinunternehmen - Adresse";
+            // 
+            // textBoxSettingsCountry
+            // 
+            textBoxSettingsCountry.Location = new Point(8, 184);
+            textBoxSettingsCountry.Name = "textBoxSettingsCountry";
+            textBoxSettingsCountry.Size = new Size(696, 23);
+            textBoxSettingsCountry.TabIndex = 7;
+            // 
+            // labelSettingsCountry
+            // 
+            labelSettingsCountry.AutoSize = true;
+            labelSettingsCountry.Location = new Point(8, 168);
+            labelSettingsCountry.Name = "labelSettingsCountry";
+            labelSettingsCountry.Size = new Size(33, 15);
+            labelSettingsCountry.TabIndex = 6;
+            labelSettingsCountry.Text = "Land";
+            // 
+            // textBoxSettingsCity
+            // 
+            textBoxSettingsCity.Location = new Point(8, 136);
+            textBoxSettingsCity.Name = "textBoxSettingsCity";
+            textBoxSettingsCity.Size = new Size(696, 23);
+            textBoxSettingsCity.TabIndex = 5;
+            // 
+            // labelSettingsCity
+            // 
+            labelSettingsCity.AutoSize = true;
+            labelSettingsCity.Location = new Point(8, 120);
+            labelSettingsCity.Name = "labelSettingsCity";
+            labelSettingsCity.Size = new Size(24, 15);
+            labelSettingsCity.TabIndex = 4;
+            labelSettingsCity.Text = "Ort";
+            // 
+            // textBoxSettingsZipCode
+            // 
+            textBoxSettingsZipCode.Location = new Point(8, 88);
+            textBoxSettingsZipCode.Name = "textBoxSettingsZipCode";
+            textBoxSettingsZipCode.Size = new Size(696, 23);
+            textBoxSettingsZipCode.TabIndex = 3;
+            // 
+            // labelSettingsZipCode
+            // 
+            labelSettingsZipCode.AutoSize = true;
+            labelSettingsZipCode.Location = new Point(8, 72);
+            labelSettingsZipCode.Name = "labelSettingsZipCode";
+            labelSettingsZipCode.Size = new Size(27, 15);
+            labelSettingsZipCode.TabIndex = 2;
+            labelSettingsZipCode.Text = "PLZ";
+            // 
+            // textBoxSettingsStreet
+            // 
+            textBoxSettingsStreet.Location = new Point(8, 40);
+            textBoxSettingsStreet.Name = "textBoxSettingsStreet";
+            textBoxSettingsStreet.Size = new Size(696, 23);
+            textBoxSettingsStreet.TabIndex = 1;
+            // 
+            // labelSettingsStreet
+            // 
+            labelSettingsStreet.AutoSize = true;
+            labelSettingsStreet.Location = new Point(8, 24);
+            labelSettingsStreet.Name = "labelSettingsStreet";
+            labelSettingsStreet.Size = new Size(40, 15);
+            labelSettingsStreet.TabIndex = 0;
+            labelSettingsStreet.Text = "Straße";
+            // 
+            // groupBoxSettingsCompanyData
+            // 
+            groupBoxSettingsCompanyData.Controls.Add(textBoxSettingsEmail);
+            groupBoxSettingsCompanyData.Controls.Add(labelSettingsEmail);
+            groupBoxSettingsCompanyData.Controls.Add(textBoxSettingsPhone);
+            groupBoxSettingsCompanyData.Controls.Add(labelSettingsPhone);
+            groupBoxSettingsCompanyData.Controls.Add(textBoxSettingsTaxNumber);
+            groupBoxSettingsCompanyData.Controls.Add(labelSettingsTaxNumber);
+            groupBoxSettingsCompanyData.Controls.Add(textBoxSettingsOwner);
+            groupBoxSettingsCompanyData.Controls.Add(labelSettingsOwner);
+            groupBoxSettingsCompanyData.Controls.Add(textBoxSettingsCompanyName);
+            groupBoxSettingsCompanyData.Controls.Add(labelSettingsCompanyName);
+            groupBoxSettingsCompanyData.Location = new Point(8, 8);
+            groupBoxSettingsCompanyData.Name = "groupBoxSettingsCompanyData";
+            groupBoxSettingsCompanyData.Size = new Size(712, 272);
+            groupBoxSettingsCompanyData.TabIndex = 0;
+            groupBoxSettingsCompanyData.TabStop = false;
+            groupBoxSettingsCompanyData.Text = "Mein Kleinunternehmen - Basisdaten";
+            // 
+            // textBoxSettingsTaxNumber
+            // 
+            textBoxSettingsTaxNumber.Location = new Point(8, 136);
+            textBoxSettingsTaxNumber.Name = "textBoxSettingsTaxNumber";
+            textBoxSettingsTaxNumber.Size = new Size(696, 23);
+            textBoxSettingsTaxNumber.TabIndex = 5;
+            // 
+            // labelSettingsTaxNumber
+            // 
+            labelSettingsTaxNumber.AutoSize = true;
+            labelSettingsTaxNumber.Location = new Point(8, 120);
+            labelSettingsTaxNumber.Name = "labelSettingsTaxNumber";
+            labelSettingsTaxNumber.Size = new Size(86, 15);
+            labelSettingsTaxNumber.TabIndex = 4;
+            labelSettingsTaxNumber.Text = "Steuernummer";
+            // 
+            // textBoxSettingsOwner
+            // 
+            textBoxSettingsOwner.Location = new Point(8, 88);
+            textBoxSettingsOwner.Name = "textBoxSettingsOwner";
+            textBoxSettingsOwner.Size = new Size(696, 23);
+            textBoxSettingsOwner.TabIndex = 3;
+            // 
+            // labelSettingsOwner
+            // 
+            labelSettingsOwner.AutoSize = true;
+            labelSettingsOwner.Location = new Point(8, 72);
+            labelSettingsOwner.Name = "labelSettingsOwner";
+            labelSettingsOwner.Size = new Size(47, 15);
+            labelSettingsOwner.TabIndex = 2;
+            labelSettingsOwner.Text = "Inhaber";
+            // 
+            // textBoxSettingsCompanyName
+            // 
+            textBoxSettingsCompanyName.Location = new Point(8, 40);
+            textBoxSettingsCompanyName.Name = "textBoxSettingsCompanyName";
+            textBoxSettingsCompanyName.Size = new Size(696, 23);
+            textBoxSettingsCompanyName.TabIndex = 1;
+            // 
+            // labelSettingsCompanyName
+            // 
+            labelSettingsCompanyName.AutoSize = true;
+            labelSettingsCompanyName.Location = new Point(8, 24);
+            labelSettingsCompanyName.Name = "labelSettingsCompanyName";
+            labelSettingsCompanyName.Size = new Size(74, 15);
+            labelSettingsCompanyName.TabIndex = 0;
+            labelSettingsCompanyName.Text = "Firmenname";
+            // 
+            // labelSettings
+            // 
+            labelSettings.AutoSize = true;
+            labelSettings.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelSettings.ForeColor = Color.Black;
+            labelSettings.Location = new Point(0, 16);
+            labelSettings.Name = "labelSettings";
+            labelSettings.Size = new Size(189, 37);
+            labelSettings.TabIndex = 12;
+            labelSettings.Text = "Einstellungen";
             // 
             // tabPageAbout
             // 
@@ -2107,6 +2470,38 @@
             tabPageAbout.TabIndex = 6;
             tabPageAbout.Text = "Über...";
             tabPageAbout.UseVisualStyleBackColor = true;
+            // 
+            // textBoxSettingsEmail
+            // 
+            textBoxSettingsEmail.Location = new Point(8, 232);
+            textBoxSettingsEmail.Name = "textBoxSettingsEmail";
+            textBoxSettingsEmail.Size = new Size(696, 23);
+            textBoxSettingsEmail.TabIndex = 9;
+            // 
+            // labelSettingsEmail
+            // 
+            labelSettingsEmail.AutoSize = true;
+            labelSettingsEmail.Location = new Point(8, 216);
+            labelSettingsEmail.Name = "labelSettingsEmail";
+            labelSettingsEmail.Size = new Size(86, 15);
+            labelSettingsEmail.TabIndex = 8;
+            labelSettingsEmail.Text = "Steuernummer";
+            // 
+            // textBoxSettingsPhone
+            // 
+            textBoxSettingsPhone.Location = new Point(8, 184);
+            textBoxSettingsPhone.Name = "textBoxSettingsPhone";
+            textBoxSettingsPhone.Size = new Size(696, 23);
+            textBoxSettingsPhone.TabIndex = 7;
+            // 
+            // labelSettingsPhone
+            // 
+            labelSettingsPhone.AutoSize = true;
+            labelSettingsPhone.Location = new Point(8, 168);
+            labelSettingsPhone.Name = "labelSettingsPhone";
+            labelSettingsPhone.Size = new Size(45, 15);
+            labelSettingsPhone.TabIndex = 6;
+            labelSettingsPhone.Text = "Telefon";
             // 
             // Form1
             // 
@@ -2151,6 +2546,17 @@
             tabPageProducts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).EndInit();
+            tabPageSettings.ResumeLayout(false);
+            tabPageSettings.PerformLayout();
+            panelSettings.ResumeLayout(false);
+            groupBoxSettingsInvoiceConfiguration.ResumeLayout(false);
+            groupBoxSettingsInvoiceConfiguration.PerformLayout();
+            groupBoxSettingsBankData.ResumeLayout(false);
+            groupBoxSettingsBankData.PerformLayout();
+            groupBoxSettingsAddress.ResumeLayout(false);
+            groupBoxSettingsAddress.PerformLayout();
+            groupBoxSettingsCompanyData.ResumeLayout(false);
+            groupBoxSettingsCompanyData.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -2317,5 +2723,43 @@
         private Label labelProductEntryStock;
         private TextBox textBoxProductEntryStock;
         private Label labelProductEntryIsStocked;
+        private Panel panelSettings;
+        private Label labelSettings;
+        private GroupBox groupBoxSettingsCompanyData;
+        private GroupBox groupBoxSettingsAddress;
+        private GroupBox groupBoxSettingsBankData;
+        private GroupBox groupBoxSettingsInvoiceConfiguration;
+        private Label labelSettingsOwner;
+        private TextBox textBoxSettingsCompanyName;
+        private Label labelSettingsCompanyName;
+        private TextBox textBoxSettingsOwner;
+        private TextBox textBoxSettingsTaxNumber;
+        private Label labelSettingsTaxNumber;
+        private TextBox textBoxSettingsStreet;
+        private Label labelSettingsStreet;
+        private TextBox textBoxSettingsZipCode;
+        private Label labelSettingsZipCode;
+        private TextBox textBoxSettingsCountry;
+        private Label labelSettingsCountry;
+        private TextBox textBoxSettingsCity;
+        private Label labelSettingsCity;
+        private Label labelSettingsBankname;
+        private TextBox textBoxSettingsBankname;
+        private Label labelSettingsBIC;
+        private TextBox textBoxSettingsBIC;
+        private Label labelSettingsIBAN;
+        private TextBox textBoxSettingsIBAN;
+        private TextBox textBoxSettingsInvoiceFooterText;
+        private Label labelSettingsInvoiceFooterText;
+        private TextBox textBoxSettingsInvoiceIntroText;
+        private Label labelSettingsInvoiceIntroText;
+        private Button buttonSettingsCompanyImage;
+        private Label labelSettingsCompanyImage;
+        private TextBox textBoxSettingsInvoiceSmallBusinessNote;
+        private Label labelSettingsCompanySmallBusinessNote;
+        private TextBox textBoxSettingsEmail;
+        private Label labelSettingsEmail;
+        private TextBox textBoxSettingsPhone;
+        private Label labelSettingsPhone;
     }
 }
