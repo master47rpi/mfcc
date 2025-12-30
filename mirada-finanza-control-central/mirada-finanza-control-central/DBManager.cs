@@ -186,6 +186,33 @@ namespace mirada_finanza_control_central
                         cmd.ExecuteNonQuery();
                     }
 
+                    string sqlSettings = @"
+                    CREATE TABLE IF NOT EXISTS settings (
+                        Id INTEGER PRIMARY KEY CHECK (Id = 1),
+                        CompanyName TEXT,
+                        Owner TEXT,
+                        Street TEXT,
+                        ZipCode TEXT,
+                        City TEXT,
+                        Country TEXT, 
+                        Phone TEXT,
+                        Email TEXT,
+                        TaxNumber TEXT,
+                        BankName TEXT,
+                        IBAN TEXT,
+                        BIC TEXT,
+                        IntroText TEXT,
+                        FooterText TEXT,
+                        SmallBusinessNote TEXT,
+                        CompanyImage BLOB,
+                        CompanyImageExtension TEXT
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlSettings, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
 
                 }
             }
@@ -909,7 +936,7 @@ namespace mirada_finanza_control_central
 
         public Settings GetSettings()
         {
-            string sql = "SELECT * FROM settings WHERE Id = 1";
+            string sql = "SELECT * FROM settings";
             try
             {
                 using (var conn = GetConnection())
