@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -14,6 +15,7 @@ namespace mirada_finanza_control_central
         string connString;
 
         DBManager dbManager;
+        private Invoice currentInvoice;
 
         private byte[] selectedFileBytes = null;
         private string selectedFileExt = "";
@@ -95,7 +97,18 @@ namespace mirada_finanza_control_central
             tabControl.SelectedTab = tabPageOverview;
             HighlightButton(buttonOverview);
 
+            CreateNewInvoice();
+        }
 
+        private void CreateNewInvoice()
+        {
+            currentInvoice = new Invoice();
+            currentInvoice.DateCreated = DateTime.Now;
+            currentInvoice.InvoiceNumber = ""; // Oder Logik für nächste Nummer
+
+            // Jetzt das Grid an die Liste der Positionen hängen
+            // currentInvoice.Lines muss eine BindingList sein!
+            dataGridViewInvoiceEntry.DataSource = currentInvoice.Lines;
         }
 
         private void buttonEntry_Click(object sender, EventArgs e)
@@ -587,7 +600,7 @@ namespace mirada_finanza_control_central
             LoadSettingsIntoUI();
             tabControl.SelectedTab = tabPageSettings;
             HighlightButton(buttonSettings);
-            
+
         }
 
         private void buttonAbout_Click(object sender, EventArgs e)
@@ -1227,6 +1240,250 @@ namespace mirada_finanza_control_central
                 selectedFileBytesCompanyLogo = s.CompanyImage;
                 selectedFileExtensionCompanyLogo = s.CompanyImageExtension;
             }*/
+        }
+
+        private void buttonInvoiceEntry_Click(object sender, EventArgs e)
+        {
+            LoadProductsIntoGridComboBox();
+            LoadCustomersIntoComboxBoxInvoiceEntryCustomers();
+            CreateNewInvoice();
+            SetupInvoiceGrid();
+            tabPageInvoiceEntry.Refresh();
+            tabControl.SelectedTab = tabPageInvoiceEntry;
+            HighlightButton(buttonInvoiceEntry);
+        }
+
+        private void SetupInvoiceGrid()
+        {
+            dataGridViewInvoiceEntry.AutoGenerateColumns = false;
+            dataGridViewInvoiceEntry.DataSource = currentInvoice.Lines;
+
+            // Alle Spalten sauber mappen
+            dataGridViewInvoiceEntry.Columns["colProductId"].DataPropertyName = "ProductId";
+            dataGridViewInvoiceEntry.Columns["colProductName"].DataPropertyName = "ProductName";
+            dataGridViewInvoiceEntry.Columns["colQuantity"].DataPropertyName = "Quantity";
+            dataGridViewInvoiceEntry.Columns["colPrice"].DataPropertyName = "CurrentPrice";
+            dataGridViewInvoiceEntry.Columns["colTotal"].DataPropertyName = "LineTotal";
+        }
+
+        private void LoadProductsIntoGridComboBox()
+        {
+            try
+            {
+                var products = dbManager.GetAllProducts();
+
+                if (dataGridViewInvoiceEntry.Columns["colProductId"] is DataGridViewComboBoxColumn comboCol)
+                {
+                    comboCol.DataSource = products;
+                    comboCol.DisplayMember = "Name";
+                    comboCol.ValueMember = "Id";
+
+                    // WICHTIG: Erlaube der Spalte, dass sie "nichts" (null) enthalten darf
+                    comboCol.ValueType = typeof(int?);
+
+                    comboCol.DefaultCellStyle.NullValue = null;
+
+                    dataGridViewInvoiceEntry.Columns["colProductId"].ReadOnly = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden der Produkte: " + ex.Message);
+            }
+        }
+
+        private void dataGridViewInvoiceEntry_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // 1. Sicherstellen, dass wir nicht im Header sind und die richtige Spalte geändert wurde
+            if (e.RowIndex < 0) return;
+
+            // Prüfen, ob die Spalte 'colProductId' (deine ComboBox-Spalte) geändert wurde
+            if (dataGridViewInvoiceEntry.Columns[e.ColumnIndex].Name == "colProductId")
+            {
+                var row = dataGridViewInvoiceEntry.Rows[e.RowIndex];
+                var cell = row.Cells["colProductId"];
+
+                if (cell.Value != null && cell.Value != DBNull.Value)
+                {
+                    int selectedProductId = (int)cell.Value;
+
+                    // Das Produkt-Objekt aus der Liste der ComboBox suchen
+                    var comboCol = (DataGridViewComboBoxColumn)dataGridViewInvoiceEntry.Columns["colProductId"];
+                    var productList = (List<Product>)comboCol.DataSource;
+                    var selectedProduct = productList.FirstOrDefault(p => p.Id == selectedProductId);
+
+                    if (selectedProduct != null)
+                    {
+                        // Jetzt befüllen wir die anderen Spalten automatisch
+                        row.Cells["colProductName"].Value = selectedProduct.Name;
+                        row.Cells["colPrice"].Value = selectedProduct.Price;
+
+                        // Standardmäßig Menge 1 setzen, falls noch nichts drin steht
+                        if (row.Cells["colQuantity"].Value == null || row.Cells["colQuantity"].Value == DBNull.Value)
+                        {
+                            row.Cells["colQuantity"].Value = 1.0;
+                        }
+
+                        // Zeilensumme berechnen
+                        double qty = Convert.ToDouble(row.Cells["colQuantity"].Value);
+                        double price = Convert.ToDouble(selectedProduct.Price); // Preis aus dem Produkt-Objekt
+
+                        // Jetzt die Berechnung und Zuweisung
+                        row.Cells["colTotal"].Value = qty * price;
+
+                        // Wichtig: Auch das Model im Hintergrund (InvoiceLine) aktualisieren
+                        // Falls du BindingList nutzt, wird das oft automatisch gemacht, 
+                        // aber sicher ist sicher:
+                        // UpdateGrandTotal();
+                    }
+                }
+            }
+            // Falls Menge oder Preis manuell geändert werden (nach der Auswahl)
+            else if (dataGridViewInvoiceEntry.Columns[e.ColumnIndex].Name == "colQuantity" ||
+                     dataGridViewInvoiceEntry.Columns[e.ColumnIndex].Name == "colPrice")
+            {
+                var row = dataGridViewInvoiceEntry.Rows[e.RowIndex];
+                double qty = Convert.ToDouble(row.Cells["colQuantity"].Value ?? 0);
+                double price = Convert.ToDouble(row.Cells["colPrice"].Value ?? 0);
+                row.Cells["colTotal"].Value = qty * price;
+
+                // UpdateGrandTotal();
+            }
+        }
+
+        private void buttonInvoiceEntryPost_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Validierung: Hat sie überhaupt etwas eingegeben?
+                if (currentInvoice.Lines.Count == 0)
+                {
+                    MessageBox.Show("Die Rechnung enthält keine Positionen.", "Stopp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 2. Speichern über den DBManager
+                // Die Rechnungsnummer wird innerhalb dieser Methode automatisch generiert
+                dbManager.SaveFullInvoice(currentInvoice);
+
+                // 3. Erfolgsmeldung mit der neuen Nummer
+                MessageBox.Show($"Rechnung {currentInvoice.InvoiceNumber} wurde erfolgreich gespeichert!",
+                                "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 4. Formular für die nächste Rechnung leeren
+                ResetInvoiceForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Speichern: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ResetInvoiceForm()
+        {
+            // Ein ganz neues Objekt anlegen
+            currentInvoice = new Invoice();
+            currentInvoice.DateCreated = DateTime.Now;
+
+            // Das Grid an die neue (leere) Liste binden
+            dataGridViewInvoiceEntry.DataSource = currentInvoice.Lines;
+
+            // Falls du Textboxen für Kunde oder Notizen hast, diese leeren
+            // txtCustomerName.Clear();
+            // txtTotalAmount.Text = "0,00 €";
+
+            // Fokus wieder auf das erste Feld (z.B. Produkt-Auswahl), 
+            // damit sie sofort weitertippen kann
+            dataGridViewInvoiceEntry.Focus();
+        }
+
+        private void LoadCustomersIntoComboxBoxInvoiceEntryCustomers()
+        {
+            // Daten vom DBManager holen
+            var customers = dbManager.GetAllCustomers();
+
+            // Die ComboBox konfigurieren
+            comboxBoxInoviceEntryCustomers.DataSource = customers;
+            comboxBoxInoviceEntryCustomers.DisplayMember = "Name"; // Was angezeigt wird
+            comboxBoxInoviceEntryCustomers.ValueMember = "Id";     // Was im Hintergrund als Wert zählt
+
+            // Optional: Erstmal keinen Kunden auswählen
+            comboxBoxInoviceEntryCustomers.SelectedIndex = -1;
+        }
+
+        private void comboxBoxInoviceEntryCustomers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboxBoxInoviceEntryCustomers.SelectedValue != null && comboxBoxInoviceEntryCustomers.SelectedValue is int customerId)
+            {
+                // Wir speichern die ID im aktuellen Invoice-Objekt
+                currentInvoice.CustomerId = customerId;
+            }
+        }
+
+        private void dataGridViewInvoicesRefresh()
+        {
+            // 1. Daten holen
+            var invoices = dbManager.GetAllInvoices();
+
+            // 2. WICHTIG: Spalten automatisch erzeugen lassen
+            dataGridViewInvoices.AutoGenerateColumns = true;
+
+            // 3. BindingList zuweisen (erzeugt jetzt automatisch die Spalten für Id, InvoiceNumber, etc.)
+            dataGridViewInvoices.DataSource = new BindingList<Invoice>(invoices);
+
+            // 4. Nachträgliches "Aufräumen" der dynamischen Spalten (optional)
+            if (dataGridViewInvoices.Columns["Id"] != null)
+                dataGridViewInvoices.Columns["Id"].Visible = false;
+
+            if (dataGridViewInvoices.Columns["TotalAmount"] != null)
+            {
+                dataGridViewInvoices.Columns["TotalAmount"].HeaderText = "Gesamtbetrag";
+                dataGridViewInvoices.Columns["TotalAmount"].DefaultCellStyle.Format = "C2"; // Währungsformat
+            }
+        }
+
+        // Der Button-Klick für die PDF-Anzeige
+        private void buttonInvoicesPDF_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewInvoices.CurrentRow != null)
+            {
+                // 1. Die ID der gewählten Rechnung aus dem Grid holen
+                var selectedInvoice = (Invoice)dataGridViewInvoices.CurrentRow.DataBoundItem;
+
+                // 2. Das BLOB gezielt über die ID nachladen
+                byte[] pdfData = dbManager.GetInvoiceBlob(selectedInvoice.Id);
+
+                if (pdfData != null && pdfData.Length > 0)
+                {
+                    try
+                    {
+                        // 3. Temporäre Datei im Windows-Temp-Verzeichnis erstellen
+                        string tempPath = Path.Combine(Path.GetTempPath(), $"Rechnung_{selectedInvoice.InvoiceNumber}.pdf");
+
+                        // Datei schreiben
+                        File.WriteAllBytes(tempPath, pdfData);
+
+                        // 4. Die PDF öffnen
+                        Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Fehler beim Öffnen des PDF-Anhangs: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Zu dieser Rechnung wurde kein PDF-Anhang gefunden.", "Info");
+                }
+            }
+        }
+
+        private void buttonInvoices_Click(object sender, EventArgs e)
+        {
+            dataGridViewInvoicesRefresh();
+            tabPageInvoices.Refresh();
+            tabControl.SelectedTab = tabPageInvoices;
+            HighlightButton(buttonInvoices);
         }
     }
 }

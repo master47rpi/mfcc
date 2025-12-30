@@ -36,6 +36,10 @@
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             panel1 = new Panel();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
@@ -192,7 +196,23 @@
             dataGridViewProducts = new DataGridView();
             labelProducts = new Label();
             tabPageInvoiceEntry = new TabPage();
+            labelInvoiceEntryInvoiceLines = new Label();
+            buttonInvoiceEntryPost = new Button();
+            dataGridViewInvoiceEntry = new DataGridView();
+            colProductId = new DataGridViewComboBoxColumn();
+            colProductName = new DataGridViewTextBoxColumn();
+            colQuantity = new DataGridViewTextBoxColumn();
+            colPrice = new DataGridViewTextBoxColumn();
+            colTotal = new DataGridViewTextBoxColumn();
+            dateTimePicker1 = new DateTimePicker();
+            comboxBoxInoviceEntryCustomers = new ComboBox();
+            labelInvoiceEntryCustomer = new Label();
+            labelInvoiceEntryInvoiceDate = new Label();
+            labelInvoiceEntry = new Label();
             tabPageInvoices = new TabPage();
+            buttonInvoicesPDF = new Button();
+            dataGridViewInvoices = new DataGridView();
+            labelInvoices = new Label();
             tabPageDataexport = new TabPage();
             tabPageSettings = new TabPage();
             panelSettings = new Panel();
@@ -222,6 +242,10 @@
             textBoxSettingsStreet = new TextBox();
             labelSettingsStreet = new Label();
             groupBoxSettingsCompanyData = new GroupBox();
+            textBoxSettingsEmail = new TextBox();
+            labelSettingsEmail = new Label();
+            textBoxSettingsPhone = new TextBox();
+            labelSettingsPhone = new Label();
             textBoxSettingsTaxNumber = new TextBox();
             labelSettingsTaxNumber = new Label();
             textBoxSettingsOwner = new TextBox();
@@ -230,10 +254,6 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
-            textBoxSettingsEmail = new TextBox();
-            labelSettingsEmail = new Label();
-            textBoxSettingsPhone = new TextBox();
-            labelSettingsPhone = new Label();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -254,6 +274,10 @@
             tabPageProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
+            tabPageInvoiceEntry.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoiceEntry).BeginInit();
+            tabPageInvoices.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoices).BeginInit();
             tabPageSettings.SuspendLayout();
             panelSettings.SuspendLayout();
             groupBoxSettingsInvoiceConfiguration.SuspendLayout();
@@ -312,6 +336,7 @@
             buttonInvoices.TabIndex = 12;
             buttonInvoices.Text = "Rechnungen";
             buttonInvoices.UseVisualStyleBackColor = false;
+            buttonInvoices.Click += buttonInvoices_Click;
             // 
             // buttonInvoiceEntry
             // 
@@ -326,6 +351,7 @@
             buttonInvoiceEntry.TabIndex = 11;
             buttonInvoiceEntry.Text = "Rechnungserfassung";
             buttonInvoiceEntry.UseVisualStyleBackColor = false;
+            buttonInvoiceEntry.Click += buttonInvoiceEntry_Click;
             // 
             // buttonCustomerEntry
             // 
@@ -2109,6 +2135,14 @@
             // 
             // tabPageInvoiceEntry
             // 
+            tabPageInvoiceEntry.Controls.Add(labelInvoiceEntryInvoiceLines);
+            tabPageInvoiceEntry.Controls.Add(buttonInvoiceEntryPost);
+            tabPageInvoiceEntry.Controls.Add(dataGridViewInvoiceEntry);
+            tabPageInvoiceEntry.Controls.Add(dateTimePicker1);
+            tabPageInvoiceEntry.Controls.Add(comboxBoxInoviceEntryCustomers);
+            tabPageInvoiceEntry.Controls.Add(labelInvoiceEntryCustomer);
+            tabPageInvoiceEntry.Controls.Add(labelInvoiceEntryInvoiceDate);
+            tabPageInvoiceEntry.Controls.Add(labelInvoiceEntry);
             tabPageInvoiceEntry.Location = new Point(4, 24);
             tabPageInvoiceEntry.Name = "tabPageInvoiceEntry";
             tabPageInvoiceEntry.Size = new Size(762, 668);
@@ -2116,14 +2150,206 @@
             tabPageInvoiceEntry.Text = "Rechnungserfassung";
             tabPageInvoiceEntry.UseVisualStyleBackColor = true;
             // 
+            // labelInvoiceEntryInvoiceLines
+            // 
+            labelInvoiceEntryInvoiceLines.AutoSize = true;
+            labelInvoiceEntryInvoiceLines.Location = new Point(8, 168);
+            labelInvoiceEntryInvoiceLines.Name = "labelInvoiceEntryInvoiceLines";
+            labelInvoiceEntryInvoiceLines.Size = new Size(63, 15);
+            labelInvoiceEntryInvoiceLines.TabIndex = 21;
+            labelInvoiceEntryInvoiceLines.Text = "Positionen";
+            // 
+            // buttonInvoiceEntryPost
+            // 
+            buttonInvoiceEntryPost.Location = new Point(8, 624);
+            buttonInvoiceEntryPost.Name = "buttonInvoiceEntryPost";
+            buttonInvoiceEntryPost.Size = new Size(336, 23);
+            buttonInvoiceEntryPost.TabIndex = 20;
+            buttonInvoiceEntryPost.Text = "Rechnung buchen";
+            buttonInvoiceEntryPost.UseVisualStyleBackColor = true;
+            buttonInvoiceEntryPost.Click += buttonInvoiceEntryPost_Click;
+            // 
+            // dataGridViewInvoiceEntry
+            // 
+            dataGridViewInvoiceEntry.AllowUserToResizeColumns = false;
+            dataGridViewInvoiceEntry.AllowUserToResizeRows = false;
+            dataGridViewInvoiceEntry.BackgroundColor = SystemColors.Control;
+            dataGridViewInvoiceEntry.BorderStyle = BorderStyle.None;
+            dataGridViewInvoiceEntry.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewInvoiceEntry.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewInvoiceEntry.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewInvoiceEntry.Columns.AddRange(new DataGridViewColumn[] { colProductId, colProductName, colQuantity, colPrice, colTotal });
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.Control;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewInvoiceEntry.GridColor = SystemColors.Control;
+            dataGridViewInvoiceEntry.Location = new Point(8, 192);
+            dataGridViewInvoiceEntry.Name = "dataGridViewInvoiceEntry";
+            dataGridViewInvoiceEntry.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewInvoiceEntry.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewInvoiceEntry.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridViewInvoiceEntry.Size = new Size(744, 416);
+            dataGridViewInvoiceEntry.TabIndex = 19;
+            dataGridViewInvoiceEntry.CellValueChanged += dataGridViewInvoiceEntry_CellValueChanged;
+            // 
+            // colProductId
+            // 
+            colProductId.HeaderText = "Artikelnummer";
+            colProductId.Name = "colProductId";
+            colProductId.Resizable = DataGridViewTriState.True;
+            colProductId.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // colProductName
+            // 
+            colProductName.HeaderText = "Artikelname";
+            colProductName.Name = "colProductName";
+            // 
+            // colQuantity
+            // 
+            colQuantity.HeaderText = "Menge";
+            colQuantity.Name = "colQuantity";
+            // 
+            // colPrice
+            // 
+            colPrice.HeaderText = "Einzelpreis";
+            colPrice.Name = "colPrice";
+            // 
+            // colTotal
+            // 
+            colTotal.HeaderText = "Gesamtpreis";
+            colTotal.Name = "colTotal";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(8, 120);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(336, 23);
+            dateTimePicker1.TabIndex = 17;
+            // 
+            // comboxBoxInoviceEntryCustomers
+            // 
+            comboxBoxInoviceEntryCustomers.FormattingEnabled = true;
+            comboxBoxInoviceEntryCustomers.Location = new Point(8, 72);
+            comboxBoxInoviceEntryCustomers.Name = "comboxBoxInoviceEntryCustomers";
+            comboxBoxInoviceEntryCustomers.Size = new Size(336, 23);
+            comboxBoxInoviceEntryCustomers.TabIndex = 16;
+            comboxBoxInoviceEntryCustomers.SelectedIndexChanged += comboxBoxInoviceEntryCustomers_SelectedIndexChanged;
+            // 
+            // labelInvoiceEntryCustomer
+            // 
+            labelInvoiceEntryCustomer.AutoSize = true;
+            labelInvoiceEntryCustomer.Location = new Point(8, 56);
+            labelInvoiceEntryCustomer.Name = "labelInvoiceEntryCustomer";
+            labelInvoiceEntryCustomer.Size = new Size(41, 15);
+            labelInvoiceEntryCustomer.TabIndex = 15;
+            labelInvoiceEntryCustomer.Text = "Kunde";
+            // 
+            // labelInvoiceEntryInvoiceDate
+            // 
+            labelInvoiceEntryInvoiceDate.AutoSize = true;
+            labelInvoiceEntryInvoiceDate.Location = new Point(8, 104);
+            labelInvoiceEntryInvoiceDate.Name = "labelInvoiceEntryInvoiceDate";
+            labelInvoiceEntryInvoiceDate.Size = new Size(101, 15);
+            labelInvoiceEntryInvoiceDate.TabIndex = 14;
+            labelInvoiceEntryInvoiceDate.Text = "Rechnungsdatum";
+            // 
+            // labelInvoiceEntry
+            // 
+            labelInvoiceEntry.AutoSize = true;
+            labelInvoiceEntry.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelInvoiceEntry.ForeColor = Color.Black;
+            labelInvoiceEntry.Location = new Point(0, 16);
+            labelInvoiceEntry.Name = "labelInvoiceEntry";
+            labelInvoiceEntry.Size = new Size(280, 37);
+            labelInvoiceEntry.TabIndex = 13;
+            labelInvoiceEntry.Text = "Rechnungserfassung";
+            // 
             // tabPageInvoices
             // 
+            tabPageInvoices.Controls.Add(buttonInvoicesPDF);
+            tabPageInvoices.Controls.Add(dataGridViewInvoices);
+            tabPageInvoices.Controls.Add(labelInvoices);
             tabPageInvoices.Location = new Point(4, 24);
             tabPageInvoices.Name = "tabPageInvoices";
             tabPageInvoices.Size = new Size(762, 668);
             tabPageInvoices.TabIndex = 12;
             tabPageInvoices.Text = "Rechnungen";
             tabPageInvoices.UseVisualStyleBackColor = true;
+            // 
+            // buttonInvoicesPDF
+            // 
+            buttonInvoicesPDF.Location = new Point(560, 64);
+            buttonInvoicesPDF.Name = "buttonInvoicesPDF";
+            buttonInvoicesPDF.Size = new Size(192, 23);
+            buttonInvoicesPDF.TabIndex = 21;
+            buttonInvoicesPDF.Text = "Rechnung anzeigen (PDF)";
+            buttonInvoicesPDF.UseVisualStyleBackColor = true;
+            buttonInvoicesPDF.Click += buttonInvoicesPDF_Click;
+            // 
+            // dataGridViewInvoices
+            // 
+            dataGridViewInvoices.AllowUserToAddRows = false;
+            dataGridViewInvoices.AllowUserToDeleteRows = false;
+            dataGridViewInvoices.AllowUserToResizeColumns = false;
+            dataGridViewInvoices.AllowUserToResizeRows = false;
+            dataGridViewInvoices.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewInvoices.BackgroundColor = SystemColors.Control;
+            dataGridViewInvoices.BorderStyle = BorderStyle.None;
+            dataGridViewInvoices.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewInvoices.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = SystemColors.Control;
+            dataGridViewCellStyle11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewInvoices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = SystemColors.Control;
+            dataGridViewCellStyle12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewInvoices.GridColor = SystemColors.Control;
+            dataGridViewInvoices.Location = new Point(-15, 63);
+            dataGridViewInvoices.MultiSelect = false;
+            dataGridViewInvoices.Name = "dataGridViewInvoices";
+            dataGridViewInvoices.ReadOnly = true;
+            dataGridViewInvoices.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewInvoices.RowTemplate.Height = 50;
+            dataGridViewInvoices.RowTemplate.ReadOnly = true;
+            dataGridViewInvoices.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewInvoices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewInvoices.Size = new Size(568, 544);
+            dataGridViewInvoices.TabIndex = 20;
+            // 
+            // labelInvoices
+            // 
+            labelInvoices.AutoSize = true;
+            labelInvoices.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelInvoices.ForeColor = Color.Black;
+            labelInvoices.Location = new Point(0, 16);
+            labelInvoices.Name = "labelInvoices";
+            labelInvoices.Size = new Size(174, 37);
+            labelInvoices.TabIndex = 14;
+            labelInvoices.Text = "Rechnungen";
             // 
             // tabPageDataexport
             // 
@@ -2403,6 +2629,38 @@
             groupBoxSettingsCompanyData.TabStop = false;
             groupBoxSettingsCompanyData.Text = "Mein Kleinunternehmen - Basisdaten";
             // 
+            // textBoxSettingsEmail
+            // 
+            textBoxSettingsEmail.Location = new Point(8, 232);
+            textBoxSettingsEmail.Name = "textBoxSettingsEmail";
+            textBoxSettingsEmail.Size = new Size(696, 23);
+            textBoxSettingsEmail.TabIndex = 9;
+            // 
+            // labelSettingsEmail
+            // 
+            labelSettingsEmail.AutoSize = true;
+            labelSettingsEmail.Location = new Point(8, 216);
+            labelSettingsEmail.Name = "labelSettingsEmail";
+            labelSettingsEmail.Size = new Size(86, 15);
+            labelSettingsEmail.TabIndex = 8;
+            labelSettingsEmail.Text = "Steuernummer";
+            // 
+            // textBoxSettingsPhone
+            // 
+            textBoxSettingsPhone.Location = new Point(8, 184);
+            textBoxSettingsPhone.Name = "textBoxSettingsPhone";
+            textBoxSettingsPhone.Size = new Size(696, 23);
+            textBoxSettingsPhone.TabIndex = 7;
+            // 
+            // labelSettingsPhone
+            // 
+            labelSettingsPhone.AutoSize = true;
+            labelSettingsPhone.Location = new Point(8, 168);
+            labelSettingsPhone.Name = "labelSettingsPhone";
+            labelSettingsPhone.Size = new Size(45, 15);
+            labelSettingsPhone.TabIndex = 6;
+            labelSettingsPhone.Text = "Telefon";
+            // 
             // textBoxSettingsTaxNumber
             // 
             textBoxSettingsTaxNumber.Location = new Point(8, 136);
@@ -2471,38 +2729,6 @@
             tabPageAbout.Text = "Über...";
             tabPageAbout.UseVisualStyleBackColor = true;
             // 
-            // textBoxSettingsEmail
-            // 
-            textBoxSettingsEmail.Location = new Point(8, 232);
-            textBoxSettingsEmail.Name = "textBoxSettingsEmail";
-            textBoxSettingsEmail.Size = new Size(696, 23);
-            textBoxSettingsEmail.TabIndex = 9;
-            // 
-            // labelSettingsEmail
-            // 
-            labelSettingsEmail.AutoSize = true;
-            labelSettingsEmail.Location = new Point(8, 216);
-            labelSettingsEmail.Name = "labelSettingsEmail";
-            labelSettingsEmail.Size = new Size(86, 15);
-            labelSettingsEmail.TabIndex = 8;
-            labelSettingsEmail.Text = "Steuernummer";
-            // 
-            // textBoxSettingsPhone
-            // 
-            textBoxSettingsPhone.Location = new Point(8, 184);
-            textBoxSettingsPhone.Name = "textBoxSettingsPhone";
-            textBoxSettingsPhone.Size = new Size(696, 23);
-            textBoxSettingsPhone.TabIndex = 7;
-            // 
-            // labelSettingsPhone
-            // 
-            labelSettingsPhone.AutoSize = true;
-            labelSettingsPhone.Location = new Point(8, 168);
-            labelSettingsPhone.Name = "labelSettingsPhone";
-            labelSettingsPhone.Size = new Size(45, 15);
-            labelSettingsPhone.TabIndex = 6;
-            labelSettingsPhone.Text = "Telefon";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2546,6 +2772,12 @@
             tabPageProducts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProducts).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).EndInit();
+            tabPageInvoiceEntry.ResumeLayout(false);
+            tabPageInvoiceEntry.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoiceEntry).EndInit();
+            tabPageInvoices.ResumeLayout(false);
+            tabPageInvoices.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoices).EndInit();
             tabPageSettings.ResumeLayout(false);
             tabPageSettings.PerformLayout();
             panelSettings.ResumeLayout(false);
@@ -2761,5 +2993,21 @@
         private Label labelSettingsEmail;
         private TextBox textBoxSettingsPhone;
         private Label labelSettingsPhone;
+        private DateTimePicker dateTimePicker1;
+        private ComboBox comboxBoxInoviceEntryCustomers;
+        private Label labelInvoiceEntryCustomer;
+        private Label labelInvoiceEntryInvoiceDate;
+        private Label labelInvoiceEntry;
+        private Button buttonInvoiceEntryPost;
+        private DataGridView dataGridViewInvoiceEntry;
+        private Label labelInvoiceEntryInvoiceLines;
+        private DataGridViewComboBoxColumn colProductId;
+        private DataGridViewTextBoxColumn colProductName;
+        private DataGridViewTextBoxColumn colQuantity;
+        private DataGridViewTextBoxColumn colPrice;
+        private DataGridViewTextBoxColumn colTotal;
+        private Label labelInvoices;
+        private Button buttonInvoicesPDF;
+        private DataGridView dataGridViewInvoices;
     }
 }

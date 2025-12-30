@@ -1,9 +1,16 @@
-﻿using System;
+﻿using QuestPDF.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
+
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+
+
 
 namespace mirada_finanza_control_central
 {
@@ -98,6 +105,7 @@ namespace mirada_finanza_control_central
                         DateCreated TEXT NOT NULL,          
                         TotalAmount REAL NOT NULL,
                         IsPaid INTEGER DEFAULT 0,           -- 0 = Offen, 1 = Bezahlt
+                        PDF BLOB NOT NULL,
                         FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
                     );";
 
@@ -107,6 +115,7 @@ namespace mirada_finanza_control_central
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         InvoiceId INTEGER NOT NULL,        -- Verknüpfung zur Rechnung
                         ProductId INTEGER NOT NULL,        -- Verknüpfung zum Artikel
+                        ProductName TEXT NOT NULL,
                         Quantity REAL NOT NULL DEFAULT 1,  -- Menge (z.B. 1 oder 1.5)
                         CurrentPrice REAL NOT NULL,        -- Preis zum Zeitpunkt des Verkaufs (wichtig!)
                         LineTotal REAL NOT NULL,           -- Quantity * CurrentPrice
@@ -973,6 +982,294 @@ namespace mirada_finanza_control_central
             }
             catch (Exception ex) { Console.WriteLine("Fehler beim Laden: " + ex.Message); }
             return new Settings();
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            List<Product> list = new List<Product>();
+            string sql = "SELECT * FROM product ORDER BY Name ASC"; // Tabelle heißt 'product' bei dir?
+
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new Product
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Name = reader["Name"].ToString(),
+                                Price = Convert.ToDecimal(reader["Price"])
+                                // Falls du noch mehr Felder hast (z.B. Beschreibung), hier ergänzen
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Fehler beim Laden der Produkte: " + ex.Message);
+            }
+            return list;
+        }
+
+        public void SaveFullInvoice(Invoice invoice)
+        {
+
+            
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        
+                        invoice.InvoiceNumber = GetNextInvoiceNumber();
+                        invoice.PDF = GenerateInvoicePdf(invoice);
+
+                        // 1. Rechnungs-Kopf speichern
+                        string sqlHead = @"INSERT INTO invoice (InvoiceNumber, CustomerId, DateCreated, TotalAmount, IsPaid, PDF) 
+                                   VALUES (@nr, @custId, @date, @total, @paid, @pdf);
+                                   SELECT last_insert_rowid();"; // Holt die ID der neuen Rechnung
+
+                        long newInvoiceId;
+                        using (var cmd = new SQLiteCommand(sqlHead, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@nr", invoice.InvoiceNumber);
+                            cmd.Parameters.AddWithValue("@custId", invoice.CustomerId);
+                            cmd.Parameters.AddWithValue("@date", invoice.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
+                            cmd.Parameters.AddWithValue("@total", invoice.TotalAmount);
+                            cmd.Parameters.AddWithValue("@paid", invoice.IsPaid);
+
+                            cmd.Parameters.AddWithValue("@pdf", invoice.PDF);
+
+                            newInvoiceId = (long)cmd.ExecuteScalar(); // Die ID für die Zeilen speichern
+                        }
+
+                        // 2. Alle Zeilen speichern
+                        string sqlLine = @"INSERT INTO invoiceLine (InvoiceId, ProductId, ProductName, Quantity, CurrentPrice, LineTotal, LineNum) 
+                                   VALUES (@invId, @prodId, @prodName, @qty, @price, @total, @num);";
+
+                        foreach (var line in invoice.Lines)
+                        {
+                            using (var cmd = new SQLiteCommand(sqlLine, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@invId", newInvoiceId);
+                                cmd.Parameters.AddWithValue("@prodId", line.ProductId);
+                                cmd.Parameters.AddWithValue("@prodName", line.ProductName);
+                                cmd.Parameters.AddWithValue("@qty", line.Quantity);
+                                cmd.Parameters.AddWithValue("@price", line.CurrentPrice);
+                                cmd.Parameters.AddWithValue("@total", line.LineTotal);
+                                cmd.Parameters.AddWithValue("@num", line.LineNum);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Fehler beim Speichern der Rechnung: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public string GetNextInvoiceNumber()
+        {
+            int currentYear = DateTime.Now.Year;
+            int nextNumber = 1;
+
+            // Wir suchen nach der höchsten Nummer, die mit dem aktuellen Jahr beginnt
+            string sql = "SELECT InvoiceNumber FROM invoice WHERE InvoiceNumber LIKE @yearPrefix ORDER BY Id DESC LIMIT 1";
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@yearPrefix", currentYear + "-%");
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        string lastNumberStr = result.ToString(); // z.B. "2025-0042"
+                        string suffix = lastNumberStr.Split('-')[1]; // Holt die "0042"
+                        if (int.TryParse(suffix, out int lastNr))
+                        {
+                            nextNumber = lastNr + 1;
+                        }
+                    }
+                }
+            }
+
+            // Gibt die Nummer im Format "2025-0001" zurück
+            return $"{currentYear}-{nextNumber.ToString("D4")}";
+        }
+
+        public byte[] GenerateInvoicePdf(Invoice invoice)
+        {
+            // QuestPDF Lizenz (für Community/Privat kostenlos)
+            QuestPDF.Settings.License = LicenseType.Community;
+
+            return Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    page.Size(PageSizes.A4);
+                    page.DefaultTextStyle(x => x.FontSize(10));
+
+                    // --- HEADER ---
+                    page.Header().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text("MEIN SALON").FontSize(20).SemiBold().FontColor(Colors.Pink.Medium);
+                            col.Item().Text("Inhaberin: Deine Frau");
+                            col.Item().Text("Musterstraße 1, 12345 Stadt");
+                        });
+
+                        row.RelativeItem().AlignRight().Column(col =>
+                        {
+                            col.Item().Text($"Rechnung Nr: {invoice.InvoiceNumber}").FontSize(14).SemiBold();
+                            col.Item().Text($"Datum: {invoice.DateCreated:dd.MM.yyyy}");
+                        });
+                    });
+
+                    // --- CONTENT (TABELLE) ---
+                    page.Content().PaddingVertical(20).Table(table =>
+                    {
+                        // Spalten definieren (5 Spalten wie im DataGridView)
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.ConstantColumn(30);  // Pos
+                            columns.RelativeColumn();    // Artikelname
+                            columns.ConstantColumn(50);  // Menge
+                            columns.ConstantColumn(80);  // Einzelpreis
+                            columns.ConstantColumn(80);  // Gesamt
+                        });
+
+                        // Header-Zeile der Tabelle
+                        table.Header(header =>
+                        {
+                            header.Cell().Element(CellStyle).Text("#");
+                            header.Cell().Element(CellStyle).Text("Artikel");
+                            header.Cell().Element(CellStyle).Text("Menge");
+                            header.Cell().Element(CellStyle).Text("Preis");
+                            header.Cell().Element(CellStyle).Text("Gesamt");
+
+                            static IContainer CellStyle(IContainer container) =>
+                                container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Black);
+                        });
+
+                        // Daten-Zeilen aus invoice.Lines
+                        foreach (var line in invoice.Lines)
+                        {
+                            table.Cell().Element(MainCellStyle).Text(line.LineNum.ToString());
+                            table.Cell().Element(MainCellStyle).Text(line.ProductName);
+                            table.Cell().Element(MainCellStyle).Text(line.Quantity.ToString());
+                            table.Cell().Element(MainCellStyle).Text($"{line.CurrentPrice:N2} €");
+                            table.Cell().Element(MainCellStyle).Text($"{line.LineTotal:N2} €");
+
+                            static IContainer MainCellStyle(IContainer container) =>
+                                container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                        }
+                    });
+
+                    // --- TOTALS ---
+                    page.Footer().Column(col =>
+                    {
+                        col.Item().AlignRight().Text($"Gesamtbetrag: {invoice.TotalAmount:N2} €").FontSize(14).Bold();
+                        col.Item().PaddingTop(20).AlignCenter().Text("Vielen Dank für Ihren Besuch!").Italic();
+                    });
+                });
+            }).GeneratePdf(); // Erzeugt direkt das byte[]
+        }
+
+        public List<Customer> GetAllCustomers()
+        {
+            List<Customer> list = new List<Customer>();
+            string sql = "SELECT * FROM customer ORDER BY Name ASC";
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Customer
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Name = reader["Name"].ToString()
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Invoice> GetAllInvoices()
+        {
+            List<Invoice> invoices = new List<Invoice>();
+
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                // Wir holen alle Spalten, die zu deiner Invoice-Klasse passen
+                string sql = "SELECT * FROM invoice ORDER BY DateCreated DESC";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            invoices.Add(new Invoice
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                InvoiceNumber = reader["InvoiceNumber"].ToString(),
+                                DateCreated = Convert.ToDateTime(reader["DateCreated"]),
+                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
+                                TotalAmount = Convert.ToDouble(reader["TotalAmount"])
+                                // Falls du weitere Felder hast (z.B. Brutto/Netto), hier ergänzen
+                            });
+                        }
+                    }
+                }
+            }
+            return invoices;
+        }
+
+        public byte[] GetInvoiceBlob(int invoiceId)
+        {
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                // Wir holen nur das eine Feld 'PdfData' für die spezifische ID
+                string sql = "SELECT PDF FROM invoice WHERE Id = @id";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@id", invoiceId);
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return (byte[])result;
+                    }
+                }
+            }
+            return null;
         }
     }
 }
