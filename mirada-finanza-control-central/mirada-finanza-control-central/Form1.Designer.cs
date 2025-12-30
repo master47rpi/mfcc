@@ -254,6 +254,8 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
+            checkBoxSettleInvoice = new CheckBox();
+            comboBox1 = new ComboBox();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -1035,6 +1037,8 @@
             // tabPageEntry
             // 
             tabPageEntry.BackColor = Color.Transparent;
+            tabPageEntry.Controls.Add(comboBox1);
+            tabPageEntry.Controls.Add(checkBoxSettleInvoice);
             tabPageEntry.Controls.Add(textBoxEntryPostingType);
             tabPageEntry.Controls.Add(textBoxEntryNote);
             tabPageEntry.Controls.Add(labelInputNotes);
@@ -1133,7 +1137,7 @@
             labelReversalReferenceVoucher.AutoSize = true;
             labelReversalReferenceVoucher.Font = new Font("Segoe UI", 12F);
             labelReversalReferenceVoucher.ForeColor = Color.Black;
-            labelReversalReferenceVoucher.Location = new Point(8, 480);
+            labelReversalReferenceVoucher.Location = new Point(8, 472);
             labelReversalReferenceVoucher.Name = "labelReversalReferenceVoucher";
             labelReversalReferenceVoucher.Size = new Size(109, 21);
             labelReversalReferenceVoucher.TabIndex = 15;
@@ -1241,7 +1245,7 @@
             comboBoxReferenceVoucher.Enabled = false;
             comboBoxReferenceVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxReferenceVoucher.FormattingEnabled = true;
-            comboBoxReferenceVoucher.Location = new Point(8, 504);
+            comboBoxReferenceVoucher.Location = new Point(8, 496);
             comboBoxReferenceVoucher.Name = "comboBoxReferenceVoucher";
             comboBoxReferenceVoucher.Size = new Size(270, 29);
             comboBoxReferenceVoucher.TabIndex = 5;
@@ -2729,6 +2733,26 @@
             tabPageAbout.Text = "Über...";
             tabPageAbout.UseVisualStyleBackColor = true;
             // 
+            // checkBoxSettleInvoice
+            // 
+            checkBoxSettleInvoice.AutoSize = true;
+            checkBoxSettleInvoice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxSettleInvoice.Location = new Point(8, 528);
+            checkBoxSettleInvoice.Name = "checkBoxSettleInvoice";
+            checkBoxSettleInvoice.Size = new Size(185, 25);
+            checkBoxSettleInvoice.TabIndex = 25;
+            checkBoxSettleInvoice.Text = "Rechnung ausgleichen";
+            checkBoxSettleInvoice.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(8, 552);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(272, 29);
+            comboBox1.TabIndex = 26;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3009,5 +3033,7 @@
         private Label labelInvoices;
         private Button buttonInvoicesPDF;
         private DataGridView dataGridViewInvoices;
+        private ComboBox comboBox1;
+        private CheckBox checkBoxSettleInvoice;
     }
 }
