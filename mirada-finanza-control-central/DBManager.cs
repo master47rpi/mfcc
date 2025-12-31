@@ -105,6 +105,7 @@ namespace mirada_finanza_control_central
                         DateCreated TEXT NOT NULL,          
                         TotalAmount REAL NOT NULL,
                         IsPaid INTEGER DEFAULT 0,           -- 0 = Offen, 1 = Bezahlt
+                        IsCancelled INTEGER DEFAULT 0,
                         PDF BLOB NOT NULL,
                         FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
                     );";
@@ -1240,8 +1241,10 @@ namespace mirada_finanza_control_central
                                 InvoiceNumber = reader["InvoiceNumber"].ToString(),
                                 DateCreated = Convert.ToDateTime(reader["DateCreated"]),
                                 CustomerId = Convert.ToInt32(reader["CustomerId"]),
-                                TotalAmount = Convert.ToDouble(reader["TotalAmount"])
+                                TotalAmount = Convert.ToDouble(reader["TotalAmount"]),
                                 // Falls du weitere Felder hast (z.B. Brutto/Netto), hier ergänzen
+                                IsPaid = reader["IsPaid"] != DBNull.Value ? Convert.ToInt32(reader["IsPaid"]) : 0,
+                                IsCancelled = reader["IsCancelled"] != DBNull.Value && Convert.ToInt32(reader["IsCancelled"]) == 1
                             });
                         }
                     }
@@ -1270,6 +1273,70 @@ namespace mirada_finanza_control_central
                 }
             }
             return null;
+        }
+
+        public List<Invoice> GetOpenInvoices()
+        {
+            List<Invoice> openInvoices = new List<Invoice>();
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                // Wir holen nur Rechnungen, die weder bezahlt noch storniert sind
+                string sql = @"SELECT Id, InvoiceNumber, TotalAmount FROM Invoice 
+                       WHERE (IsPaid = 0 OR IsPaid IS NULL) 
+                       AND (IsCancelled = 0 OR IsCancelled IS NULL)
+                       ORDER BY DateCreated DESC";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            openInvoices.Add(new Invoice
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                InvoiceNumber = reader["InvoiceNumber"].ToString(),
+                                TotalAmount = Convert.ToDouble(reader["TotalAmount"])
+                            });
+                        }
+                    }
+                }
+            }
+            return openInvoices;
+        }
+
+        public void MarkInvoiceAsPaid(int invoiceId)
+        {
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                // Wir setzen das Flag auf 1 (Wahr)
+                string sql = "UPDATE Invoice SET IsPaid = 1 WHERE Id = @id";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@id", invoiceId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void MarkInvoiceAsCancelled(int invoiceId, bool cancelled)
+        {
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                string sql = "UPDATE Invoice SET IsCancelled = @cancelled WHERE Id = @id";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    // In SQLite nutzen wir 1 für true und 0 für false
+                    command.Parameters.AddWithValue("@cancelled", cancelled ? 1 : 0);
+                    command.Parameters.AddWithValue("@id", invoiceId);
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

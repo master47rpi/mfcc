@@ -25,6 +25,8 @@ namespace mirada_finanza_control_central
 
         public byte[] PDF { get; set; }
 
+        public bool IsCancelled { get; set; }
+
         // Die Liste der einzelnen Positionen (für das DataGridView)
         // Wir nutzen BindingList, damit das UI automatisch auf Änderungen reagiert
         public BindingList<InvoiceLine> Lines { get; set; } = new BindingList<InvoiceLine>();

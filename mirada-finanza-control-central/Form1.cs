@@ -225,6 +225,12 @@ namespace mirada_finanza_control_central
                     InvoiceReference = null
                 };
 
+                if (checkBoxSettleInvoice.Checked && comboBoxEntryTransactionOpenInvoices.SelectedValue != null)
+                {
+                    int selectedId = (int)comboBoxEntryTransactionOpenInvoices.SelectedValue;
+                    dbManager.MarkInvoiceAsPaid(selectedId);
+                }
+
                 dbManager.PostEntryTransaction(entryTransaction);
 
                 MessageBox.Show($"Erfolgreich gespeichert! Belegnummer: {voucher}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1484,6 +1490,100 @@ namespace mirada_finanza_control_central
             tabPageInvoices.Refresh();
             tabControl.SelectedTab = tabPageInvoices;
             HighlightButton(buttonInvoices);
+        }
+
+        private void checkBoxSettleInvoice_CheckedChanged(object sender, EventArgs e)
+        {
+            // Dropdown aktivieren/deaktivieren
+            comboBoxEntryTransactionOpenInvoices.Enabled = checkBoxSettleInvoice.Checked;
+
+            if (checkBoxSettleInvoice.Checked)
+            {
+
+                comboBoxEntryTransactionOpenInvoices.Enabled = true;
+                // Offene Rechnungen laden
+                var openInvoices = dbManager.GetOpenInvoices();
+                comboBoxEntryTransactionOpenInvoices.DataSource = openInvoices;
+                comboBoxEntryTransactionOpenInvoices.DisplayMember = "InvoiceNumber";
+                comboBoxEntryTransactionOpenInvoices.ValueMember = "Id";
+
+                // Automatisierung: Typ und Kategorie für die Frau vorfüllen
+                // (Ersetze 'txtType'/'txtCategory' durch deine tatsächlichen Control-Namen)
+                comboBoxEntryCategory.Text = "Produktverkauf";
+                textBoxEntryPostingType.Text = "Einnahme";
+            }
+        }
+
+        private void comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            // 1. Das ausgewählte Rechnungs-Objekt holen
+            if (comboBoxEntryTransactionOpenInvoices.SelectedItem is Invoice selectedInv)
+            {
+                // Betrag automatisch aus der Rechnung in das Betrags-Feld übernehmen
+                textBoxJournalAmount.Text = selectedInv.TotalAmount.ToString();
+                textBoxText.Text = $"Zahlung zu Rechnung {selectedInv.InvoiceNumber}";
+
+                // Automatisierung: Typ und Kategorie für die Frau vorfüllen
+                // (Ersetze 'txtType'/'txtCategory' durch deine tatsächlichen Control-Namen)
+                comboBoxEntryCategory.Text = "Produktverkauf";
+                textBoxEntryPostingType.Text = "Einnahme";
+            }
+        }
+
+        private void buttonInvoicesIsCancelled_CheckedChanged(object sender, EventArgs e)
+        {
+            // Wir reagieren nur, wenn die Checkbox manuell angehakt wird
+            if (buttonInvoicesIsCancelled.Checked && buttonInvoicesIsCancelled.Enabled)
+            {
+                // 1. Prüfen, ob überhaupt eine Zeile im Grid ausgewählt ist
+                if (dataGridViewInvoices.CurrentRow != null)
+                {
+                    // 2. Das dahinterliegende Invoice-Objekt extrahieren
+                    var selectedInvoice = (Invoice)dataGridViewInvoices.CurrentRow.DataBoundItem;
+
+                    // 3. Die ID nutzen
+                    int currentId = selectedInvoice.Id;
+
+                    var result = MessageBox.Show($"Möchten Sie die Rechnung {selectedInvoice.InvoiceNumber} wirklich stornieren?",
+                                                 "Bestätigung", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        // In DB auf storniert setzen
+                        dbManager.MarkInvoiceAsCancelled(currentId, true);
+
+                        // Control sperren
+                        buttonInvoicesIsCancelled.Enabled = false;
+
+                        // Grid aktualisieren, damit der Status (IsCancelled) auch im Grid ankommt
+                        dataGridViewInvoicesRefresh();
+                    }
+                    else
+                    {
+                        // Haken zurücksetzen, wenn abgebrochen wurde
+                        buttonInvoicesIsCancelled.Checked = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Bitte wählen Sie zuerst eine Rechnung in der Liste aus.");
+                    buttonInvoicesIsCancelled.Checked = false;
+                }
+            }
+        }
+
+        private void dataGridViewInvoices_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewInvoices.CurrentRow != null)
+            {
+                var inv = (Invoice)dataGridViewInvoices.CurrentRow.DataBoundItem;
+
+                // Checkbox auf den Wert der Rechnung setzen
+                buttonInvoicesIsCancelled.Checked = inv.IsCancelled;
+
+                // Wenn storniert, dann deaktivieren, sonst aktiv lassen
+                buttonInvoicesIsCancelled.Enabled = !inv.IsCancelled;
+            }
         }
     }
 }

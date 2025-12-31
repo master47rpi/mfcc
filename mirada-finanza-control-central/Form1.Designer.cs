@@ -104,6 +104,8 @@
             labelOverviewCurrentMonth = new Label();
             labelOverview = new Label();
             tabPageEntry = new TabPage();
+            comboBoxEntryTransactionOpenInvoices = new ComboBox();
+            checkBoxSettleInvoice = new CheckBox();
             textBoxEntryPostingType = new TextBox();
             textBoxEntryNote = new TextBox();
             labelInputNotes = new Label();
@@ -210,6 +212,7 @@
             labelInvoiceEntryInvoiceDate = new Label();
             labelInvoiceEntry = new Label();
             tabPageInvoices = new TabPage();
+            buttonInvoicesIsCancelled = new CheckBox();
             buttonInvoicesPDF = new Button();
             dataGridViewInvoices = new DataGridView();
             labelInvoices = new Label();
@@ -254,8 +257,6 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
-            checkBoxSettleInvoice = new CheckBox();
-            comboBox1 = new ComboBox();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -1037,7 +1038,7 @@
             // tabPageEntry
             // 
             tabPageEntry.BackColor = Color.Transparent;
-            tabPageEntry.Controls.Add(comboBox1);
+            tabPageEntry.Controls.Add(comboBoxEntryTransactionOpenInvoices);
             tabPageEntry.Controls.Add(checkBoxSettleInvoice);
             tabPageEntry.Controls.Add(textBoxEntryPostingType);
             tabPageEntry.Controls.Add(textBoxEntryNote);
@@ -1067,6 +1068,29 @@
             tabPageEntry.Size = new Size(762, 668);
             tabPageEntry.TabIndex = 0;
             tabPageEntry.Text = "Erfassung";
+            // 
+            // comboBoxEntryTransactionOpenInvoices
+            // 
+            comboBoxEntryTransactionOpenInvoices.Enabled = false;
+            comboBoxEntryTransactionOpenInvoices.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEntryTransactionOpenInvoices.FormattingEnabled = true;
+            comboBoxEntryTransactionOpenInvoices.Location = new Point(8, 552);
+            comboBoxEntryTransactionOpenInvoices.Name = "comboBoxEntryTransactionOpenInvoices";
+            comboBoxEntryTransactionOpenInvoices.Size = new Size(272, 29);
+            comboBoxEntryTransactionOpenInvoices.TabIndex = 26;
+            comboBoxEntryTransactionOpenInvoices.SelectionChangeCommitted += comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted;
+            // 
+            // checkBoxSettleInvoice
+            // 
+            checkBoxSettleInvoice.AutoSize = true;
+            checkBoxSettleInvoice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxSettleInvoice.Location = new Point(8, 528);
+            checkBoxSettleInvoice.Name = "checkBoxSettleInvoice";
+            checkBoxSettleInvoice.Size = new Size(185, 25);
+            checkBoxSettleInvoice.TabIndex = 25;
+            checkBoxSettleInvoice.Text = "Rechnung ausgleichen";
+            checkBoxSettleInvoice.UseVisualStyleBackColor = true;
+            checkBoxSettleInvoice.CheckedChanged += checkBoxSettleInvoice_CheckedChanged;
             // 
             // textBoxEntryPostingType
             // 
@@ -2283,6 +2307,7 @@
             // 
             // tabPageInvoices
             // 
+            tabPageInvoices.Controls.Add(buttonInvoicesIsCancelled);
             tabPageInvoices.Controls.Add(buttonInvoicesPDF);
             tabPageInvoices.Controls.Add(dataGridViewInvoices);
             tabPageInvoices.Controls.Add(labelInvoices);
@@ -2293,11 +2318,24 @@
             tabPageInvoices.Text = "Rechnungen";
             tabPageInvoices.UseVisualStyleBackColor = true;
             // 
+            // buttonInvoicesIsCancelled
+            // 
+            buttonInvoicesIsCancelled.AutoSize = true;
+            buttonInvoicesIsCancelled.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoicesIsCancelled.Location = new Point(560, 96);
+            buttonInvoicesIsCancelled.Name = "buttonInvoicesIsCancelled";
+            buttonInvoicesIsCancelled.Size = new Size(169, 25);
+            buttonInvoicesIsCancelled.TabIndex = 22;
+            buttonInvoicesIsCancelled.Text = "Rechnung storniert?";
+            buttonInvoicesIsCancelled.UseVisualStyleBackColor = true;
+            buttonInvoicesIsCancelled.CheckedChanged += buttonInvoicesIsCancelled_CheckedChanged;
+            // 
             // buttonInvoicesPDF
             // 
+            buttonInvoicesPDF.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonInvoicesPDF.Location = new Point(560, 64);
             buttonInvoicesPDF.Name = "buttonInvoicesPDF";
-            buttonInvoicesPDF.Size = new Size(192, 23);
+            buttonInvoicesPDF.Size = new Size(192, 32);
             buttonInvoicesPDF.TabIndex = 21;
             buttonInvoicesPDF.Text = "Rechnung anzeigen (PDF)";
             buttonInvoicesPDF.UseVisualStyleBackColor = true;
@@ -2343,6 +2381,7 @@
             dataGridViewInvoices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewInvoices.Size = new Size(568, 544);
             dataGridViewInvoices.TabIndex = 20;
+            dataGridViewInvoices.SelectionChanged += dataGridViewInvoices_SelectionChanged;
             // 
             // labelInvoices
             // 
@@ -2733,26 +2772,6 @@
             tabPageAbout.Text = "Über...";
             tabPageAbout.UseVisualStyleBackColor = true;
             // 
-            // checkBoxSettleInvoice
-            // 
-            checkBoxSettleInvoice.AutoSize = true;
-            checkBoxSettleInvoice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBoxSettleInvoice.Location = new Point(8, 528);
-            checkBoxSettleInvoice.Name = "checkBoxSettleInvoice";
-            checkBoxSettleInvoice.Size = new Size(185, 25);
-            checkBoxSettleInvoice.TabIndex = 25;
-            checkBoxSettleInvoice.Text = "Rechnung ausgleichen";
-            checkBoxSettleInvoice.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(8, 552);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(272, 29);
-            comboBox1.TabIndex = 26;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3033,7 +3052,8 @@
         private Label labelInvoices;
         private Button buttonInvoicesPDF;
         private DataGridView dataGridViewInvoices;
-        private ComboBox comboBox1;
+        private ComboBox comboBoxEntryTransactionOpenInvoices;
         private CheckBox checkBoxSettleInvoice;
+        private CheckBox buttonInvoicesIsCancelled;
     }
 }
