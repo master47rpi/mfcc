@@ -7,11 +7,12 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     env:
       Solution_Name: mirada-finanza-control-central.slnx
       Configuration: Release
-      Base_Version: 1.0 # Deine Hauptversion
 
     steps:
     - name: Checkout
@@ -24,44 +25,49 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
-    # Hier generieren wir beides: Das Datum für den Namen und die Build-Nummer für die Version
     - name: Generate Version Strings
       shell: pwsh
       run: |
         $dt = Get-Date
-        # Technische Version: 1.0.RunNumber (z.B. 1.0.42)
-        $ver = "${{ env.Base_Version }}.${{ github.run_number }}"
-        # Lesbarer Name: 03.01.2026 20:15
+        # Nur noch die nackte GitHub Build-Nummer (1, 2, 3...)
+        $ver = "${{ github.run_number }}"
+        
+        # Für den Dateinamen und Release-Titel nutzen wir weiterhin das Datum zur Orientierung
+        $fileDate = $dt.ToString("yyyyMMdd")
         $relName = $dt.ToString("dd.MM.yyyy HH:mm")
+        
+        # Der Dateiname enthält jetzt die einfache Build-Nummer
+        $zipName = "Mirada-Finanza-Control-Central-$fileDate-build$ver.zip"
         
         echo "NEW_VERSION=$ver" >> $env:GITHUB_ENV
         echo "RELEASE_NAME=$relName" >> $env:GITHUB_ENV
+        echo "FILE_DATE=$fileDate" >> $env:GITHUB_ENV
+        echo "ZIP_FILE_NAME=$zipName" >> $env:GITHUB_ENV
 
     - name: Publish Application
       run: |
         dotnet publish ${{ env.Solution_Name }} `
           -c ${{ env.Configuration }} `
           -o ./publish_output `
-          /p:Version=${{ env.NEW_VERSION }} `
-          /p:AssemblyVersion=${{ env.NEW_VERSION }} `
-          /p:FileVersion=${{ env.NEW_VERSION }}
+          /p:Version=${{ env.NEW_VERSION }}.0.0 `
+          /p:AssemblyVersion=${{ env.NEW_VERSION }}.0.0 `
+          /p:FileVersion=${{ env.NEW_VERSION }}.0.0
 
     - name: Package Application
       shell: pwsh
       run: |
         if (Test-Path "./publish_output/*.db") { Remove-Item "./publish_output/*.db" }
-        Compress-Archive -Path ./publish_output/* -DestinationPath "Mirada_Finanza_v${{ env.NEW_VERSION }}.zip"
+        Compress-Archive -Path ./publish_output/* -DestinationPath ${{ env.ZIP_FILE_NAME }}
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ env.NEW_VERSION }}
-        name: Build vom ${{ env.RELEASE_NAME }} (v${{ env.NEW_VERSION }})
+        tag_name: b${{ env.NEW_VERSION }} # 'b' für Build (z.B. b45)
+        name: Build ${{ env.NEW_VERSION }} vom ${{ env.RELEASE_NAME }}
         body: |
           ### Release Information
-          - **Version:** ${{ env.NEW_VERSION }}
+          - **Build-Nummer:** ${{ env.NEW_VERSION }}
           - **Zeitpunkt:** ${{ env.RELEASE_NAME }}
-          - **Zweig:** ${{ github.ref_name }}
-        files: Mirada_Finanza_v${{ env.NEW_VERSION }}.zip
+        files: ${{ env.ZIP_FILE_NAME }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
