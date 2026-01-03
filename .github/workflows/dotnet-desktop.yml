@@ -37,7 +37,7 @@ jobs:
         $relName = $dt.ToString("dd.MM.yyyy HH:mm")
         
         # Der Dateiname enthält jetzt die einfache Build-Nummer
-        $zipName = "Mirada-Finanza-Control-Central-$fileDate-build$ver.zip"
+        $zipName = "Mirada-Finanza-Control-Central-$fileDate-$ver.zip"
         
         echo "NEW_VERSION=$ver" >> $env:GITHUB_ENV
         echo "RELEASE_NAME=$relName" >> $env:GITHUB_ENV
