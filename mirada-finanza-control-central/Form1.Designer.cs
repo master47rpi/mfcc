@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle73 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle74 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle75 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle76 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle77 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle78 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle79 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle80 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle81 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle82 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle83 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle84 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             panel1 = new Panel();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
@@ -136,14 +136,12 @@
             textBoxJournalVoucher = new TextBox();
             labelJournalVoucher = new Label();
             textBoxJournalReversalVoucher = new TextBox();
-            textBoxJournalReversal = new TextBox();
             textBoxJournalPostingType = new TextBox();
             textBoxJournalCategory = new TextBox();
             textBoxJournalPostingText = new TextBox();
             textBoxJournalAmount = new TextBox();
             textBoxJournalVoucherDate = new TextBox();
             labelJournalReversalVoucher = new Label();
-            labelJournalReversal = new Label();
             labelJournalPostingType = new Label();
             labelJournalCategory = new Label();
             labelJournalPostingText = new Label();
@@ -257,6 +255,8 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
+            labelJournalAsset = new Label();
+            textBoxJournalAsset = new TextBox();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -316,7 +316,7 @@
             buttonCustomers.BackColor = Color.DarkSlateBlue;
             buttonCustomers.FlatAppearance.BorderSize = 0;
             buttonCustomers.FlatStyle = FlatStyle.Flat;
-            buttonCustomers.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonCustomers.Font = new Font("Cascadia Code", 12F);
             buttonCustomers.ForeColor = Color.White;
             buttonCustomers.Location = new Point(0, 256);
             buttonCustomers.Name = "buttonCustomers";
@@ -331,7 +331,7 @@
             buttonInvoices.BackColor = Color.DarkSlateBlue;
             buttonInvoices.FlatAppearance.BorderSize = 0;
             buttonInvoices.FlatStyle = FlatStyle.Flat;
-            buttonInvoices.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoices.Font = new Font("Cascadia Code", 12F);
             buttonInvoices.ForeColor = Color.White;
             buttonInvoices.Location = new Point(0, 416);
             buttonInvoices.Name = "buttonInvoices";
@@ -346,7 +346,7 @@
             buttonInvoiceEntry.BackColor = Color.DarkSlateBlue;
             buttonInvoiceEntry.FlatAppearance.BorderSize = 0;
             buttonInvoiceEntry.FlatStyle = FlatStyle.Flat;
-            buttonInvoiceEntry.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoiceEntry.Font = new Font("Cascadia Code", 12F);
             buttonInvoiceEntry.ForeColor = Color.White;
             buttonInvoiceEntry.Location = new Point(0, 376);
             buttonInvoiceEntry.Name = "buttonInvoiceEntry";
@@ -361,7 +361,7 @@
             buttonCustomerEntry.BackColor = Color.DarkSlateBlue;
             buttonCustomerEntry.FlatAppearance.BorderSize = 0;
             buttonCustomerEntry.FlatStyle = FlatStyle.Flat;
-            buttonCustomerEntry.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonCustomerEntry.Font = new Font("Cascadia Code", 12F);
             buttonCustomerEntry.ForeColor = Color.White;
             buttonCustomerEntry.Location = new Point(0, 216);
             buttonCustomerEntry.Name = "buttonCustomerEntry";
@@ -376,7 +376,7 @@
             buttonItems.BackColor = Color.DarkSlateBlue;
             buttonItems.FlatAppearance.BorderSize = 0;
             buttonItems.FlatStyle = FlatStyle.Flat;
-            buttonItems.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonItems.Font = new Font("Cascadia Code", 12F);
             buttonItems.ForeColor = Color.White;
             buttonItems.Location = new Point(0, 336);
             buttonItems.Name = "buttonItems";
@@ -391,7 +391,7 @@
             buttonItemEntry.BackColor = Color.DarkSlateBlue;
             buttonItemEntry.FlatAppearance.BorderSize = 0;
             buttonItemEntry.FlatStyle = FlatStyle.Flat;
-            buttonItemEntry.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonItemEntry.Font = new Font("Cascadia Code", 12F);
             buttonItemEntry.ForeColor = Color.White;
             buttonItemEntry.Location = new Point(0, 296);
             buttonItemEntry.Name = "buttonItemEntry";
@@ -406,7 +406,7 @@
             labelControlCentral.AutoSize = true;
             labelControlCentral.Font = new Font("Segoe Print", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelControlCentral.ForeColor = Color.MediumPurple;
-            labelControlCentral.Location = new Point(40, 24);
+            labelControlCentral.Location = new Point(32, 24);
             labelControlCentral.Name = "labelControlCentral";
             labelControlCentral.Size = new Size(137, 28);
             labelControlCentral.TabIndex = 8;
@@ -415,11 +415,11 @@
             // labelMiradaFinanza
             // 
             labelMiradaFinanza.AutoSize = true;
-            labelMiradaFinanza.Font = new Font("Segoe Script", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelMiradaFinanza.Font = new Font("Segoe Script", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelMiradaFinanza.ForeColor = Color.BlueViolet;
             labelMiradaFinanza.Location = new Point(0, 0);
             labelMiradaFinanza.Name = "labelMiradaFinanza";
-            labelMiradaFinanza.Size = new Size(180, 31);
+            labelMiradaFinanza.Size = new Size(199, 34);
             labelMiradaFinanza.TabIndex = 7;
             labelMiradaFinanza.Text = "Mirada Finanza";
             // 
@@ -428,7 +428,7 @@
             buttonAbout.BackColor = Color.DarkSlateBlue;
             buttonAbout.FlatAppearance.BorderSize = 0;
             buttonAbout.FlatStyle = FlatStyle.Flat;
-            buttonAbout.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonAbout.Font = new Font("Cascadia Code", 12F);
             buttonAbout.ForeColor = Color.White;
             buttonAbout.Location = new Point(0, 608);
             buttonAbout.Name = "buttonAbout";
@@ -443,7 +443,7 @@
             buttonSettings.BackColor = Color.DarkSlateBlue;
             buttonSettings.FlatAppearance.BorderSize = 0;
             buttonSettings.FlatStyle = FlatStyle.Flat;
-            buttonSettings.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonSettings.Font = new Font("Cascadia Code", 12F);
             buttonSettings.ForeColor = Color.White;
             buttonSettings.Location = new Point(0, 568);
             buttonSettings.Name = "buttonSettings";
@@ -458,7 +458,7 @@
             buttonExport.BackColor = Color.DarkSlateBlue;
             buttonExport.FlatAppearance.BorderSize = 0;
             buttonExport.FlatStyle = FlatStyle.Flat;
-            buttonExport.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonExport.Font = new Font("Cascadia Code", 12F);
             buttonExport.ForeColor = Color.White;
             buttonExport.Location = new Point(0, 528);
             buttonExport.Name = "buttonExport";
@@ -473,7 +473,7 @@
             buttonAssets.BackColor = Color.DarkSlateBlue;
             buttonAssets.FlatAppearance.BorderSize = 0;
             buttonAssets.FlatStyle = FlatStyle.Flat;
-            buttonAssets.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonAssets.Font = new Font("Cascadia Code", 12F);
             buttonAssets.ForeColor = Color.White;
             buttonAssets.Location = new Point(0, 176);
             buttonAssets.Name = "buttonAssets";
@@ -488,7 +488,7 @@
             buttonOverview.BackColor = Color.DarkSlateBlue;
             buttonOverview.FlatAppearance.BorderSize = 0;
             buttonOverview.FlatStyle = FlatStyle.Flat;
-            buttonOverview.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonOverview.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonOverview.ForeColor = Color.White;
             buttonOverview.Location = new Point(0, 56);
             buttonOverview.Name = "buttonOverview";
@@ -503,7 +503,7 @@
             buttonJournal.BackColor = Color.DarkSlateBlue;
             buttonJournal.FlatAppearance.BorderSize = 0;
             buttonJournal.FlatStyle = FlatStyle.Flat;
-            buttonJournal.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonJournal.Font = new Font("Cascadia Code", 12F);
             buttonJournal.ForeColor = Color.White;
             buttonJournal.Location = new Point(0, 136);
             buttonJournal.Name = "buttonJournal";
@@ -518,7 +518,7 @@
             buttonEntry.BackColor = Color.DarkSlateBlue;
             buttonEntry.FlatAppearance.BorderSize = 0;
             buttonEntry.FlatStyle = FlatStyle.Flat;
-            buttonEntry.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonEntry.Font = new Font("Cascadia Code", 12F);
             buttonEntry.ForeColor = SystemColors.Control;
             buttonEntry.Location = new Point(0, 96);
             buttonEntry.Name = "buttonEntry";
@@ -552,6 +552,7 @@
             // 
             // tabPageOverview
             // 
+            tabPageOverview.BackColor = Color.White;
             tabPageOverview.Controls.Add(panel2);
             tabPageOverview.Controls.Add(panelOverview);
             tabPageOverview.Controls.Add(labelOverview);
@@ -560,7 +561,6 @@
             tabPageOverview.Size = new Size(762, 668);
             tabPageOverview.TabIndex = 2;
             tabPageOverview.Text = "Überblick";
-            tabPageOverview.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -593,205 +593,205 @@
             // 
             // textBoxOverviewEarningsPrePreYear
             // 
-            textBoxOverviewEarningsPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPrePreYear.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsPrePreYear.Location = new Point(376, 168);
             textBoxOverviewEarningsPrePreYear.Name = "textBoxOverviewEarningsPrePreYear";
-            textBoxOverviewEarningsPrePreYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsPrePreYear.Size = new Size(160, 26);
             textBoxOverviewEarningsPrePreYear.TabIndex = 20;
             textBoxOverviewEarningsPrePreYear.TabStop = false;
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Location = new Point(376, 144);
             label11.Name = "label11";
-            label11.Size = new Size(63, 21);
+            label11.Size = new Size(64, 21);
             label11.TabIndex = 19;
             label11.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPrePreYear
             // 
-            textBoxOverviewCostsPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsPrePreYear.Location = new Point(376, 112);
             textBoxOverviewCostsPrePreYear.Name = "textBoxOverviewCostsPrePreYear";
-            textBoxOverviewCostsPrePreYear.Size = new Size(160, 29);
+            textBoxOverviewCostsPrePreYear.Size = new Size(160, 26);
             textBoxOverviewCostsPrePreYear.TabIndex = 18;
             textBoxOverviewCostsPrePreYear.TabStop = false;
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.Location = new Point(376, 88);
             label12.Name = "label12";
-            label12.Size = new Size(57, 21);
+            label12.Size = new Size(64, 21);
             label12.TabIndex = 17;
             label12.Text = "Kosten";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label13.Location = new Point(376, 32);
             label13.Name = "label13";
-            label13.Size = new Size(62, 21);
+            label13.Size = new Size(64, 21);
             label13.TabIndex = 16;
             label13.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePrePreYear
             // 
-            textBoxOverviewRevenuePrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenuePrePreYear.Location = new Point(376, 56);
             textBoxOverviewRevenuePrePreYear.Name = "textBoxOverviewRevenuePrePreYear";
-            textBoxOverviewRevenuePrePreYear.Size = new Size(160, 29);
+            textBoxOverviewRevenuePrePreYear.Size = new Size(160, 26);
             textBoxOverviewRevenuePrePreYear.TabIndex = 15;
             textBoxOverviewRevenuePrePreYear.TabStop = false;
             // 
             // labelOverviewPrePreYear
             // 
             labelOverviewPrePreYear.AutoSize = true;
-            labelOverviewPrePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewPrePreYear.Location = new Point(376, 8);
             labelOverviewPrePreYear.Name = "labelOverviewPrePreYear";
-            labelOverviewPrePreYear.Size = new Size(92, 21);
+            labelOverviewPrePreYear.Size = new Size(100, 21);
             labelOverviewPrePreYear.TabIndex = 14;
             labelOverviewPrePreYear.Text = "Vorvorjahr";
             // 
             // textBoxOverviewEarningsPreYear
             // 
-            textBoxOverviewEarningsPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPreYear.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsPreYear.Location = new Point(192, 168);
             textBoxOverviewEarningsPreYear.Name = "textBoxOverviewEarningsPreYear";
-            textBoxOverviewEarningsPreYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsPreYear.Size = new Size(160, 26);
             textBoxOverviewEarningsPreYear.TabIndex = 13;
             textBoxOverviewEarningsPreYear.TabStop = false;
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label15.Location = new Point(192, 144);
             label15.Name = "label15";
-            label15.Size = new Size(63, 21);
+            label15.Size = new Size(64, 21);
             label15.TabIndex = 12;
             label15.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPreYear
             // 
-            textBoxOverviewCostsPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsPreYear.Location = new Point(192, 112);
             textBoxOverviewCostsPreYear.Name = "textBoxOverviewCostsPreYear";
-            textBoxOverviewCostsPreYear.Size = new Size(160, 29);
+            textBoxOverviewCostsPreYear.Size = new Size(160, 26);
             textBoxOverviewCostsPreYear.TabIndex = 11;
             textBoxOverviewCostsPreYear.TabStop = false;
             // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label16.Location = new Point(192, 88);
             label16.Name = "label16";
-            label16.Size = new Size(57, 21);
+            label16.Size = new Size(64, 21);
             label16.TabIndex = 10;
             label16.Text = "Kosten";
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label17.Location = new Point(192, 32);
             label17.Name = "label17";
-            label17.Size = new Size(62, 21);
+            label17.Size = new Size(64, 21);
             label17.TabIndex = 9;
             label17.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePreYear
             // 
-            textBoxOverviewRevenuePreYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenuePreYear.Location = new Point(192, 56);
             textBoxOverviewRevenuePreYear.Name = "textBoxOverviewRevenuePreYear";
-            textBoxOverviewRevenuePreYear.Size = new Size(160, 29);
+            textBoxOverviewRevenuePreYear.Size = new Size(160, 26);
             textBoxOverviewRevenuePreYear.TabIndex = 8;
             textBoxOverviewRevenuePreYear.TabStop = false;
             // 
             // labelOverviewPreYear
             // 
             labelOverviewPreYear.AutoSize = true;
-            labelOverviewPreYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewPreYear.Location = new Point(192, 8);
             labelOverviewPreYear.Name = "labelOverviewPreYear";
-            labelOverviewPreYear.Size = new Size(66, 21);
+            labelOverviewPreYear.Size = new Size(73, 21);
             labelOverviewPreYear.TabIndex = 7;
             labelOverviewPreYear.Text = "Vorjahr";
             // 
             // textBoxOverviewEarningsCurrentYear
             // 
-            textBoxOverviewEarningsCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsCurrentYear.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsCurrentYear.Location = new Point(8, 168);
             textBoxOverviewEarningsCurrentYear.Name = "textBoxOverviewEarningsCurrentYear";
-            textBoxOverviewEarningsCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewEarningsCurrentYear.Size = new Size(160, 26);
             textBoxOverviewEarningsCurrentYear.TabIndex = 6;
             textBoxOverviewEarningsCurrentYear.TabStop = false;
             // 
             // label19
             // 
             label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label19.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label19.Location = new Point(8, 144);
             label19.Name = "label19";
-            label19.Size = new Size(63, 21);
+            label19.Size = new Size(64, 21);
             label19.TabIndex = 5;
             label19.Text = "Gewinn";
             // 
             // textBoxOverviewCostsCurrentYear
             // 
-            textBoxOverviewCostsCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsCurrentYear.Location = new Point(8, 112);
             textBoxOverviewCostsCurrentYear.Name = "textBoxOverviewCostsCurrentYear";
-            textBoxOverviewCostsCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewCostsCurrentYear.Size = new Size(160, 26);
             textBoxOverviewCostsCurrentYear.TabIndex = 4;
             textBoxOverviewCostsCurrentYear.TabStop = false;
             // 
             // label20
             // 
             label20.AutoSize = true;
-            label20.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label20.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label20.Location = new Point(8, 88);
             label20.Name = "label20";
-            label20.Size = new Size(57, 21);
+            label20.Size = new Size(64, 21);
             label20.TabIndex = 3;
             label20.Text = "Kosten";
             // 
             // label21
             // 
             label21.AutoSize = true;
-            label21.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label21.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label21.Location = new Point(8, 32);
             label21.Name = "label21";
-            label21.Size = new Size(62, 21);
+            label21.Size = new Size(64, 21);
             label21.TabIndex = 2;
             label21.Text = "Umsatz";
             // 
             // textBoxOverviewRevenueCurrentYear
             // 
-            textBoxOverviewRevenueCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenueCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenueCurrentYear.Location = new Point(8, 56);
             textBoxOverviewRevenueCurrentYear.Name = "textBoxOverviewRevenueCurrentYear";
-            textBoxOverviewRevenueCurrentYear.Size = new Size(160, 29);
+            textBoxOverviewRevenueCurrentYear.Size = new Size(160, 26);
             textBoxOverviewRevenueCurrentYear.TabIndex = 1;
             textBoxOverviewRevenueCurrentYear.TabStop = false;
             // 
             // labelOverviewCurrentYear
             // 
             labelOverviewCurrentYear.AutoSize = true;
-            labelOverviewCurrentYear.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewCurrentYear.Location = new Point(8, 8);
             labelOverviewCurrentYear.Name = "labelOverviewCurrentYear";
-            labelOverviewCurrentYear.Size = new Size(117, 21);
+            labelOverviewCurrentYear.Size = new Size(136, 21);
             labelOverviewCurrentYear.TabIndex = 0;
             labelOverviewCurrentYear.Text = "Aktuelles Jahr";
             // 
@@ -826,218 +826,218 @@
             // 
             // textBoxOverviewEarningsPrePreMonth
             // 
-            textBoxOverviewEarningsPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPrePreMonth.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsPrePreMonth.Location = new Point(376, 168);
             textBoxOverviewEarningsPrePreMonth.Name = "textBoxOverviewEarningsPrePreMonth";
-            textBoxOverviewEarningsPrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsPrePreMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsPrePreMonth.TabIndex = 20;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Cascadia Code", 12F);
             label7.Location = new Point(376, 144);
             label7.Name = "label7";
-            label7.Size = new Size(63, 21);
+            label7.Size = new Size(64, 21);
             label7.TabIndex = 19;
             label7.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPrePreMonth
             // 
-            textBoxOverviewCostsPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsPrePreMonth.Location = new Point(376, 112);
             textBoxOverviewCostsPrePreMonth.Name = "textBoxOverviewCostsPrePreMonth";
-            textBoxOverviewCostsPrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsPrePreMonth.Size = new Size(160, 26);
             textBoxOverviewCostsPrePreMonth.TabIndex = 18;
             textBoxOverviewCostsPrePreMonth.TabStop = false;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Cascadia Code", 12F);
             label8.Location = new Point(376, 88);
             label8.Name = "label8";
-            label8.Size = new Size(57, 21);
+            label8.Size = new Size(64, 21);
             label8.TabIndex = 17;
             label8.Text = "Kosten";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Font = new Font("Cascadia Code", 12F);
             label9.Location = new Point(376, 32);
             label9.Name = "label9";
-            label9.Size = new Size(62, 21);
+            label9.Size = new Size(64, 21);
             label9.TabIndex = 16;
             label9.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePrePreMonth
             // 
-            textBoxOverviewRevenuePrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenuePrePreMonth.Location = new Point(376, 56);
             textBoxOverviewRevenuePrePreMonth.Name = "textBoxOverviewRevenuePrePreMonth";
-            textBoxOverviewRevenuePrePreMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenuePrePreMonth.Size = new Size(160, 26);
             textBoxOverviewRevenuePrePreMonth.TabIndex = 15;
             textBoxOverviewRevenuePrePreMonth.TabStop = false;
             // 
             // labelOverviewPrePreMonth
             // 
             labelOverviewPrePreMonth.AutoSize = true;
-            labelOverviewPrePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewPrePreMonth.Location = new Point(376, 8);
             labelOverviewPrePreMonth.Name = "labelOverviewPrePreMonth";
-            labelOverviewPrePreMonth.Size = new Size(112, 21);
+            labelOverviewPrePreMonth.Size = new Size(109, 21);
             labelOverviewPrePreMonth.TabIndex = 14;
             labelOverviewPrePreMonth.Text = "Vorvormonat";
             // 
             // textBoxOverviewEarningsPreMonth
             // 
-            textBoxOverviewEarningsPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPreMonth.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsPreMonth.Location = new Point(192, 168);
             textBoxOverviewEarningsPreMonth.Name = "textBoxOverviewEarningsPreMonth";
-            textBoxOverviewEarningsPreMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsPreMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsPreMonth.TabIndex = 13;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Cascadia Code", 12F);
             label3.Location = new Point(192, 144);
             label3.Name = "label3";
-            label3.Size = new Size(63, 21);
+            label3.Size = new Size(64, 21);
             label3.TabIndex = 12;
             label3.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPreMonth
             // 
-            textBoxOverviewCostsPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsPreMonth.Location = new Point(192, 112);
             textBoxOverviewCostsPreMonth.Name = "textBoxOverviewCostsPreMonth";
-            textBoxOverviewCostsPreMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsPreMonth.Size = new Size(160, 26);
             textBoxOverviewCostsPreMonth.TabIndex = 11;
             textBoxOverviewCostsPreMonth.TabStop = false;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Cascadia Code", 12F);
             label4.Location = new Point(192, 88);
             label4.Name = "label4";
-            label4.Size = new Size(57, 21);
+            label4.Size = new Size(64, 21);
             label4.TabIndex = 10;
             label4.Text = "Kosten";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Cascadia Code", 12F);
             label5.Location = new Point(192, 32);
             label5.Name = "label5";
-            label5.Size = new Size(62, 21);
+            label5.Size = new Size(64, 21);
             label5.TabIndex = 9;
             label5.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePreMonth
             // 
-            textBoxOverviewRevenuePreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenuePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenuePreMonth.Location = new Point(192, 56);
             textBoxOverviewRevenuePreMonth.Name = "textBoxOverviewRevenuePreMonth";
-            textBoxOverviewRevenuePreMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenuePreMonth.Size = new Size(160, 26);
             textBoxOverviewRevenuePreMonth.TabIndex = 8;
             textBoxOverviewRevenuePreMonth.TabStop = false;
             // 
             // labelOverviewPreMonth
             // 
             labelOverviewPreMonth.AutoSize = true;
-            labelOverviewPreMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewPreMonth.Location = new Point(192, 8);
             labelOverviewPreMonth.Name = "labelOverviewPreMonth";
-            labelOverviewPreMonth.Size = new Size(86, 21);
+            labelOverviewPreMonth.Size = new Size(82, 21);
             labelOverviewPreMonth.TabIndex = 7;
             labelOverviewPreMonth.Text = "Vormonat";
             // 
             // textBoxOverviewEarningsCurrentMonth
             // 
-            textBoxOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewEarningsCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsCurrentMonth.ForeColor = Color.GreenYellow;
             textBoxOverviewEarningsCurrentMonth.Location = new Point(8, 168);
             textBoxOverviewEarningsCurrentMonth.Name = "textBoxOverviewEarningsCurrentMonth";
-            textBoxOverviewEarningsCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewEarningsCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsCurrentMonth.TabIndex = 6;
             // 
             // labelOverviewEarningsCurrentMonth
             // 
             labelOverviewEarningsCurrentMonth.AutoSize = true;
-            labelOverviewEarningsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewEarningsCurrentMonth.Font = new Font("Cascadia Code", 12F);
             labelOverviewEarningsCurrentMonth.Location = new Point(8, 144);
             labelOverviewEarningsCurrentMonth.Name = "labelOverviewEarningsCurrentMonth";
-            labelOverviewEarningsCurrentMonth.Size = new Size(63, 21);
+            labelOverviewEarningsCurrentMonth.Size = new Size(64, 21);
             labelOverviewEarningsCurrentMonth.TabIndex = 5;
             labelOverviewEarningsCurrentMonth.Text = "Gewinn";
             // 
             // textBoxOverviewCostsCurrentMonth
             // 
-            textBoxOverviewCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewCostsCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewCostsCurrentMonth.Location = new Point(8, 112);
             textBoxOverviewCostsCurrentMonth.Name = "textBoxOverviewCostsCurrentMonth";
-            textBoxOverviewCostsCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewCostsCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewCostsCurrentMonth.TabIndex = 4;
             textBoxOverviewCostsCurrentMonth.TabStop = false;
             // 
             // labelOverviewCostsCurrentMonth
             // 
             labelOverviewCostsCurrentMonth.AutoSize = true;
-            labelOverviewCostsCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewCostsCurrentMonth.Font = new Font("Cascadia Code", 12F);
             labelOverviewCostsCurrentMonth.Location = new Point(8, 88);
             labelOverviewCostsCurrentMonth.Name = "labelOverviewCostsCurrentMonth";
-            labelOverviewCostsCurrentMonth.Size = new Size(57, 21);
+            labelOverviewCostsCurrentMonth.Size = new Size(64, 21);
             labelOverviewCostsCurrentMonth.TabIndex = 3;
             labelOverviewCostsCurrentMonth.Text = "Kosten";
             // 
             // labelOverviewCurrentMonthRevenue
             // 
             labelOverviewCurrentMonthRevenue.AutoSize = true;
-            labelOverviewCurrentMonthRevenue.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelOverviewCurrentMonthRevenue.Font = new Font("Cascadia Code", 12F);
             labelOverviewCurrentMonthRevenue.Location = new Point(8, 32);
             labelOverviewCurrentMonthRevenue.Name = "labelOverviewCurrentMonthRevenue";
-            labelOverviewCurrentMonthRevenue.Size = new Size(62, 21);
+            labelOverviewCurrentMonthRevenue.Size = new Size(64, 21);
             labelOverviewCurrentMonthRevenue.TabIndex = 2;
             labelOverviewCurrentMonthRevenue.Text = "Umsatz";
             // 
             // textBoxOverviewRevenueCurrentMonth
             // 
-            textBoxOverviewRevenueCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxOverviewRevenueCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewRevenueCurrentMonth.Location = new Point(8, 56);
             textBoxOverviewRevenueCurrentMonth.Name = "textBoxOverviewRevenueCurrentMonth";
-            textBoxOverviewRevenueCurrentMonth.Size = new Size(160, 29);
+            textBoxOverviewRevenueCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewRevenueCurrentMonth.TabIndex = 1;
             textBoxOverviewRevenueCurrentMonth.TabStop = false;
             // 
             // labelOverviewCurrentMonth
             // 
             labelOverviewCurrentMonth.AutoSize = true;
-            labelOverviewCurrentMonth.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverviewCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
             labelOverviewCurrentMonth.Location = new Point(8, 8);
             labelOverviewCurrentMonth.Name = "labelOverviewCurrentMonth";
-            labelOverviewCurrentMonth.Size = new Size(134, 21);
+            labelOverviewCurrentMonth.Size = new Size(145, 21);
             labelOverviewCurrentMonth.TabIndex = 0;
             labelOverviewCurrentMonth.Text = "Aktueller Monat";
             // 
             // labelOverview
             // 
             labelOverview.AutoSize = true;
-            labelOverview.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelOverview.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelOverview.Location = new Point(0, 16);
             labelOverview.Name = "labelOverview";
-            labelOverview.Size = new Size(141, 37);
+            labelOverview.Size = new Size(159, 35);
             labelOverview.TabIndex = 12;
             labelOverview.Text = "Überblick";
             // 
             // tabPageEntry
             // 
-            tabPageEntry.BackColor = Color.Transparent;
+            tabPageEntry.BackColor = Color.White;
             tabPageEntry.Controls.Add(comboBoxEntryTransactionOpenInvoices);
             tabPageEntry.Controls.Add(checkBoxSettleInvoice);
             tabPageEntry.Controls.Add(textBoxEntryPostingType);
@@ -1071,21 +1071,21 @@
             // 
             comboBoxEntryTransactionOpenInvoices.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEntryTransactionOpenInvoices.Enabled = false;
-            comboBoxEntryTransactionOpenInvoices.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEntryTransactionOpenInvoices.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxEntryTransactionOpenInvoices.FormattingEnabled = true;
             comboBoxEntryTransactionOpenInvoices.Location = new Point(8, 368);
             comboBoxEntryTransactionOpenInvoices.Name = "comboBoxEntryTransactionOpenInvoices";
-            comboBoxEntryTransactionOpenInvoices.Size = new Size(272, 29);
+            comboBoxEntryTransactionOpenInvoices.Size = new Size(272, 25);
             comboBoxEntryTransactionOpenInvoices.TabIndex = 26;
             comboBoxEntryTransactionOpenInvoices.SelectionChangeCommitted += comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted;
             // 
             // checkBoxSettleInvoice
             // 
             checkBoxSettleInvoice.AutoSize = true;
-            checkBoxSettleInvoice.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxSettleInvoice.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             checkBoxSettleInvoice.Location = new Point(8, 352);
             checkBoxSettleInvoice.Name = "checkBoxSettleInvoice";
-            checkBoxSettleInvoice.Size = new Size(166, 21);
+            checkBoxSettleInvoice.Size = new Size(203, 21);
             checkBoxSettleInvoice.TabIndex = 25;
             checkBoxSettleInvoice.Text = "Rechnung ausgleichen ?";
             checkBoxSettleInvoice.UseVisualStyleBackColor = true;
@@ -1093,18 +1093,18 @@
             // 
             // textBoxEntryPostingType
             // 
-            textBoxEntryPostingType.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEntryPostingType.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEntryPostingType.Location = new Point(8, 272);
             textBoxEntryPostingType.Name = "textBoxEntryPostingType";
             textBoxEntryPostingType.ReadOnly = true;
-            textBoxEntryPostingType.Size = new Size(272, 29);
+            textBoxEntryPostingType.Size = new Size(272, 23);
             textBoxEntryPostingType.TabIndex = 24;
             textBoxEntryPostingType.TabStop = false;
             textBoxEntryPostingType.TextChanged += textBoxEntryPostingType_TextChanged;
             // 
             // textBoxEntryNote
             // 
-            textBoxEntryNote.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEntryNote.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEntryNote.Location = new Point(8, 416);
             textBoxEntryNote.Multiline = true;
             textBoxEntryNote.Name = "textBoxEntryNote";
@@ -1114,94 +1114,94 @@
             // labelInputNotes
             // 
             labelInputNotes.AutoSize = true;
-            labelInputNotes.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelInputNotes.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelInputNotes.ForeColor = Color.Black;
             labelInputNotes.Location = new Point(8, 400);
             labelInputNotes.Name = "labelInputNotes";
-            labelInputNotes.Size = new Size(53, 17);
+            labelInputNotes.Size = new Size(64, 17);
             labelInputNotes.TabIndex = 20;
             labelInputNotes.Text = "Notizen";
             // 
             // labelEntryText
             // 
             labelEntryText.AutoSize = true;
-            labelEntryText.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelEntryText.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelEntryText.ForeColor = Color.Black;
             labelEntryText.Location = new Point(8, 160);
             labelEntryText.Name = "labelEntryText";
-            labelEntryText.Size = new Size(84, 17);
+            labelEntryText.Size = new Size(104, 17);
             labelEntryText.TabIndex = 19;
             labelEntryText.Text = "Buchungstext";
             // 
             // labelPostingType
             // 
             labelPostingType.AutoSize = true;
-            labelPostingType.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelPostingType.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelPostingType.ForeColor = Color.Black;
             labelPostingType.Location = new Point(8, 256);
             labelPostingType.Name = "labelPostingType";
-            labelPostingType.Size = new Size(79, 17);
+            labelPostingType.Size = new Size(96, 17);
             labelPostingType.TabIndex = 18;
             labelPostingType.Text = "Buchungsart";
             // 
             // labelSelectedFilename
             // 
             labelSelectedFilename.AutoSize = true;
-            labelSelectedFilename.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelSelectedFilename.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelSelectedFilename.ForeColor = Color.Black;
-            labelSelectedFilename.Location = new Point(360, 584);
+            labelSelectedFilename.Location = new Point(376, 584);
             labelSelectedFilename.Name = "labelSelectedFilename";
-            labelSelectedFilename.Size = new Size(30, 17);
+            labelSelectedFilename.Size = new Size(40, 17);
             labelSelectedFilename.TabIndex = 16;
             labelSelectedFilename.Text = "leer";
             // 
             // labelCategory
             // 
             labelCategory.AutoSize = true;
-            labelCategory.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCategory.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelCategory.ForeColor = Color.Black;
             labelCategory.Location = new Point(8, 208);
             labelCategory.Name = "labelCategory";
-            labelCategory.Size = new Size(65, 17);
+            labelCategory.Size = new Size(80, 17);
             labelCategory.TabIndex = 13;
             labelCategory.Text = "Kategorie";
             // 
             // labelAmount
             // 
             labelAmount.AutoSize = true;
-            labelAmount.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelAmount.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelAmount.ForeColor = Color.Black;
             labelAmount.Location = new Point(8, 112);
             labelAmount.Name = "labelAmount";
-            labelAmount.Size = new Size(46, 17);
+            labelAmount.Size = new Size(56, 17);
             labelAmount.TabIndex = 12;
             labelAmount.Text = "Betrag";
             // 
             // labelVoucherDate
             // 
             labelVoucherDate.AutoSize = true;
-            labelVoucherDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelVoucherDate.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelVoucherDate.ForeColor = Color.Black;
             labelVoucherDate.Location = new Point(8, 64);
             labelVoucherDate.Name = "labelVoucherDate";
-            labelVoucherDate.Size = new Size(77, 17);
+            labelVoucherDate.Size = new Size(88, 17);
             labelVoucherDate.TabIndex = 11;
             labelVoucherDate.Text = "Belegdatum";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
             label2.Location = new Point(0, 16);
             label2.Name = "label2";
-            label2.Size = new Size(214, 37);
+            label2.Size = new Size(239, 35);
             label2.TabIndex = 10;
             label2.Text = "Belegerfassung";
             // 
             // buttonVoucherPost
             // 
-            buttonVoucherPost.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonVoucherPost.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonVoucherPost.Location = new Point(8, 576);
             buttonVoucherPost.Name = "buttonVoucherPost";
             buttonVoucherPost.Size = new Size(272, 35);
@@ -1213,11 +1213,11 @@
             // labelFilename
             // 
             labelFilename.AutoSize = true;
-            labelFilename.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelFilename.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelFilename.ForeColor = Color.Black;
             labelFilename.Location = new Point(288, 584);
             labelFilename.Name = "labelFilename";
-            labelFilename.Size = new Size(73, 17);
+            labelFilename.Size = new Size(88, 17);
             labelFilename.TabIndex = 8;
             labelFilename.Text = "Dateiname:";
             // 
@@ -1231,7 +1231,7 @@
             // 
             // buttonLoadFile
             // 
-            buttonLoadFile.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonLoadFile.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonLoadFile.Location = new Point(8, 536);
             buttonLoadFile.Name = "buttonLoadFile";
             buttonLoadFile.Size = new Size(272, 32);
@@ -1244,28 +1244,28 @@
             // 
             comboBoxReferenceVoucher.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxReferenceVoucher.Enabled = false;
-            comboBoxReferenceVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxReferenceVoucher.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxReferenceVoucher.FormattingEnabled = true;
             comboBoxReferenceVoucher.Location = new Point(8, 320);
             comboBoxReferenceVoucher.Name = "comboBoxReferenceVoucher";
-            comboBoxReferenceVoucher.Size = new Size(272, 29);
+            comboBoxReferenceVoucher.Size = new Size(272, 25);
             comboBoxReferenceVoucher.TabIndex = 5;
             comboBoxReferenceVoucher.SelectedIndexChanged += comboBoxReferenceVoucher_SelectedIndexChanged;
             // 
             // checkBoxReversal
             // 
-            checkBoxReversal.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxReversal.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             checkBoxReversal.Location = new Point(8, 304);
             checkBoxReversal.Name = "checkBoxReversal";
-            checkBoxReversal.Size = new Size(168, 20);
+            checkBoxReversal.Size = new Size(272, 20);
             checkBoxReversal.TabIndex = 4;
-            checkBoxReversal.Text = "Beleg stornieren?";
+            checkBoxReversal.Text = "Beleg stornieren ?";
             checkBoxReversal.UseVisualStyleBackColor = true;
             checkBoxReversal.CheckedChanged += checkBoxReversal_CheckedChanged;
             // 
             // textBoxText
             // 
-            textBoxText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxText.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxText.Location = new Point(8, 176);
             textBoxText.Multiline = true;
             textBoxText.Name = "textBoxText";
@@ -1277,38 +1277,41 @@
             comboBoxEntryCategory.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBoxEntryCategory.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBoxEntryCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxEntryCategory.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEntryCategory.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxEntryCategory.FormattingEnabled = true;
             comboBoxEntryCategory.Items.AddRange(new object[] { "Material / Bedarf", "Facebook-Rechnung", "Sonstiges" });
             comboBoxEntryCategory.Location = new Point(8, 224);
             comboBoxEntryCategory.Name = "comboBoxEntryCategory";
-            comboBoxEntryCategory.Size = new Size(272, 29);
+            comboBoxEntryCategory.Size = new Size(272, 25);
             comboBoxEntryCategory.TabIndex = 2;
             comboBoxEntryCategory.SelectedIndexChanged += comboBoxEntryCategory_SelectedIndexChanged;
             // 
             // numericUpDownAmount
             // 
             numericUpDownAmount.DecimalPlaces = 2;
-            numericUpDownAmount.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            numericUpDownAmount.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             numericUpDownAmount.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
             numericUpDownAmount.Location = new Point(8, 128);
             numericUpDownAmount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericUpDownAmount.Name = "numericUpDownAmount";
-            numericUpDownAmount.Size = new Size(272, 25);
+            numericUpDownAmount.Size = new Size(272, 23);
             numericUpDownAmount.TabIndex = 1;
             numericUpDownAmount.ThousandsSeparator = true;
             // 
             // dateTimePickerVoucherDate
             // 
-            dateTimePickerVoucherDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimePickerVoucherDate.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dateTimePickerVoucherDate.Format = DateTimePickerFormat.Short;
             dateTimePickerVoucherDate.Location = new Point(8, 80);
             dateTimePickerVoucherDate.Name = "dateTimePickerVoucherDate";
-            dateTimePickerVoucherDate.Size = new Size(272, 25);
+            dateTimePickerVoucherDate.Size = new Size(272, 23);
             dateTimePickerVoucherDate.TabIndex = 0;
             // 
             // tabPageJournal
             // 
+            tabPageJournal.BackColor = Color.White;
+            tabPageJournal.Controls.Add(textBoxJournalAsset);
+            tabPageJournal.Controls.Add(labelJournalAsset);
             tabPageJournal.Controls.Add(textBoxJournalInvoiceReference);
             tabPageJournal.Controls.Add(labelJournalInvoiceReference);
             tabPageJournal.Controls.Add(comboBoxJournalFilterMonth);
@@ -1318,14 +1321,12 @@
             tabPageJournal.Controls.Add(textBoxJournalVoucher);
             tabPageJournal.Controls.Add(labelJournalVoucher);
             tabPageJournal.Controls.Add(textBoxJournalReversalVoucher);
-            tabPageJournal.Controls.Add(textBoxJournalReversal);
             tabPageJournal.Controls.Add(textBoxJournalPostingType);
             tabPageJournal.Controls.Add(textBoxJournalCategory);
             tabPageJournal.Controls.Add(textBoxJournalPostingText);
             tabPageJournal.Controls.Add(textBoxJournalAmount);
             tabPageJournal.Controls.Add(textBoxJournalVoucherDate);
             tabPageJournal.Controls.Add(labelJournalReversalVoucher);
-            tabPageJournal.Controls.Add(labelJournalReversal);
             tabPageJournal.Controls.Add(labelJournalPostingType);
             tabPageJournal.Controls.Add(labelJournalCategory);
             tabPageJournal.Controls.Add(labelJournalPostingText);
@@ -1345,253 +1346,234 @@
             tabPageJournal.Size = new Size(762, 668);
             tabPageJournal.TabIndex = 1;
             tabPageJournal.Text = "Journal";
-            tabPageJournal.UseVisualStyleBackColor = true;
             // 
             // textBoxJournalInvoiceReference
             // 
-            textBoxJournalInvoiceReference.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalInvoiceReference.Location = new Point(560, 624);
+            textBoxJournalInvoiceReference.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalInvoiceReference.Location = new Point(408, 536);
             textBoxJournalInvoiceReference.Multiline = true;
             textBoxJournalInvoiceReference.Name = "textBoxJournalInvoiceReference";
-            textBoxJournalInvoiceReference.Size = new Size(200, 24);
+            textBoxJournalInvoiceReference.Size = new Size(352, 24);
             textBoxJournalInvoiceReference.TabIndex = 38;
             // 
             // labelJournalInvoiceReference
             // 
             labelJournalInvoiceReference.AutoSize = true;
-            labelJournalInvoiceReference.Font = new Font("Segoe UI", 9.75F);
-            labelJournalInvoiceReference.Location = new Point(560, 608);
+            labelJournalInvoiceReference.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalInvoiceReference.Location = new Point(408, 520);
             labelJournalInvoiceReference.Name = "labelJournalInvoiceReference";
-            labelJournalInvoiceReference.Size = new Size(119, 17);
+            labelJournalInvoiceReference.Size = new Size(128, 17);
             labelJournalInvoiceReference.TabIndex = 37;
             labelJournalInvoiceReference.Text = "Rechnungsnummer";
             // 
             // comboBoxJournalFilterMonth
             // 
-            comboBoxJournalFilterMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxJournalFilterMonth.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxJournalFilterMonth.FormattingEnabled = true;
-            comboBoxJournalFilterMonth.Location = new Point(376, 56);
+            comboBoxJournalFilterMonth.Location = new Point(288, 56);
             comboBoxJournalFilterMonth.Name = "comboBoxJournalFilterMonth";
-            comboBoxJournalFilterMonth.Size = new Size(176, 29);
+            comboBoxJournalFilterMonth.Size = new Size(112, 25);
             comboBoxJournalFilterMonth.TabIndex = 36;
             // 
             // labelJournalFilterMonth
             // 
             labelJournalFilterMonth.AutoSize = true;
-            labelJournalFilterMonth.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalFilterMonth.Location = new Point(280, 56);
+            labelJournalFilterMonth.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelJournalFilterMonth.Location = new Point(232, 56);
             labelJournalFilterMonth.Name = "labelJournalFilterMonth";
-            labelJournalFilterMonth.Size = new Size(97, 21);
+            labelJournalFilterMonth.Size = new Size(56, 17);
             labelJournalFilterMonth.TabIndex = 35;
-            labelJournalFilterMonth.Text = "Filter Monat:";
+            labelJournalFilterMonth.Text = "Monat:";
             // 
             // comboBoxJournalFilter
             // 
-            comboBoxJournalFilter.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxJournalFilter.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxJournalFilter.FormattingEnabled = true;
-            comboBoxJournalFilter.Location = new Point(88, 56);
+            comboBoxJournalFilter.Location = new Point(48, 56);
             comboBoxJournalFilter.Name = "comboBoxJournalFilter";
-            comboBoxJournalFilter.Size = new Size(176, 29);
+            comboBoxJournalFilter.Size = new Size(120, 25);
             comboBoxJournalFilter.TabIndex = 34;
             // 
             // labelJournalFilterYear
             // 
             labelJournalFilterYear.AutoSize = true;
-            labelJournalFilterYear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalFilterYear.Location = new Point(8, 56);
+            labelJournalFilterYear.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelJournalFilterYear.Location = new Point(0, 56);
             labelJournalFilterYear.Name = "labelJournalFilterYear";
-            labelJournalFilterYear.Size = new Size(81, 21);
+            labelJournalFilterYear.Size = new Size(48, 17);
             labelJournalFilterYear.TabIndex = 33;
-            labelJournalFilterYear.Text = "Filter Jahr:";
+            labelJournalFilterYear.Text = "Jahr:";
             // 
             // textBoxJournalVoucher
             // 
-            textBoxJournalVoucher.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalVoucher.Location = new Point(560, 104);
+            textBoxJournalVoucher.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxJournalVoucher.Location = new Point(408, 104);
             textBoxJournalVoucher.Name = "textBoxJournalVoucher";
-            textBoxJournalVoucher.Size = new Size(200, 25);
+            textBoxJournalVoucher.Size = new Size(352, 23);
             textBoxJournalVoucher.TabIndex = 32;
             // 
             // labelJournalVoucher
             // 
             labelJournalVoucher.AutoSize = true;
-            labelJournalVoucher.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalVoucher.Location = new Point(560, 88);
+            labelJournalVoucher.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelJournalVoucher.Location = new Point(408, 88);
             labelJournalVoucher.Name = "labelJournalVoucher";
-            labelJournalVoucher.Size = new Size(40, 17);
+            labelJournalVoucher.Size = new Size(48, 17);
             labelJournalVoucher.TabIndex = 31;
             labelJournalVoucher.Text = "Beleg";
             // 
             // textBoxJournalReversalVoucher
             // 
-            textBoxJournalReversalVoucher.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalReversalVoucher.Location = new Point(608, 392);
+            textBoxJournalReversalVoucher.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalReversalVoucher.Location = new Point(408, 392);
             textBoxJournalReversalVoucher.Name = "textBoxJournalReversalVoucher";
-            textBoxJournalReversalVoucher.Size = new Size(152, 25);
+            textBoxJournalReversalVoucher.Size = new Size(352, 23);
             textBoxJournalReversalVoucher.TabIndex = 30;
-            // 
-            // textBoxJournalReversal
-            // 
-            textBoxJournalReversal.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalReversal.Location = new Point(560, 392);
-            textBoxJournalReversal.Name = "textBoxJournalReversal";
-            textBoxJournalReversal.Size = new Size(40, 25);
-            textBoxJournalReversal.TabIndex = 29;
             // 
             // textBoxJournalPostingType
             // 
-            textBoxJournalPostingType.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalPostingType.Location = new Point(560, 344);
+            textBoxJournalPostingType.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalPostingType.Location = new Point(408, 344);
             textBoxJournalPostingType.Name = "textBoxJournalPostingType";
-            textBoxJournalPostingType.Size = new Size(200, 25);
+            textBoxJournalPostingType.Size = new Size(352, 23);
             textBoxJournalPostingType.TabIndex = 28;
             // 
             // textBoxJournalCategory
             // 
-            textBoxJournalCategory.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalCategory.Location = new Point(560, 296);
+            textBoxJournalCategory.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalCategory.Location = new Point(408, 296);
             textBoxJournalCategory.Name = "textBoxJournalCategory";
-            textBoxJournalCategory.Size = new Size(200, 25);
+            textBoxJournalCategory.Size = new Size(352, 23);
             textBoxJournalCategory.TabIndex = 27;
             // 
             // textBoxJournalPostingText
             // 
-            textBoxJournalPostingText.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalPostingText.Location = new Point(560, 248);
+            textBoxJournalPostingText.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalPostingText.Location = new Point(408, 248);
             textBoxJournalPostingText.Name = "textBoxJournalPostingText";
-            textBoxJournalPostingText.Size = new Size(200, 25);
+            textBoxJournalPostingText.Size = new Size(352, 23);
             textBoxJournalPostingText.TabIndex = 26;
             // 
             // textBoxJournalAmount
             // 
-            textBoxJournalAmount.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalAmount.Location = new Point(560, 200);
+            textBoxJournalAmount.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalAmount.Location = new Point(408, 200);
             textBoxJournalAmount.Name = "textBoxJournalAmount";
-            textBoxJournalAmount.Size = new Size(200, 25);
+            textBoxJournalAmount.Size = new Size(352, 23);
             textBoxJournalAmount.TabIndex = 25;
             // 
             // textBoxJournalVoucherDate
             // 
-            textBoxJournalVoucherDate.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalVoucherDate.Location = new Point(560, 152);
+            textBoxJournalVoucherDate.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalVoucherDate.Location = new Point(408, 152);
             textBoxJournalVoucherDate.Name = "textBoxJournalVoucherDate";
-            textBoxJournalVoucherDate.Size = new Size(200, 25);
+            textBoxJournalVoucherDate.Size = new Size(352, 23);
             textBoxJournalVoucherDate.TabIndex = 24;
             // 
             // labelJournalReversalVoucher
             // 
             labelJournalReversalVoucher.AutoSize = true;
-            labelJournalReversalVoucher.Font = new Font("Segoe UI", 9.75F);
-            labelJournalReversalVoucher.Location = new Point(608, 376);
+            labelJournalReversalVoucher.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalReversalVoucher.Location = new Point(408, 376);
             labelJournalReversalVoucher.Name = "labelJournalReversalVoucher";
-            labelJournalReversalVoucher.Size = new Size(80, 17);
+            labelJournalReversalVoucher.Size = new Size(104, 17);
             labelJournalReversalVoucher.TabIndex = 23;
-            labelJournalReversalVoucher.Text = "Stornobeleg";
-            // 
-            // labelJournalReversal
-            // 
-            labelJournalReversal.AutoSize = true;
-            labelJournalReversal.Font = new Font("Segoe UI", 9.75F);
-            labelJournalReversal.Location = new Point(560, 376);
-            labelJournalReversal.Name = "labelJournalReversal";
-            labelJournalReversal.Size = new Size(47, 17);
-            labelJournalReversal.TabIndex = 22;
-            labelJournalReversal.Text = "Storno";
+            labelJournalReversalVoucher.Text = "Storno Beleg";
             // 
             // labelJournalPostingType
             // 
             labelJournalPostingType.AutoSize = true;
-            labelJournalPostingType.Font = new Font("Segoe UI", 9.75F);
-            labelJournalPostingType.Location = new Point(560, 328);
+            labelJournalPostingType.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalPostingType.Location = new Point(408, 328);
             labelJournalPostingType.Name = "labelJournalPostingType";
-            labelJournalPostingType.Size = new Size(79, 17);
+            labelJournalPostingType.Size = new Size(96, 17);
             labelJournalPostingType.TabIndex = 21;
             labelJournalPostingType.Text = "Buchungsart";
             // 
             // labelJournalCategory
             // 
             labelJournalCategory.AutoSize = true;
-            labelJournalCategory.Font = new Font("Segoe UI", 9.75F);
-            labelJournalCategory.Location = new Point(560, 280);
+            labelJournalCategory.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalCategory.Location = new Point(408, 280);
             labelJournalCategory.Name = "labelJournalCategory";
-            labelJournalCategory.Size = new Size(65, 17);
+            labelJournalCategory.Size = new Size(80, 17);
             labelJournalCategory.TabIndex = 20;
             labelJournalCategory.Text = "Kategorie";
             // 
             // labelJournalPostingText
             // 
             labelJournalPostingText.AutoSize = true;
-            labelJournalPostingText.Font = new Font("Segoe UI", 9.75F);
-            labelJournalPostingText.Location = new Point(560, 232);
+            labelJournalPostingText.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalPostingText.Location = new Point(408, 232);
             labelJournalPostingText.Name = "labelJournalPostingText";
-            labelJournalPostingText.Size = new Size(84, 17);
+            labelJournalPostingText.Size = new Size(104, 17);
             labelJournalPostingText.TabIndex = 19;
             labelJournalPostingText.Text = "Buchungstext";
             // 
             // labelJournalAmount
             // 
             labelJournalAmount.AutoSize = true;
-            labelJournalAmount.Font = new Font("Segoe UI", 9.75F);
-            labelJournalAmount.Location = new Point(560, 184);
+            labelJournalAmount.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalAmount.Location = new Point(408, 184);
             labelJournalAmount.Name = "labelJournalAmount";
-            labelJournalAmount.Size = new Size(46, 17);
+            labelJournalAmount.Size = new Size(56, 17);
             labelJournalAmount.TabIndex = 18;
             labelJournalAmount.Text = "Betrag";
             // 
             // labelJournalVoucherDate
             // 
             labelJournalVoucherDate.AutoSize = true;
-            labelJournalVoucherDate.Font = new Font("Segoe UI", 9.75F);
-            labelJournalVoucherDate.Location = new Point(560, 136);
+            labelJournalVoucherDate.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalVoucherDate.Location = new Point(408, 136);
             labelJournalVoucherDate.Name = "labelJournalVoucherDate";
-            labelJournalVoucherDate.Size = new Size(77, 17);
+            labelJournalVoucherDate.Size = new Size(88, 17);
             labelJournalVoucherDate.TabIndex = 17;
             labelJournalVoucherDate.Text = "Belegdatum";
             // 
             // labelJournalNote
             // 
             labelJournalNote.AutoSize = true;
-            labelJournalNote.Font = new Font("Segoe UI", 9.75F);
-            labelJournalNote.Location = new Point(560, 512);
+            labelJournalNote.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalNote.Location = new Point(408, 568);
             labelJournalNote.Name = "labelJournalNote";
-            labelJournalNote.Size = new Size(39, 17);
+            labelJournalNote.Size = new Size(48, 17);
             labelJournalNote.TabIndex = 16;
             labelJournalNote.Text = "Notiz";
             // 
             // textBoxJournalNote
             // 
-            textBoxJournalNote.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalNote.Location = new Point(560, 528);
+            textBoxJournalNote.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalNote.Location = new Point(408, 584);
             textBoxJournalNote.Multiline = true;
             textBoxJournalNote.Name = "textBoxJournalNote";
-            textBoxJournalNote.Size = new Size(200, 72);
+            textBoxJournalNote.Size = new Size(176, 64);
             textBoxJournalNote.TabIndex = 15;
             // 
             // textBoxJournalCreationDate
             // 
-            textBoxJournalCreationDate.Font = new Font("Segoe UI", 9.75F);
-            textBoxJournalCreationDate.Location = new Point(560, 480);
+            textBoxJournalCreationDate.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalCreationDate.Location = new Point(408, 440);
             textBoxJournalCreationDate.Multiline = true;
             textBoxJournalCreationDate.Name = "textBoxJournalCreationDate";
-            textBoxJournalCreationDate.Size = new Size(200, 24);
+            textBoxJournalCreationDate.Size = new Size(352, 24);
             textBoxJournalCreationDate.TabIndex = 14;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9.75F);
-            label1.Location = new Point(560, 464);
+            label1.Font = new Font("Cascadia Code", 9.75F);
+            label1.Location = new Point(408, 424);
             label1.Name = "label1";
-            label1.Size = new Size(108, 17);
+            label1.Size = new Size(136, 17);
             label1.TabIndex = 13;
             label1.Text = "Erstellungsdatum";
             // 
             // buttonJournalPicturePDF
             // 
-            buttonJournalPicturePDF.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonJournalPicturePDF.Location = new Point(560, 424);
+            buttonJournalPicturePDF.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonJournalPicturePDF.Location = new Point(584, 584);
             buttonJournalPicturePDF.Name = "buttonJournalPicturePDF";
-            buttonJournalPicturePDF.Size = new Size(200, 32);
+            buttonJournalPicturePDF.Size = new Size(176, 64);
             buttonJournalPicturePDF.TabIndex = 12;
             buttonJournalPicturePDF.Text = "Bild / PDF anzeigen";
             buttonJournalPicturePDF.UseVisualStyleBackColor = true;
@@ -1600,20 +1582,20 @@
             // labelTransactionDetail
             // 
             labelTransactionDetail.AutoSize = true;
-            labelTransactionDetail.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelTransactionDetail.Location = new Point(560, 56);
+            labelTransactionDetail.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTransactionDetail.Location = new Point(408, 56);
             labelTransactionDetail.Name = "labelTransactionDetail";
-            labelTransactionDetail.Size = new Size(136, 21);
+            labelTransactionDetail.Size = new Size(145, 21);
             labelTransactionDetail.TabIndex = 2;
             labelTransactionDetail.Text = "Buchungsdetails";
             // 
             // labelJournal
             // 
             labelJournal.AutoSize = true;
-            labelJournal.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelJournal.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelJournal.Location = new Point(0, 16);
             labelJournal.Name = "labelJournal";
-            labelJournal.Size = new Size(112, 37);
+            labelJournal.Size = new Size(127, 35);
             labelJournal.TabIndex = 11;
             labelJournal.Text = "Journal";
             // 
@@ -1623,27 +1605,27 @@
             dataGridViewJournal.AllowUserToDeleteRows = false;
             dataGridViewJournal.AllowUserToResizeColumns = false;
             dataGridViewJournal.AllowUserToResizeRows = false;
-            dataGridViewJournal.BackgroundColor = SystemColors.Control;
+            dataGridViewJournal.BackgroundColor = Color.White;
             dataGridViewJournal.BorderStyle = BorderStyle.None;
             dataGridViewJournal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewJournal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle73.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle73.BackColor = SystemColors.Control;
-            dataGridViewCellStyle73.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle73.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle73.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle73.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle73.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle73;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewJournal.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle74.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle74.BackColor = SystemColors.Window;
-            dataGridViewCellStyle74.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle74.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle74.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle74.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle74.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle74;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridViewJournal.GridColor = SystemColors.Window;
             dataGridViewJournal.Location = new Point(-40, 88);
             dataGridViewJournal.MultiSelect = false;
@@ -1654,13 +1636,14 @@
             dataGridViewJournal.RowTemplate.ReadOnly = true;
             dataGridViewJournal.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewJournal.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewJournal.Size = new Size(600, 560);
+            dataGridViewJournal.Size = new Size(440, 560);
             dataGridViewJournal.TabIndex = 0;
             dataGridViewJournal.CellFormatting += dataGridViewJournal_CellFormatting;
             dataGridViewJournal.SelectionChanged += dataGridViewJournal_SelectionChanged;
             // 
             // tabPageAssets
             // 
+            tabPageAssets.BackColor = Color.White;
             tabPageAssets.Controls.Add(dataGridViewAssets);
             tabPageAssets.Controls.Add(labelAssets);
             tabPageAssets.Location = new Point(4, 24);
@@ -1668,7 +1651,6 @@
             tabPageAssets.Size = new Size(762, 668);
             tabPageAssets.TabIndex = 3;
             tabPageAssets.Text = "Anlagen";
-            tabPageAssets.UseVisualStyleBackColor = true;
             // 
             // dataGridViewAssets
             // 
@@ -1676,27 +1658,27 @@
             dataGridViewAssets.AllowUserToDeleteRows = false;
             dataGridViewAssets.AllowUserToResizeColumns = false;
             dataGridViewAssets.AllowUserToResizeRows = false;
-            dataGridViewAssets.BackgroundColor = SystemColors.Control;
+            dataGridViewAssets.BackgroundColor = Color.White;
             dataGridViewAssets.BorderStyle = BorderStyle.None;
             dataGridViewAssets.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewAssets.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle75.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle75.BackColor = SystemColors.Control;
-            dataGridViewCellStyle75.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle75.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle75.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle75.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle75.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle75;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridViewAssets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle76.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle76.BackColor = SystemColors.Window;
-            dataGridViewCellStyle76.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle76.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle76.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle76.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle76.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle76;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewAssets.GridColor = SystemColors.Control;
             dataGridViewAssets.Location = new Point(-40, 88);
             dataGridViewAssets.MultiSelect = false;
@@ -1713,15 +1695,16 @@
             // labelAssets
             // 
             labelAssets.AutoSize = true;
-            labelAssets.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelAssets.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelAssets.Location = new Point(0, 16);
             labelAssets.Name = "labelAssets";
-            labelAssets.Size = new Size(123, 37);
+            labelAssets.Size = new Size(127, 35);
             labelAssets.TabIndex = 13;
             labelAssets.Text = "Anlagen";
             // 
             // tabPageCustomerEntry
             // 
+            tabPageCustomerEntry.BackColor = Color.White;
             tabPageCustomerEntry.Controls.Add(buttonCustomerEntrySave);
             tabPageCustomerEntry.Controls.Add(textBoxCustomerEntryEmail);
             tabPageCustomerEntry.Controls.Add(label22);
@@ -1741,7 +1724,6 @@
             tabPageCustomerEntry.Size = new Size(762, 668);
             tabPageCustomerEntry.TabIndex = 7;
             tabPageCustomerEntry.Text = "Kundenerfassung";
-            tabPageCustomerEntry.UseVisualStyleBackColor = true;
             // 
             // buttonCustomerEntrySave
             // 
@@ -1755,124 +1737,125 @@
             // 
             // textBoxCustomerEntryEmail
             // 
-            textBoxCustomerEntryEmail.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryEmail.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryEmail.Location = new Point(8, 408);
             textBoxCustomerEntryEmail.Name = "textBoxCustomerEntryEmail";
-            textBoxCustomerEntryEmail.Size = new Size(216, 29);
+            textBoxCustomerEntryEmail.Size = new Size(216, 26);
             textBoxCustomerEntryEmail.TabIndex = 25;
             // 
             // label22
             // 
             label22.AutoSize = true;
-            label22.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label22.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.Location = new Point(8, 384);
             label22.Name = "label22";
-            label22.Size = new Size(54, 21);
+            label22.Size = new Size(64, 21);
             label22.TabIndex = 24;
             label22.Text = "E-Mail";
             // 
             // textBoxCustomerEntryCountry
             // 
-            textBoxCustomerEntryCountry.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryCountry.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryCountry.Location = new Point(8, 344);
             textBoxCustomerEntryCountry.Name = "textBoxCustomerEntryCountry";
-            textBoxCustomerEntryCountry.Size = new Size(216, 29);
+            textBoxCustomerEntryCountry.Size = new Size(216, 26);
             textBoxCustomerEntryCountry.TabIndex = 23;
             // 
             // label18
             // 
             label18.AutoSize = true;
-            label18.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label18.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label18.Location = new Point(8, 320);
             label18.Name = "label18";
-            label18.Size = new Size(44, 21);
+            label18.Size = new Size(46, 21);
             label18.TabIndex = 22;
             label18.Text = "Land";
             // 
             // textBoxCustomerEntryCity
             // 
-            textBoxCustomerEntryCity.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryCity.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryCity.Location = new Point(8, 280);
             textBoxCustomerEntryCity.Name = "textBoxCustomerEntryCity";
-            textBoxCustomerEntryCity.Size = new Size(216, 29);
+            textBoxCustomerEntryCity.Size = new Size(216, 26);
             textBoxCustomerEntryCity.TabIndex = 21;
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label14.Location = new Point(8, 256);
             label14.Name = "label14";
-            label14.Size = new Size(45, 21);
+            label14.Size = new Size(55, 21);
             label14.TabIndex = 20;
             label14.Text = "Stadt";
             // 
             // textBoxCustomerEntryZipCode
             // 
-            textBoxCustomerEntryZipCode.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryZipCode.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryZipCode.Location = new Point(8, 216);
             textBoxCustomerEntryZipCode.Name = "textBoxCustomerEntryZipCode";
-            textBoxCustomerEntryZipCode.Size = new Size(216, 29);
+            textBoxCustomerEntryZipCode.Size = new Size(216, 26);
             textBoxCustomerEntryZipCode.TabIndex = 19;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label10.Location = new Point(8, 192);
             label10.Name = "label10";
-            label10.Size = new Size(36, 21);
+            label10.Size = new Size(37, 21);
             label10.TabIndex = 18;
             label10.Text = "PLZ";
             // 
             // textBoxCustomerEntryStreet
             // 
-            textBoxCustomerEntryStreet.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryStreet.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryStreet.Location = new Point(8, 152);
             textBoxCustomerEntryStreet.Name = "textBoxCustomerEntryStreet";
-            textBoxCustomerEntryStreet.Size = new Size(216, 29);
+            textBoxCustomerEntryStreet.Size = new Size(216, 26);
             textBoxCustomerEntryStreet.TabIndex = 17;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.Location = new Point(8, 128);
             label6.Name = "label6";
-            label6.Size = new Size(168, 21);
+            label6.Size = new Size(181, 21);
             label6.TabIndex = 16;
             label6.Text = "Straße + Hausnummer";
             // 
             // textBoxCustomerEntryName
             // 
-            textBoxCustomerEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomerEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxCustomerEntryName.Location = new Point(8, 96);
             textBoxCustomerEntryName.Name = "textBoxCustomerEntryName";
-            textBoxCustomerEntryName.Size = new Size(216, 29);
+            textBoxCustomerEntryName.Size = new Size(216, 26);
             textBoxCustomerEntryName.TabIndex = 15;
             // 
             // labelCustomerEntryName
             // 
             labelCustomerEntryName.AutoSize = true;
-            labelCustomerEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCustomerEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelCustomerEntryName.Location = new Point(8, 72);
             labelCustomerEntryName.Name = "labelCustomerEntryName";
-            labelCustomerEntryName.Size = new Size(52, 21);
+            labelCustomerEntryName.Size = new Size(46, 21);
             labelCustomerEntryName.TabIndex = 14;
             labelCustomerEntryName.Text = "Name";
             // 
             // labelCustomerEntry
             // 
             labelCustomerEntry.AutoSize = true;
-            labelCustomerEntry.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelCustomerEntry.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelCustomerEntry.Location = new Point(0, 16);
             labelCustomerEntry.Name = "labelCustomerEntry";
-            labelCustomerEntry.Size = new Size(240, 37);
+            labelCustomerEntry.Size = new Size(255, 35);
             labelCustomerEntry.TabIndex = 13;
             labelCustomerEntry.Text = "Kundenerfassung";
             // 
             // tabPageCustomers
             // 
+            tabPageCustomers.BackColor = Color.White;
             tabPageCustomers.Controls.Add(dataGridViewCustomers);
             tabPageCustomers.Controls.Add(labelCustomers);
             tabPageCustomers.Location = new Point(4, 24);
@@ -1880,7 +1863,6 @@
             tabPageCustomers.Size = new Size(762, 668);
             tabPageCustomers.TabIndex = 8;
             tabPageCustomers.Text = "Kunden";
-            tabPageCustomers.UseVisualStyleBackColor = true;
             // 
             // dataGridViewCustomers
             // 
@@ -1893,23 +1875,23 @@
             dataGridViewCustomers.BorderStyle = BorderStyle.None;
             dataGridViewCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle77.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle77.BackColor = SystemColors.Control;
-            dataGridViewCellStyle77.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle77.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle77.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle77.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle77.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle77;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle78.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle78.BackColor = SystemColors.Control;
-            dataGridViewCellStyle78.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle78.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle78.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle78.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle78.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle78;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridViewCustomers.GridColor = SystemColors.Control;
             dataGridViewCustomers.Location = new Point(0, 88);
             dataGridViewCustomers.MultiSelect = false;
@@ -1926,15 +1908,16 @@
             // labelCustomers
             // 
             labelCustomers.AutoSize = true;
-            labelCustomers.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelCustomers.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelCustomers.Location = new Point(0, 16);
             labelCustomers.Name = "labelCustomers";
-            labelCustomers.Size = new Size(115, 37);
+            labelCustomers.Size = new Size(111, 35);
             labelCustomers.TabIndex = 15;
             labelCustomers.Text = "Kunden";
             // 
             // tabPageProductEntry
             // 
+            tabPageProductEntry.BackColor = Color.White;
             tabPageProductEntry.Controls.Add(checkBoxProductEntryIsStocked);
             tabPageProductEntry.Controls.Add(labelProductEntryStock);
             tabPageProductEntry.Controls.Add(textBoxProductEntryStock);
@@ -1954,7 +1937,6 @@
             tabPageProductEntry.Size = new Size(762, 668);
             tabPageProductEntry.TabIndex = 9;
             tabPageProductEntry.Text = "Artikelerfassung";
-            tabPageProductEntry.UseVisualStyleBackColor = true;
             // 
             // checkBoxProductEntryIsStocked
             // 
@@ -1968,28 +1950,28 @@
             // labelProductEntryStock
             // 
             labelProductEntryStock.AutoSize = true;
-            labelProductEntryStock.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryStock.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelProductEntryStock.Location = new Point(248, 120);
             labelProductEntryStock.Name = "labelProductEntryStock";
-            labelProductEntryStock.Size = new Size(104, 21);
+            labelProductEntryStock.Size = new Size(118, 21);
             labelProductEntryStock.TabIndex = 44;
             labelProductEntryStock.Text = "Lagerbestand";
             // 
             // textBoxProductEntryStock
             // 
-            textBoxProductEntryStock.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryStock.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxProductEntryStock.Location = new Point(248, 144);
             textBoxProductEntryStock.Name = "textBoxProductEntryStock";
-            textBoxProductEntryStock.Size = new Size(216, 29);
+            textBoxProductEntryStock.Size = new Size(216, 26);
             textBoxProductEntryStock.TabIndex = 43;
             // 
             // labelProductEntryIsStocked
             // 
             labelProductEntryIsStocked.AutoSize = true;
-            labelProductEntryIsStocked.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryIsStocked.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelProductEntryIsStocked.Location = new Point(248, 64);
             labelProductEntryIsStocked.Name = "labelProductEntryIsStocked";
-            labelProductEntryIsStocked.Size = new Size(161, 21);
+            labelProductEntryIsStocked.Size = new Size(190, 21);
             labelProductEntryIsStocked.TabIndex = 42;
             labelProductEntryIsStocked.Text = "Lagerbestand führen?";
             // 
@@ -2003,7 +1985,7 @@
             // 
             // buttonProductEntryAddPicture
             // 
-            buttonProductEntryAddPicture.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonProductEntryAddPicture.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonProductEntryAddPicture.Location = new Point(8, 248);
             buttonProductEntryAddPicture.Name = "buttonProductEntryAddPicture";
             buttonProductEntryAddPicture.Size = new Size(216, 32);
@@ -2024,71 +2006,72 @@
             // 
             // textBoxProductEntryPrice
             // 
-            textBoxProductEntryPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryPrice.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxProductEntryPrice.Location = new Point(8, 200);
             textBoxProductEntryPrice.Name = "textBoxProductEntryPrice";
-            textBoxProductEntryPrice.Size = new Size(216, 29);
+            textBoxProductEntryPrice.Size = new Size(216, 26);
             textBoxProductEntryPrice.TabIndex = 32;
             // 
             // labelProductEntryPrice
             // 
             labelProductEntryPrice.AutoSize = true;
-            labelProductEntryPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelProductEntryPrice.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelProductEntryPrice.Location = new Point(8, 176);
             labelProductEntryPrice.Name = "labelProductEntryPrice";
-            labelProductEntryPrice.Size = new Size(44, 21);
+            labelProductEntryPrice.Size = new Size(55, 21);
             labelProductEntryPrice.TabIndex = 31;
             labelProductEntryPrice.Text = "Preis";
             // 
             // textBoxProductEntryDescription
             // 
-            textBoxProductEntryDescription.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryDescription.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxProductEntryDescription.Location = new Point(8, 144);
             textBoxProductEntryDescription.Name = "textBoxProductEntryDescription";
-            textBoxProductEntryDescription.Size = new Size(216, 29);
+            textBoxProductEntryDescription.Size = new Size(216, 26);
             textBoxProductEntryDescription.TabIndex = 30;
             // 
             // label27
             // 
             label27.AutoSize = true;
-            label27.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label27.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label27.Location = new Point(8, 120);
             label27.Name = "label27";
-            label27.Size = new Size(104, 21);
+            label27.Size = new Size(118, 21);
             label27.TabIndex = 29;
             label27.Text = "Beschreibung";
             // 
             // textBoxProductEntryName
             // 
-            textBoxProductEntryName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxProductEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxProductEntryName.Location = new Point(8, 88);
             textBoxProductEntryName.Name = "textBoxProductEntryName";
-            textBoxProductEntryName.Size = new Size(216, 29);
+            textBoxProductEntryName.Size = new Size(216, 26);
             textBoxProductEntryName.TabIndex = 28;
             // 
             // label28
             // 
             label28.AutoSize = true;
-            label28.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label28.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label28.Location = new Point(8, 64);
             label28.Name = "label28";
-            label28.Size = new Size(52, 21);
+            label28.Size = new Size(46, 21);
             label28.TabIndex = 27;
             label28.Text = "Name";
             // 
             // labelProduct
             // 
             labelProduct.AutoSize = true;
-            labelProduct.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelProduct.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelProduct.ForeColor = Color.Black;
             labelProduct.Location = new Point(0, 16);
             labelProduct.Name = "labelProduct";
-            labelProduct.Size = new Size(230, 37);
+            labelProduct.Size = new Size(271, 35);
             labelProduct.TabIndex = 11;
             labelProduct.Text = "Artikelerfassung";
             // 
             // tabPageProducts
             // 
+            tabPageProducts.BackColor = Color.White;
             tabPageProducts.Controls.Add(pictureBoxProducts);
             tabPageProducts.Controls.Add(dataGridViewProducts);
             tabPageProducts.Controls.Add(labelProducts);
@@ -2097,7 +2080,6 @@
             tabPageProducts.Size = new Size(762, 668);
             tabPageProducts.TabIndex = 10;
             tabPageProducts.Text = "Produkte";
-            tabPageProducts.UseVisualStyleBackColor = true;
             // 
             // pictureBoxProducts
             // 
@@ -2118,23 +2100,23 @@
             dataGridViewProducts.BorderStyle = BorderStyle.None;
             dataGridViewProducts.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle79.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle79.BackColor = SystemColors.Control;
-            dataGridViewCellStyle79.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle79.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle79.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle79.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle79.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle79;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle80.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle80.BackColor = SystemColors.Control;
-            dataGridViewCellStyle80.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle80.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle80.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle80.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle80.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle80;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle8;
             dataGridViewProducts.GridColor = SystemColors.Control;
             dataGridViewProducts.Location = new Point(-40, 98);
             dataGridViewProducts.MultiSelect = false;
@@ -2153,15 +2135,16 @@
             // labelProducts
             // 
             labelProducts.AutoSize = true;
-            labelProducts.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelProducts.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelProducts.Location = new Point(0, 16);
             labelProducts.Name = "labelProducts";
-            labelProducts.Size = new Size(105, 37);
+            labelProducts.Size = new Size(127, 35);
             labelProducts.TabIndex = 17;
             labelProducts.Text = "Artikel";
             // 
             // tabPageInvoiceEntry
             // 
+            tabPageInvoiceEntry.BackColor = Color.White;
             tabPageInvoiceEntry.Controls.Add(labelInvoiceEntryInvoiceLines);
             tabPageInvoiceEntry.Controls.Add(buttonInvoiceEntryPost);
             tabPageInvoiceEntry.Controls.Add(dataGridViewInvoiceEntry);
@@ -2175,7 +2158,6 @@
             tabPageInvoiceEntry.Size = new Size(762, 668);
             tabPageInvoiceEntry.TabIndex = 11;
             tabPageInvoiceEntry.Text = "Rechnungserfassung";
-            tabPageInvoiceEntry.UseVisualStyleBackColor = true;
             // 
             // labelInvoiceEntryInvoiceLines
             // 
@@ -2204,24 +2186,24 @@
             dataGridViewInvoiceEntry.BorderStyle = BorderStyle.None;
             dataGridViewInvoiceEntry.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoiceEntry.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle81.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle81.BackColor = SystemColors.Control;
-            dataGridViewCellStyle81.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle81.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle81.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle81.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle81.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle81;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dataGridViewInvoiceEntry.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewInvoiceEntry.Columns.AddRange(new DataGridViewColumn[] { colProductId, colProductName, colQuantity, colPrice, colTotal });
-            dataGridViewCellStyle82.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle82.BackColor = SystemColors.Control;
-            dataGridViewCellStyle82.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle82.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle82.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle82.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle82.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle82;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.Control;
+            dataGridViewCellStyle10.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle10;
             dataGridViewInvoiceEntry.GridColor = SystemColors.Control;
             dataGridViewInvoiceEntry.Location = new Point(8, 192);
             dataGridViewInvoiceEntry.Name = "dataGridViewInvoiceEntry";
@@ -2296,16 +2278,17 @@
             // labelInvoiceEntry
             // 
             labelInvoiceEntry.AutoSize = true;
-            labelInvoiceEntry.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelInvoiceEntry.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelInvoiceEntry.ForeColor = Color.Black;
             labelInvoiceEntry.Location = new Point(0, 16);
             labelInvoiceEntry.Name = "labelInvoiceEntry";
-            labelInvoiceEntry.Size = new Size(280, 37);
+            labelInvoiceEntry.Size = new Size(303, 35);
             labelInvoiceEntry.TabIndex = 13;
             labelInvoiceEntry.Text = "Rechnungserfassung";
             // 
             // tabPageInvoices
             // 
+            tabPageInvoices.BackColor = Color.White;
             tabPageInvoices.Controls.Add(buttonInvoicesIsCancelled);
             tabPageInvoices.Controls.Add(buttonInvoicesPDF);
             tabPageInvoices.Controls.Add(dataGridViewInvoices);
@@ -2315,15 +2298,14 @@
             tabPageInvoices.Size = new Size(762, 668);
             tabPageInvoices.TabIndex = 12;
             tabPageInvoices.Text = "Rechnungen";
-            tabPageInvoices.UseVisualStyleBackColor = true;
             // 
             // buttonInvoicesIsCancelled
             // 
             buttonInvoicesIsCancelled.AutoSize = true;
-            buttonInvoicesIsCancelled.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoicesIsCancelled.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonInvoicesIsCancelled.Location = new Point(560, 96);
             buttonInvoicesIsCancelled.Name = "buttonInvoicesIsCancelled";
-            buttonInvoicesIsCancelled.Size = new Size(169, 25);
+            buttonInvoicesIsCancelled.Size = new Size(200, 25);
             buttonInvoicesIsCancelled.TabIndex = 22;
             buttonInvoicesIsCancelled.Text = "Rechnung storniert?";
             buttonInvoicesIsCancelled.UseVisualStyleBackColor = true;
@@ -2331,7 +2313,7 @@
             // 
             // buttonInvoicesPDF
             // 
-            buttonInvoicesPDF.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoicesPDF.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonInvoicesPDF.Location = new Point(560, 64);
             buttonInvoicesPDF.Name = "buttonInvoicesPDF";
             buttonInvoicesPDF.Size = new Size(192, 32);
@@ -2351,23 +2333,23 @@
             dataGridViewInvoices.BorderStyle = BorderStyle.None;
             dataGridViewInvoices.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoices.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle83.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle83.BackColor = SystemColors.Control;
-            dataGridViewCellStyle83.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle83.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle83.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle83.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle83.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle83;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = SystemColors.Control;
+            dataGridViewCellStyle11.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dataGridViewInvoices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle84.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle84.BackColor = SystemColors.Control;
-            dataGridViewCellStyle84.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle84.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle84.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle84.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle84.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle84;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = SystemColors.Control;
+            dataGridViewCellStyle12.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle12;
             dataGridViewInvoices.GridColor = SystemColors.Control;
             dataGridViewInvoices.Location = new Point(-15, 63);
             dataGridViewInvoices.MultiSelect = false;
@@ -2385,25 +2367,26 @@
             // labelInvoices
             // 
             labelInvoices.AutoSize = true;
-            labelInvoices.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelInvoices.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelInvoices.ForeColor = Color.Black;
             labelInvoices.Location = new Point(0, 16);
             labelInvoices.Name = "labelInvoices";
-            labelInvoices.Size = new Size(174, 37);
+            labelInvoices.Size = new Size(175, 35);
             labelInvoices.TabIndex = 14;
             labelInvoices.Text = "Rechnungen";
             // 
             // tabPageDataexport
             // 
+            tabPageDataexport.BackColor = Color.White;
             tabPageDataexport.Location = new Point(4, 24);
             tabPageDataexport.Name = "tabPageDataexport";
             tabPageDataexport.Size = new Size(762, 668);
             tabPageDataexport.TabIndex = 4;
             tabPageDataexport.Text = "Datenexport";
-            tabPageDataexport.UseVisualStyleBackColor = true;
             // 
             // tabPageSettings
             // 
+            tabPageSettings.BackColor = Color.White;
             tabPageSettings.Controls.Add(panelSettings);
             tabPageSettings.Controls.Add(labelSettings);
             tabPageSettings.Location = new Point(4, 24);
@@ -2411,7 +2394,6 @@
             tabPageSettings.Size = new Size(762, 668);
             tabPageSettings.TabIndex = 5;
             tabPageSettings.Text = "Einstellungen";
-            tabPageSettings.UseVisualStyleBackColor = true;
             // 
             // panelSettings
             // 
@@ -2754,22 +2736,41 @@
             // labelSettings
             // 
             labelSettings.AutoSize = true;
-            labelSettings.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelSettings.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelSettings.ForeColor = Color.Black;
             labelSettings.Location = new Point(0, 16);
             labelSettings.Name = "labelSettings";
-            labelSettings.Size = new Size(189, 37);
+            labelSettings.Size = new Size(223, 35);
             labelSettings.TabIndex = 12;
             labelSettings.Text = "Einstellungen";
             // 
             // tabPageAbout
             // 
+            tabPageAbout.BackColor = Color.White;
             tabPageAbout.Location = new Point(4, 24);
             tabPageAbout.Name = "tabPageAbout";
             tabPageAbout.Size = new Size(762, 668);
             tabPageAbout.TabIndex = 6;
             tabPageAbout.Text = "Über...";
-            tabPageAbout.UseVisualStyleBackColor = true;
+            // 
+            // labelJournalAsset
+            // 
+            labelJournalAsset.AutoSize = true;
+            labelJournalAsset.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalAsset.Location = new Point(408, 472);
+            labelJournalAsset.Name = "labelJournalAsset";
+            labelJournalAsset.Size = new Size(56, 17);
+            labelJournalAsset.TabIndex = 39;
+            labelJournalAsset.Text = "Anlage";
+            // 
+            // textBoxJournalAsset
+            // 
+            textBoxJournalAsset.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalAsset.Location = new Point(408, 488);
+            textBoxJournalAsset.Multiline = true;
+            textBoxJournalAsset.Name = "textBoxJournalAsset";
+            textBoxJournalAsset.Size = new Size(352, 24);
+            textBoxJournalAsset.TabIndex = 40;
             // 
             // Form1
             // 
@@ -2888,9 +2889,7 @@
         private Label labelJournalPostingText;
         private Label labelJournalAmount;
         private Label labelJournalReversalVoucher;
-        private Label labelJournalReversal;
         private Label labelJournalPostingType;
-        private TextBox textBoxJournalReversal;
         private TextBox textBoxJournalPostingType;
         private TextBox textBoxJournalCategory;
         private TextBox textBoxJournalPostingText;
@@ -3054,5 +3053,7 @@
         private CheckBox buttonInvoicesIsCancelled;
         private TextBox textBoxJournalInvoiceReference;
         private Label labelJournalInvoiceReference;
+        private TextBox textBoxJournalAsset;
+        private Label labelJournalAsset;
     }
 }

@@ -271,6 +271,12 @@ namespace mirada_finanza_control_central
             selectedFileExt = "";
             pictureBoxEntryPreview.Image = null;
             labelSelectedFilename.Text = "";
+
+            checkBoxSettleInvoice.Checked = false;
+            comboBoxEntryTransactionOpenInvoices.SelectedIndex = -1;
+            comboBoxEntryTransactionOpenInvoices.Enabled = false;
+            comboBoxEntryTransactionOpenInvoices.DataSource = null;
+            comboBoxEntryTransactionOpenInvoices.Text = "";
         }
 
         private void RefreshJournal()
@@ -293,7 +299,7 @@ namespace mirada_finanza_control_central
                 if (dataGridViewJournal.Columns.Count > 0)
                 {
                     // Original-Daten-Spalten ausblenden
-                    string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description" };
+                    string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description", "Reversal", "ReversalReferenceVoucher", "InvoiceReference", "AssetId" };
                     foreach (var colName in hiddenCols)
                     {
                         if (dataGridViewJournal.Columns[colName] != null)
@@ -306,10 +312,10 @@ namespace mirada_finanza_control_central
                     ConfigureDisplayColumn("Disp_AmountDesc", "Betrag\nBeschreibung", 140, 2);
 
                     // Storno- & Asset-Spalten
-                    SetColumnStyle("Reversal", "Storno", 60, 3);
-                    SetColumnStyle("ReversalReferenceVoucher", "Stornobeleg", 102, 4);
-                    SetColumnStyle("InvoiceReference", "Rechnungsbeleg", 102, 5);
-                    SetColumnStyle("AssetId", "Anlagen-Nr.", 102, 6);
+                    //SetColumnStyle("Reversal", "Storno", 60, 3);
+                    //SetColumnStyle("ReversalReferenceVoucher", "Stornobeleg", 102, 4);
+                    //SetColumnStyle("InvoiceReference", "Rechnungsbeleg", 102, 5);
+                    //SetColumnStyle("AssetId", "Anlagen-Nr.", 102, 6);
                 }
             }
             catch (Exception ex)
@@ -432,10 +438,10 @@ namespace mirada_finanza_control_central
                     textBoxJournalVoucher.Text = entry.Voucher;
                     textBoxJournalVoucherDate.Text = entry.TransDate;
                     textBoxJournalReversalVoucher.Text = entry.ReversalReferenceVoucher ?? "";
-                    textBoxJournalReversal.Text = entry.Reversal ? "Ja" : "Nein";
                     textBoxJournalPostingText.Text = entry.Description;
                     textBoxJournalPostingType.Text = entry.TransactionType;
                     textBoxJournalInvoiceReference.Text = entry.InvoiceReference;
+                    // textBoxJournalAsset.Text = entry.Asset;
 
                     // DATUM FORMATIEREN
                     if (!string.IsNullOrEmpty(entry.CreatedDate))
@@ -466,10 +472,10 @@ namespace mirada_finanza_control_central
             textBoxJournalVoucher.Clear();
             textBoxJournalVoucherDate.Clear();
             textBoxJournalReversalVoucher.Clear();
-            textBoxJournalReversal.Clear();
             textBoxJournalPostingText.Clear();
             textBoxJournalPostingType.Clear();
             textBoxJournalCreationDate.Clear();
+            textBoxJournalInvoiceReference.Clear();
         }
 
         private void checkBoxReversal_CheckedChanged(object sender, EventArgs e)

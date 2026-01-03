@@ -358,6 +358,34 @@ namespace mirada_finanza_control_central
                     }
                 }
 
+                if (_entryTransaction.Reversal)
+                {
+                    // 1. Wir müssen die InvoiceReference aus dem Originalbeleg holen
+                    string originalInvoiceRef = null;
+
+                    string getOriginalSql = "SELECT InvoiceReference FROM EntryTransaction WHERE Voucher = @origVoucher LIMIT 1";
+                    using (var cmdGetOrig = new SQLiteCommand(getOriginalSql, conn))
+                    {
+                        cmdGetOrig.Parameters.AddWithValue("@origVoucher", _entryTransaction.ReversalReferenceVoucher);
+                        var result = cmdGetOrig.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            originalInvoiceRef = result.ToString();
+                        }
+                    }
+
+                    // 2. Wenn wir eine Referenz gefunden haben, setzen wir die Rechnung zurück
+                    if (!string.IsNullOrEmpty(originalInvoiceRef))
+                    {
+                        string updateInvoiceSql = "UPDATE Invoice SET IsPaid = 0 WHERE Id = @invoiceRef";
+                        using (var cmdUpdate = new SQLiteCommand(updateInvoiceSql, conn))
+                        {
+                            cmdUpdate.Parameters.AddWithValue("@invoiceRef", originalInvoiceRef);
+                            cmdUpdate.ExecuteNonQuery();
+                        }
+                    }
+                }
+
                 if (_entryTransaction.TransactionType == "Anlage")
                 {
                     Asset asset = new Asset
