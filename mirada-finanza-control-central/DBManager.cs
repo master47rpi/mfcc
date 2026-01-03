@@ -515,7 +515,8 @@ namespace mirada_finanza_control_central
                                     TransDate = reader["TransDate"].ToString(),
                                     CreatedDate = reader["CreatedDate"]?.ToString(),
                                     Reversal = Convert.ToInt32(reader["Reversal"]) == 1, // Mapping auf bool
-                                    ReversalReferenceVoucher = reader["ReversalReferenceVoucher"]?.ToString()
+                                    ReversalReferenceVoucher = reader["ReversalReferenceVoucher"]?.ToString(),
+                                    InvoiceReference = reader["InvoiceReference"]?.ToString()
                                 };
                             }
                         }

@@ -222,7 +222,7 @@ namespace mirada_finanza_control_central
                     // Bei ReversalReferenceVoucher prüfen wir auf null beim SelectedValue
                     ReversalReferenceVoucher = checkBoxReversal.Checked ? comboBoxReferenceVoucher.SelectedValue?.ToString() : null,
                     // InvoiceReference einfach null lassen, wenn sie leer ist
-                    InvoiceReference = null
+                    InvoiceReference = checkBoxSettleInvoice.Checked ? comboBoxEntryTransactionOpenInvoices.SelectedValue?.ToString() : null
                 };
 
                 if (checkBoxSettleInvoice.Checked && comboBoxEntryTransactionOpenInvoices.SelectedValue != null)
@@ -435,6 +435,7 @@ namespace mirada_finanza_control_central
                     textBoxJournalReversal.Text = entry.Reversal ? "Ja" : "Nein";
                     textBoxJournalPostingText.Text = entry.Description;
                     textBoxJournalPostingType.Text = entry.TransactionType;
+                    textBoxJournalInvoiceReference.Text = entry.InvoiceReference;
 
                     // DATUM FORMATIEREN
                     if (!string.IsNullOrEmpty(entry.CreatedDate))
