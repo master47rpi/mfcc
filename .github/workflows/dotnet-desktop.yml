@@ -1,0 +1,67 @@
+name: .NET Build and Release
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: mirada-finanza-control-central.slnx
+      Configuration: Release
+      Base_Version: 1.0 # Deine Hauptversion
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    # Hier generieren wir beides: Das Datum für den Namen und die Build-Nummer für die Version
+    - name: Generate Version Strings
+      shell: pwsh
+      run: |
+        $dt = Get-Date
+        # Technische Version: 1.0.RunNumber (z.B. 1.0.42)
+        $ver = "${{ env.Base_Version }}.${{ github.run_number }}"
+        # Lesbarer Name: 03.01.2026 20:15
+        $relName = $dt.ToString("dd.MM.yyyy HH:mm")
+        
+        echo "NEW_VERSION=$ver" >> $env:GITHUB_ENV
+        echo "RELEASE_NAME=$relName" >> $env:GITHUB_ENV
+
+    - name: Publish Application
+      run: |
+        dotnet publish ${{ env.Solution_Name }} `
+          -c ${{ env.Configuration }} `
+          -o ./publish_output `
+          /p:Version=${{ env.NEW_VERSION }} `
+          /p:AssemblyVersion=${{ env.NEW_VERSION }} `
+          /p:FileVersion=${{ env.NEW_VERSION }}
+
+    - name: Package Application
+      shell: pwsh
+      run: |
+        if (Test-Path "./publish_output/*.db") { Remove-Item "./publish_output/*.db" }
+        Compress-Archive -Path ./publish_output/* -DestinationPath "Mirada_Finanza_v${{ env.NEW_VERSION }}.zip"
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ env.NEW_VERSION }}
+        name: Build vom ${{ env.RELEASE_NAME }} (v${{ env.NEW_VERSION }})
+        body: |
+          ### Release Information
+          - **Version:** ${{ env.NEW_VERSION }}
+          - **Zeitpunkt:** ${{ env.RELEASE_NAME }}
+          - **Zweig:** ${{ github.ref_name }}
+        files: Mirada_Finanza_v${{ env.NEW_VERSION }}.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
