@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
             panel1 = new Panel();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
@@ -1407,204 +1407,204 @@
             // 
             // textBoxJournalVoucher
             // 
-            textBoxJournalVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalVoucher.Location = new Point(568, 112);
+            textBoxJournalVoucher.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxJournalVoucher.Location = new Point(560, 104);
             textBoxJournalVoucher.Name = "textBoxJournalVoucher";
-            textBoxJournalVoucher.Size = new Size(184, 29);
+            textBoxJournalVoucher.Size = new Size(200, 25);
             textBoxJournalVoucher.TabIndex = 32;
             // 
             // labelJournalVoucher
             // 
             labelJournalVoucher.AutoSize = true;
-            labelJournalVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelJournalVoucher.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelJournalVoucher.Location = new Point(560, 88);
             labelJournalVoucher.Name = "labelJournalVoucher";
-            labelJournalVoucher.Size = new Size(48, 21);
+            labelJournalVoucher.Size = new Size(40, 17);
             labelJournalVoucher.TabIndex = 31;
             labelJournalVoucher.Text = "Beleg";
             // 
             // textBoxJournalReversalVoucher
             // 
-            textBoxJournalReversalVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalReversalVoucher.Location = new Point(632, 448);
+            textBoxJournalReversalVoucher.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalReversalVoucher.Location = new Point(608, 392);
             textBoxJournalReversalVoucher.Name = "textBoxJournalReversalVoucher";
-            textBoxJournalReversalVoucher.Size = new Size(120, 29);
+            textBoxJournalReversalVoucher.Size = new Size(152, 25);
             textBoxJournalReversalVoucher.TabIndex = 30;
             // 
             // textBoxJournalReversal
             // 
-            textBoxJournalReversal.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalReversal.Location = new Point(568, 448);
+            textBoxJournalReversal.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalReversal.Location = new Point(560, 392);
             textBoxJournalReversal.Name = "textBoxJournalReversal";
-            textBoxJournalReversal.Size = new Size(56, 29);
+            textBoxJournalReversal.Size = new Size(40, 25);
             textBoxJournalReversal.TabIndex = 29;
             // 
             // textBoxJournalPostingType
             // 
-            textBoxJournalPostingType.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalPostingType.Location = new Point(568, 392);
+            textBoxJournalPostingType.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalPostingType.Location = new Point(560, 344);
             textBoxJournalPostingType.Name = "textBoxJournalPostingType";
-            textBoxJournalPostingType.Size = new Size(184, 29);
+            textBoxJournalPostingType.Size = new Size(200, 25);
             textBoxJournalPostingType.TabIndex = 28;
             // 
             // textBoxJournalCategory
             // 
-            textBoxJournalCategory.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalCategory.Location = new Point(568, 336);
+            textBoxJournalCategory.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalCategory.Location = new Point(560, 296);
             textBoxJournalCategory.Name = "textBoxJournalCategory";
-            textBoxJournalCategory.Size = new Size(184, 29);
+            textBoxJournalCategory.Size = new Size(200, 25);
             textBoxJournalCategory.TabIndex = 27;
             // 
             // textBoxJournalPostingText
             // 
-            textBoxJournalPostingText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalPostingText.Location = new Point(568, 280);
+            textBoxJournalPostingText.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalPostingText.Location = new Point(560, 248);
             textBoxJournalPostingText.Name = "textBoxJournalPostingText";
-            textBoxJournalPostingText.Size = new Size(184, 29);
+            textBoxJournalPostingText.Size = new Size(200, 25);
             textBoxJournalPostingText.TabIndex = 26;
             // 
             // textBoxJournalAmount
             // 
-            textBoxJournalAmount.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalAmount.Location = new Point(568, 224);
+            textBoxJournalAmount.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalAmount.Location = new Point(560, 200);
             textBoxJournalAmount.Name = "textBoxJournalAmount";
-            textBoxJournalAmount.Size = new Size(184, 29);
+            textBoxJournalAmount.Size = new Size(200, 25);
             textBoxJournalAmount.TabIndex = 25;
             // 
             // textBoxJournalVoucherDate
             // 
-            textBoxJournalVoucherDate.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalVoucherDate.Location = new Point(568, 168);
+            textBoxJournalVoucherDate.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalVoucherDate.Location = new Point(560, 152);
             textBoxJournalVoucherDate.Name = "textBoxJournalVoucherDate";
-            textBoxJournalVoucherDate.Size = new Size(184, 29);
+            textBoxJournalVoucherDate.Size = new Size(200, 25);
             textBoxJournalVoucherDate.TabIndex = 24;
             // 
             // labelJournalReversalVoucher
             // 
             labelJournalReversalVoucher.AutoSize = true;
-            labelJournalReversalVoucher.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalReversalVoucher.Location = new Point(624, 424);
+            labelJournalReversalVoucher.Font = new Font("Segoe UI", 9.75F);
+            labelJournalReversalVoucher.Location = new Point(608, 376);
             labelJournalReversalVoucher.Name = "labelJournalReversalVoucher";
-            labelJournalReversalVoucher.Size = new Size(94, 21);
+            labelJournalReversalVoucher.Size = new Size(80, 17);
             labelJournalReversalVoucher.TabIndex = 23;
             labelJournalReversalVoucher.Text = "Stornobeleg";
             // 
             // labelJournalReversal
             // 
             labelJournalReversal.AutoSize = true;
-            labelJournalReversal.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalReversal.Location = new Point(560, 424);
+            labelJournalReversal.Font = new Font("Segoe UI", 9.75F);
+            labelJournalReversal.Location = new Point(560, 376);
             labelJournalReversal.Name = "labelJournalReversal";
-            labelJournalReversal.Size = new Size(56, 21);
+            labelJournalReversal.Size = new Size(47, 17);
             labelJournalReversal.TabIndex = 22;
             labelJournalReversal.Text = "Storno";
             // 
             // labelJournalPostingType
             // 
             labelJournalPostingType.AutoSize = true;
-            labelJournalPostingType.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalPostingType.Location = new Point(560, 368);
+            labelJournalPostingType.Font = new Font("Segoe UI", 9.75F);
+            labelJournalPostingType.Location = new Point(560, 328);
             labelJournalPostingType.Name = "labelJournalPostingType";
-            labelJournalPostingType.Size = new Size(97, 21);
+            labelJournalPostingType.Size = new Size(79, 17);
             labelJournalPostingType.TabIndex = 21;
             labelJournalPostingType.Text = "Buchungsart";
             // 
             // labelJournalCategory
             // 
             labelJournalCategory.AutoSize = true;
-            labelJournalCategory.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalCategory.Location = new Point(560, 312);
+            labelJournalCategory.Font = new Font("Segoe UI", 9.75F);
+            labelJournalCategory.Location = new Point(560, 280);
             labelJournalCategory.Name = "labelJournalCategory";
-            labelJournalCategory.Size = new Size(76, 21);
+            labelJournalCategory.Size = new Size(65, 17);
             labelJournalCategory.TabIndex = 20;
             labelJournalCategory.Text = "Kategorie";
             // 
             // labelJournalPostingText
             // 
             labelJournalPostingText.AutoSize = true;
-            labelJournalPostingText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalPostingText.Location = new Point(560, 256);
+            labelJournalPostingText.Font = new Font("Segoe UI", 9.75F);
+            labelJournalPostingText.Location = new Point(560, 232);
             labelJournalPostingText.Name = "labelJournalPostingText";
-            labelJournalPostingText.Size = new Size(103, 21);
+            labelJournalPostingText.Size = new Size(84, 17);
             labelJournalPostingText.TabIndex = 19;
             labelJournalPostingText.Text = "Buchungstext";
             // 
             // labelJournalAmount
             // 
             labelJournalAmount.AutoSize = true;
-            labelJournalAmount.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalAmount.Location = new Point(560, 200);
+            labelJournalAmount.Font = new Font("Segoe UI", 9.75F);
+            labelJournalAmount.Location = new Point(560, 184);
             labelJournalAmount.Name = "labelJournalAmount";
-            labelJournalAmount.Size = new Size(55, 21);
+            labelJournalAmount.Size = new Size(46, 17);
             labelJournalAmount.TabIndex = 18;
             labelJournalAmount.Text = "Betrag";
             // 
             // labelJournalVoucherDate
             // 
             labelJournalVoucherDate.AutoSize = true;
-            labelJournalVoucherDate.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalVoucherDate.Location = new Point(560, 144);
+            labelJournalVoucherDate.Font = new Font("Segoe UI", 9.75F);
+            labelJournalVoucherDate.Location = new Point(560, 136);
             labelJournalVoucherDate.Name = "labelJournalVoucherDate";
-            labelJournalVoucherDate.Size = new Size(93, 21);
+            labelJournalVoucherDate.Size = new Size(77, 17);
             labelJournalVoucherDate.TabIndex = 17;
             labelJournalVoucherDate.Text = "Belegdatum";
             // 
             // labelJournalNote
             // 
             labelJournalNote.AutoSize = true;
-            labelJournalNote.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelJournalNote.Location = new Point(560, 576);
+            labelJournalNote.Font = new Font("Segoe UI", 9.75F);
+            labelJournalNote.Location = new Point(560, 512);
             labelJournalNote.Name = "labelJournalNote";
-            labelJournalNote.Size = new Size(47, 21);
+            labelJournalNote.Size = new Size(39, 17);
             labelJournalNote.TabIndex = 16;
             labelJournalNote.Text = "Notiz";
             // 
             // textBoxJournalNote
             // 
-            textBoxJournalNote.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalNote.Location = new Point(568, 600);
+            textBoxJournalNote.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalNote.Location = new Point(560, 528);
             textBoxJournalNote.Multiline = true;
             textBoxJournalNote.Name = "textBoxJournalNote";
-            textBoxJournalNote.Size = new Size(184, 48);
+            textBoxJournalNote.Size = new Size(200, 104);
             textBoxJournalNote.TabIndex = 15;
             // 
             // textBoxJournalCreationDate
             // 
-            textBoxJournalCreationDate.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxJournalCreationDate.Location = new Point(568, 544);
+            textBoxJournalCreationDate.Font = new Font("Segoe UI", 9.75F);
+            textBoxJournalCreationDate.Location = new Point(560, 480);
             textBoxJournalCreationDate.Multiline = true;
             textBoxJournalCreationDate.Name = "textBoxJournalCreationDate";
-            textBoxJournalCreationDate.Size = new Size(184, 24);
+            textBoxJournalCreationDate.Size = new Size(200, 24);
             textBoxJournalCreationDate.TabIndex = 14;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(560, 520);
+            label1.Font = new Font("Segoe UI", 9.75F);
+            label1.Location = new Point(560, 464);
             label1.Name = "label1";
-            label1.Size = new Size(131, 21);
+            label1.Size = new Size(108, 17);
             label1.TabIndex = 13;
             label1.Text = "Erstellungsdatum";
             // 
             // buttonJournalPicturePDF
             // 
-            buttonJournalPicturePDF.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonJournalPicturePDF.Location = new Point(568, 480);
+            buttonJournalPicturePDF.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonJournalPicturePDF.Location = new Point(560, 424);
             buttonJournalPicturePDF.Name = "buttonJournalPicturePDF";
-            buttonJournalPicturePDF.Size = new Size(184, 32);
+            buttonJournalPicturePDF.Size = new Size(200, 32);
             buttonJournalPicturePDF.TabIndex = 12;
-            buttonJournalPicturePDF.Text = "Bild / PDF";
+            buttonJournalPicturePDF.Text = "Bild / PDF anzeigen";
             buttonJournalPicturePDF.UseVisualStyleBackColor = true;
             buttonJournalPicturePDF.Click += buttonJournalPicturePDF_Click;
             // 
             // labelTransactionDetail
             // 
             labelTransactionDetail.AutoSize = true;
-            labelTransactionDetail.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelTransactionDetail.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelTransactionDetail.Location = new Point(560, 56);
             labelTransactionDetail.Name = "labelTransactionDetail";
-            labelTransactionDetail.Size = new Size(150, 25);
+            labelTransactionDetail.Size = new Size(136, 21);
             labelTransactionDetail.TabIndex = 2;
             labelTransactionDetail.Text = "Buchungsdetails";
             // 
@@ -1628,23 +1628,23 @@
             dataGridViewJournal.BorderStyle = BorderStyle.None;
             dataGridViewJournal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewJournal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.BackColor = SystemColors.Control;
+            dataGridViewCellStyle25.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle25.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             dataGridViewJournal.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = SystemColors.Window;
+            dataGridViewCellStyle26.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle26.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle26.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle26.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle26;
             dataGridViewJournal.GridColor = SystemColors.Window;
             dataGridViewJournal.Location = new Point(-40, 88);
             dataGridViewJournal.MultiSelect = false;
@@ -1681,23 +1681,23 @@
             dataGridViewAssets.BorderStyle = BorderStyle.None;
             dataGridViewAssets.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewAssets.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = SystemColors.Control;
+            dataGridViewCellStyle27.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle27.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle27.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
             dataGridViewAssets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Window;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = SystemColors.Window;
+            dataGridViewCellStyle28.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle28.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle28.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle28.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle28;
             dataGridViewAssets.GridColor = SystemColors.Control;
             dataGridViewAssets.Location = new Point(-40, 88);
             dataGridViewAssets.MultiSelect = false;
@@ -1894,23 +1894,23 @@
             dataGridViewCustomers.BorderStyle = BorderStyle.None;
             dataGridViewCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle29.BackColor = SystemColors.Control;
+            dataGridViewCellStyle29.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle29.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle29.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle29.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle29.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = SystemColors.Control;
+            dataGridViewCellStyle30.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle30.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle30.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle30.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle30;
             dataGridViewCustomers.GridColor = SystemColors.Control;
             dataGridViewCustomers.Location = new Point(0, 88);
             dataGridViewCustomers.MultiSelect = false;
@@ -2119,23 +2119,23 @@
             dataGridViewProducts.BorderStyle = BorderStyle.None;
             dataGridViewProducts.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = SystemColors.Control;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle31.BackColor = SystemColors.Control;
+            dataGridViewCellStyle31.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle31.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle31.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle31.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Control;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle32.BackColor = SystemColors.Control;
+            dataGridViewCellStyle32.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle32.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle32.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle32.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle32;
             dataGridViewProducts.GridColor = SystemColors.Control;
             dataGridViewProducts.Location = new Point(-40, 98);
             dataGridViewProducts.MultiSelect = false;
@@ -2205,24 +2205,24 @@
             dataGridViewInvoiceEntry.BorderStyle = BorderStyle.None;
             dataGridViewInvoiceEntry.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoiceEntry.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = SystemColors.Control;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle33.BackColor = SystemColors.Control;
+            dataGridViewCellStyle33.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle33.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle33.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle33.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle33;
             dataGridViewInvoiceEntry.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewInvoiceEntry.Columns.AddRange(new DataGridViewColumn[] { colProductId, colProductName, colQuantity, colPrice, colTotal });
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = SystemColors.Control;
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle34.BackColor = SystemColors.Control;
+            dataGridViewCellStyle34.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle34.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle34.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle34.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle34;
             dataGridViewInvoiceEntry.GridColor = SystemColors.Control;
             dataGridViewInvoiceEntry.Location = new Point(8, 192);
             dataGridViewInvoiceEntry.Name = "dataGridViewInvoiceEntry";
@@ -2352,23 +2352,23 @@
             dataGridViewInvoices.BorderStyle = BorderStyle.None;
             dataGridViewInvoices.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoices.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = SystemColors.Control;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.BackColor = SystemColors.Control;
+            dataGridViewCellStyle35.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle35.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle35.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle35.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
             dataGridViewInvoices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = SystemColors.Control;
-            dataGridViewCellStyle12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle36.BackColor = SystemColors.Control;
+            dataGridViewCellStyle36.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle36.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle36.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle36;
             dataGridViewInvoices.GridColor = SystemColors.Control;
             dataGridViewInvoices.Location = new Point(-15, 63);
             dataGridViewInvoices.MultiSelect = false;
