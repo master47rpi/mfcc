@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write # Wichtig für die Release-Erstellung
 
     env:
       Solution_Name: mirada-finanza-control-central.slnx
@@ -24,19 +26,26 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
-    # Hier generieren wir beides: Das Datum für den Namen und die Build-Nummer für die Version
+    # Generiert Datum (JJJJMMTT) und Uhrzeit sowie die fortlaufende Version
     - name: Generate Version Strings
       shell: pwsh
       run: |
         $dt = Get-Date
-        # Technische Version: 1.0.RunNumber (z.B. 1.0.42)
+        # Technische Version (z.B. 1.0.42)
         $ver = "${{ env.Base_Version }}.${{ github.run_number }}"
-        # Lesbarer Name: 03.01.2026 20:15
+        # Lesbares Datum für den Dateinamen (JJJJMMTT)
+        $fileDate = $dt.ToString("yyyyMMdd")
+        # Lesbarer Zeitpunkt für den Release-Titel
         $relName = $dt.ToString("dd.MM.yyyy HH:mm")
+        # Der finale Name der ZIP-Datei
+        $zipName = "Mirada-Finanza-Control-Central-$fileDate-$ver.zip"
         
         echo "NEW_VERSION=$ver" >> $env:GITHUB_ENV
         echo "RELEASE_NAME=$relName" >> $env:GITHUB_ENV
+        echo "FILE_DATE=$fileDate" >> $env:GITHUB_ENV
+        echo "ZIP_FILE_NAME=$zipName" >> $env:GITHUB_ENV
 
+    # Baut das Projekt und sammelt alle Abhängigkeiten (SQLite DLLs etc.) ein
     - name: Publish Application
       run: |
         dotnet publish ${{ env.Solution_Name }} `
@@ -46,12 +55,14 @@ jobs:
           /p:AssemblyVersion=${{ env.NEW_VERSION }} `
           /p:FileVersion=${{ env.NEW_VERSION }}
 
+    # Packt alles in die ZIP (ohne Datenbankdateien)
     - name: Package Application
       shell: pwsh
       run: |
         if (Test-Path "./publish_output/*.db") { Remove-Item "./publish_output/*.db" }
-        Compress-Archive -Path ./publish_output/* -DestinationPath "Mirada_Finanza_v${{ env.NEW_VERSION }}.zip"
+        Compress-Archive -Path ./publish_output/* -DestinationPath ${{ env.ZIP_FILE_NAME }}
 
+    # Erstellt das Release auf GitHub
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
@@ -61,7 +72,7 @@ jobs:
           ### Release Information
           - **Version:** ${{ env.NEW_VERSION }}
           - **Zeitpunkt:** ${{ env.RELEASE_NAME }}
-          - **Zweig:** ${{ github.ref_name }}
-        files: Mirada_Finanza_v${{ env.NEW_VERSION }}.zip
+          - **Datei:** ${{ env.ZIP_FILE_NAME }}
+        files: ${{ env.ZIP_FILE_NAME }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
