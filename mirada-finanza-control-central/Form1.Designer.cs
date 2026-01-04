@@ -28,19 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            buttonUpdate = new Button();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
             buttonInvoiceEntry = new Button();
@@ -127,6 +130,8 @@
             numericUpDownAmount = new NumericUpDown();
             dateTimePickerVoucherDate = new DateTimePicker();
             tabPageJournal = new TabPage();
+            textBoxJournalAsset = new TextBox();
+            labelJournalAsset = new Label();
             textBoxJournalInvoiceReference = new TextBox();
             labelJournalInvoiceReference = new Label();
             comboBoxJournalFilterMonth = new ComboBox();
@@ -180,7 +185,6 @@
             checkBoxProductEntryIsStocked = new CheckBox();
             labelProductEntryStock = new Label();
             textBoxProductEntryStock = new TextBox();
-            labelProductEntryIsStocked = new Label();
             pictureBoxProductEntry = new PictureBox();
             buttonProductEntryAddPicture = new Button();
             buttonProductEntrySave = new Button();
@@ -196,6 +200,7 @@
             dataGridViewProducts = new DataGridView();
             labelProducts = new Label();
             tabPageInvoiceEntry = new TabPage();
+            label23 = new Label();
             labelInvoiceEntryInvoiceLines = new Label();
             buttonInvoiceEntryPost = new Button();
             dataGridViewInvoiceEntry = new DataGridView();
@@ -210,11 +215,23 @@
             labelInvoiceEntryInvoiceDate = new Label();
             labelInvoiceEntry = new Label();
             tabPageInvoices = new TabPage();
+            label30 = new Label();
+            dataGridViewInvoicesLines = new DataGridView();
+            label29 = new Label();
+            label26 = new Label();
+            textBoxInvoicesIsPaid = new TextBox();
+            textBoxInvoicesIsCancelled = new TextBox();
+            label25 = new Label();
+            label24 = new Label();
             buttonInvoicesIsCancelled = new CheckBox();
             buttonInvoicesPDF = new Button();
             dataGridViewInvoices = new DataGridView();
             labelInvoices = new Label();
             tabPageDataexport = new TabPage();
+            buttonDataExportExportData = new Button();
+            label32 = new Label();
+            comboBoxDataExportYear = new ComboBox();
+            label31 = new Label();
             tabPageSettings = new TabPage();
             panelSettings = new Panel();
             groupBoxSettingsInvoiceConfiguration = new GroupBox();
@@ -255,8 +272,7 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
-            labelJournalAsset = new Label();
-            textBoxJournalAsset = new TextBox();
+            buttonDataExportExportEUER = new Button();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -280,7 +296,9 @@
             tabPageInvoiceEntry.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewInvoiceEntry).BeginInit();
             tabPageInvoices.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoicesLines).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewInvoices).BeginInit();
+            tabPageDataexport.SuspendLayout();
             tabPageSettings.SuspendLayout();
             panelSettings.SuspendLayout();
             groupBoxSettingsInvoiceConfiguration.SuspendLayout();
@@ -291,6 +309,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(buttonUpdate);
             panel1.Controls.Add(buttonCustomers);
             panel1.Controls.Add(buttonInvoices);
             panel1.Controls.Add(buttonInvoiceEntry);
@@ -310,6 +329,20 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(200, 644);
             panel1.TabIndex = 0;
+            // 
+            // buttonUpdate
+            // 
+            buttonUpdate.BackColor = Color.DarkSlateBlue;
+            buttonUpdate.FlatAppearance.BorderSize = 0;
+            buttonUpdate.FlatStyle = FlatStyle.Flat;
+            buttonUpdate.Font = new Font("Cascadia Code", 12F);
+            buttonUpdate.ForeColor = Color.White;
+            buttonUpdate.Location = new Point(0, 528);
+            buttonUpdate.Name = "buttonUpdate";
+            buttonUpdate.Size = new Size(200, 32);
+            buttonUpdate.TabIndex = 15;
+            buttonUpdate.Text = "Softwareupdate";
+            buttonUpdate.UseVisualStyleBackColor = false;
             // 
             // buttonCustomers
             // 
@@ -434,7 +467,7 @@
             buttonAbout.Name = "buttonAbout";
             buttonAbout.Size = new Size(200, 32);
             buttonAbout.TabIndex = 6;
-            buttonAbout.Text = "Über...";
+            buttonAbout.Text = "Hilfe/Über";
             buttonAbout.UseVisualStyleBackColor = false;
             buttonAbout.Click += buttonAbout_Click;
             // 
@@ -460,7 +493,7 @@
             buttonExport.FlatStyle = FlatStyle.Flat;
             buttonExport.Font = new Font("Cascadia Code", 12F);
             buttonExport.ForeColor = Color.White;
-            buttonExport.Location = new Point(0, 528);
+            buttonExport.Location = new Point(0, 456);
             buttonExport.Name = "buttonExport";
             buttonExport.Size = new Size(200, 32);
             buttonExport.TabIndex = 4;
@@ -564,7 +597,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = SystemColors.Control;
+            panel2.BackColor = Color.White;
             panel2.Controls.Add(textBoxOverviewEarningsPrePreYear);
             panel2.Controls.Add(label11);
             panel2.Controls.Add(textBoxOverviewCostsPrePreYear);
@@ -586,17 +619,18 @@
             panel2.Controls.Add(label21);
             panel2.Controls.Add(textBoxOverviewRevenueCurrentYear);
             panel2.Controls.Add(labelOverviewCurrentYear);
-            panel2.Location = new Point(8, 272);
+            panel2.Location = new Point(8, 248);
             panel2.Name = "panel2";
-            panel2.Size = new Size(744, 208);
+            panel2.Size = new Size(744, 184);
             panel2.TabIndex = 21;
             // 
             // textBoxOverviewEarningsPrePreYear
             // 
             textBoxOverviewEarningsPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPrePreYear.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsPrePreYear.Location = new Point(376, 168);
+            textBoxOverviewEarningsPrePreYear.Location = new Point(376, 144);
             textBoxOverviewEarningsPrePreYear.Name = "textBoxOverviewEarningsPrePreYear";
+            textBoxOverviewEarningsPrePreYear.ReadOnly = true;
             textBoxOverviewEarningsPrePreYear.Size = new Size(160, 26);
             textBoxOverviewEarningsPrePreYear.TabIndex = 20;
             textBoxOverviewEarningsPrePreYear.TabStop = false;
@@ -604,18 +638,19 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(376, 144);
+            label11.Font = new Font("Cascadia Code", 9.75F);
+            label11.Location = new Point(376, 128);
             label11.Name = "label11";
-            label11.Size = new Size(64, 21);
+            label11.Size = new Size(56, 17);
             label11.TabIndex = 19;
             label11.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPrePreYear
             // 
             textBoxOverviewCostsPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsPrePreYear.Location = new Point(376, 112);
+            textBoxOverviewCostsPrePreYear.Location = new Point(376, 96);
             textBoxOverviewCostsPrePreYear.Name = "textBoxOverviewCostsPrePreYear";
+            textBoxOverviewCostsPrePreYear.ReadOnly = true;
             textBoxOverviewCostsPrePreYear.Size = new Size(160, 26);
             textBoxOverviewCostsPrePreYear.TabIndex = 18;
             textBoxOverviewCostsPrePreYear.TabStop = false;
@@ -623,28 +658,29 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(376, 88);
+            label12.Font = new Font("Cascadia Code", 9.75F);
+            label12.Location = new Point(376, 80);
             label12.Name = "label12";
-            label12.Size = new Size(64, 21);
+            label12.Size = new Size(56, 17);
             label12.TabIndex = 17;
             label12.Text = "Kosten";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Font = new Font("Cascadia Code", 9.75F);
             label13.Location = new Point(376, 32);
             label13.Name = "label13";
-            label13.Size = new Size(64, 21);
+            label13.Size = new Size(56, 17);
             label13.TabIndex = 16;
             label13.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePrePreYear
             // 
             textBoxOverviewRevenuePrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenuePrePreYear.Location = new Point(376, 56);
+            textBoxOverviewRevenuePrePreYear.Location = new Point(376, 48);
             textBoxOverviewRevenuePrePreYear.Name = "textBoxOverviewRevenuePrePreYear";
+            textBoxOverviewRevenuePrePreYear.ReadOnly = true;
             textBoxOverviewRevenuePrePreYear.Size = new Size(160, 26);
             textBoxOverviewRevenuePrePreYear.TabIndex = 15;
             textBoxOverviewRevenuePrePreYear.TabStop = false;
@@ -652,10 +688,10 @@
             // labelOverviewPrePreYear
             // 
             labelOverviewPrePreYear.AutoSize = true;
-            labelOverviewPrePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewPrePreYear.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewPrePreYear.Location = new Point(376, 8);
             labelOverviewPrePreYear.Name = "labelOverviewPrePreYear";
-            labelOverviewPrePreYear.Size = new Size(100, 21);
+            labelOverviewPrePreYear.Size = new Size(88, 17);
             labelOverviewPrePreYear.TabIndex = 14;
             labelOverviewPrePreYear.Text = "Vorvorjahr";
             // 
@@ -663,8 +699,9 @@
             // 
             textBoxOverviewEarningsPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPreYear.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsPreYear.Location = new Point(192, 168);
+            textBoxOverviewEarningsPreYear.Location = new Point(192, 144);
             textBoxOverviewEarningsPreYear.Name = "textBoxOverviewEarningsPreYear";
+            textBoxOverviewEarningsPreYear.ReadOnly = true;
             textBoxOverviewEarningsPreYear.Size = new Size(160, 26);
             textBoxOverviewEarningsPreYear.TabIndex = 13;
             textBoxOverviewEarningsPreYear.TabStop = false;
@@ -672,18 +709,19 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(192, 144);
+            label15.Font = new Font("Cascadia Code", 9.75F);
+            label15.Location = new Point(192, 128);
             label15.Name = "label15";
-            label15.Size = new Size(64, 21);
+            label15.Size = new Size(56, 17);
             label15.TabIndex = 12;
             label15.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPreYear
             // 
             textBoxOverviewCostsPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsPreYear.Location = new Point(192, 112);
+            textBoxOverviewCostsPreYear.Location = new Point(192, 96);
             textBoxOverviewCostsPreYear.Name = "textBoxOverviewCostsPreYear";
+            textBoxOverviewCostsPreYear.ReadOnly = true;
             textBoxOverviewCostsPreYear.Size = new Size(160, 26);
             textBoxOverviewCostsPreYear.TabIndex = 11;
             textBoxOverviewCostsPreYear.TabStop = false;
@@ -691,28 +729,29 @@
             // label16
             // 
             label16.AutoSize = true;
-            label16.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(192, 88);
+            label16.Font = new Font("Cascadia Code", 9.75F);
+            label16.Location = new Point(192, 80);
             label16.Name = "label16";
-            label16.Size = new Size(64, 21);
+            label16.Size = new Size(56, 17);
             label16.TabIndex = 10;
             label16.Text = "Kosten";
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Font = new Font("Cascadia Code", 9.75F);
             label17.Location = new Point(192, 32);
             label17.Name = "label17";
-            label17.Size = new Size(64, 21);
+            label17.Size = new Size(56, 17);
             label17.TabIndex = 9;
             label17.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePreYear
             // 
             textBoxOverviewRevenuePreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenuePreYear.Location = new Point(192, 56);
+            textBoxOverviewRevenuePreYear.Location = new Point(192, 48);
             textBoxOverviewRevenuePreYear.Name = "textBoxOverviewRevenuePreYear";
+            textBoxOverviewRevenuePreYear.ReadOnly = true;
             textBoxOverviewRevenuePreYear.Size = new Size(160, 26);
             textBoxOverviewRevenuePreYear.TabIndex = 8;
             textBoxOverviewRevenuePreYear.TabStop = false;
@@ -720,10 +759,10 @@
             // labelOverviewPreYear
             // 
             labelOverviewPreYear.AutoSize = true;
-            labelOverviewPreYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewPreYear.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewPreYear.Location = new Point(192, 8);
             labelOverviewPreYear.Name = "labelOverviewPreYear";
-            labelOverviewPreYear.Size = new Size(73, 21);
+            labelOverviewPreYear.Size = new Size(64, 17);
             labelOverviewPreYear.TabIndex = 7;
             labelOverviewPreYear.Text = "Vorjahr";
             // 
@@ -731,8 +770,9 @@
             // 
             textBoxOverviewEarningsCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsCurrentYear.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsCurrentYear.Location = new Point(8, 168);
+            textBoxOverviewEarningsCurrentYear.Location = new Point(8, 144);
             textBoxOverviewEarningsCurrentYear.Name = "textBoxOverviewEarningsCurrentYear";
+            textBoxOverviewEarningsCurrentYear.ReadOnly = true;
             textBoxOverviewEarningsCurrentYear.Size = new Size(160, 26);
             textBoxOverviewEarningsCurrentYear.TabIndex = 6;
             textBoxOverviewEarningsCurrentYear.TabStop = false;
@@ -740,18 +780,19 @@
             // label19
             // 
             label19.AutoSize = true;
-            label19.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.Location = new Point(8, 144);
+            label19.Font = new Font("Cascadia Code", 9.75F);
+            label19.Location = new Point(8, 128);
             label19.Name = "label19";
-            label19.Size = new Size(64, 21);
+            label19.Size = new Size(56, 17);
             label19.TabIndex = 5;
             label19.Text = "Gewinn";
             // 
             // textBoxOverviewCostsCurrentYear
             // 
             textBoxOverviewCostsCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsCurrentYear.Location = new Point(8, 112);
+            textBoxOverviewCostsCurrentYear.Location = new Point(8, 96);
             textBoxOverviewCostsCurrentYear.Name = "textBoxOverviewCostsCurrentYear";
+            textBoxOverviewCostsCurrentYear.ReadOnly = true;
             textBoxOverviewCostsCurrentYear.Size = new Size(160, 26);
             textBoxOverviewCostsCurrentYear.TabIndex = 4;
             textBoxOverviewCostsCurrentYear.TabStop = false;
@@ -759,28 +800,29 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label20.Location = new Point(8, 88);
+            label20.Font = new Font("Cascadia Code", 9.75F);
+            label20.Location = new Point(8, 80);
             label20.Name = "label20";
-            label20.Size = new Size(64, 21);
+            label20.Size = new Size(56, 17);
             label20.TabIndex = 3;
             label20.Text = "Kosten";
             // 
             // label21
             // 
             label21.AutoSize = true;
-            label21.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label21.Font = new Font("Cascadia Code", 9.75F);
             label21.Location = new Point(8, 32);
             label21.Name = "label21";
-            label21.Size = new Size(64, 21);
+            label21.Size = new Size(56, 17);
             label21.TabIndex = 2;
             label21.Text = "Umsatz";
             // 
             // textBoxOverviewRevenueCurrentYear
             // 
             textBoxOverviewRevenueCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenueCurrentYear.Location = new Point(8, 56);
+            textBoxOverviewRevenueCurrentYear.Location = new Point(8, 48);
             textBoxOverviewRevenueCurrentYear.Name = "textBoxOverviewRevenueCurrentYear";
+            textBoxOverviewRevenueCurrentYear.ReadOnly = true;
             textBoxOverviewRevenueCurrentYear.Size = new Size(160, 26);
             textBoxOverviewRevenueCurrentYear.TabIndex = 1;
             textBoxOverviewRevenueCurrentYear.TabStop = false;
@@ -788,16 +830,16 @@
             // labelOverviewCurrentYear
             // 
             labelOverviewCurrentYear.AutoSize = true;
-            labelOverviewCurrentYear.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewCurrentYear.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewCurrentYear.Location = new Point(8, 8);
             labelOverviewCurrentYear.Name = "labelOverviewCurrentYear";
-            labelOverviewCurrentYear.Size = new Size(136, 21);
+            labelOverviewCurrentYear.Size = new Size(120, 17);
             labelOverviewCurrentYear.TabIndex = 0;
             labelOverviewCurrentYear.Text = "Aktuelles Jahr";
             // 
             // panelOverview
             // 
-            panelOverview.BackColor = SystemColors.Control;
+            panelOverview.BackColor = Color.White;
             panelOverview.Controls.Add(textBoxOverviewEarningsPrePreMonth);
             panelOverview.Controls.Add(label7);
             panelOverview.Controls.Add(textBoxOverviewCostsPrePreMonth);
@@ -821,33 +863,35 @@
             panelOverview.Controls.Add(labelOverviewCurrentMonth);
             panelOverview.Location = new Point(8, 56);
             panelOverview.Name = "panelOverview";
-            panelOverview.Size = new Size(744, 208);
+            panelOverview.Size = new Size(744, 184);
             panelOverview.TabIndex = 13;
             // 
             // textBoxOverviewEarningsPrePreMonth
             // 
             textBoxOverviewEarningsPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPrePreMonth.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsPrePreMonth.Location = new Point(376, 168);
+            textBoxOverviewEarningsPrePreMonth.Location = new Point(376, 144);
             textBoxOverviewEarningsPrePreMonth.Name = "textBoxOverviewEarningsPrePreMonth";
+            textBoxOverviewEarningsPrePreMonth.ReadOnly = true;
             textBoxOverviewEarningsPrePreMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsPrePreMonth.TabIndex = 20;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Cascadia Code", 12F);
-            label7.Location = new Point(376, 144);
+            label7.Font = new Font("Cascadia Code", 9.75F);
+            label7.Location = new Point(376, 128);
             label7.Name = "label7";
-            label7.Size = new Size(64, 21);
+            label7.Size = new Size(56, 17);
             label7.TabIndex = 19;
             label7.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPrePreMonth
             // 
             textBoxOverviewCostsPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsPrePreMonth.Location = new Point(376, 112);
+            textBoxOverviewCostsPrePreMonth.Location = new Point(376, 96);
             textBoxOverviewCostsPrePreMonth.Name = "textBoxOverviewCostsPrePreMonth";
+            textBoxOverviewCostsPrePreMonth.ReadOnly = true;
             textBoxOverviewCostsPrePreMonth.Size = new Size(160, 26);
             textBoxOverviewCostsPrePreMonth.TabIndex = 18;
             textBoxOverviewCostsPrePreMonth.TabStop = false;
@@ -855,28 +899,29 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Cascadia Code", 12F);
-            label8.Location = new Point(376, 88);
+            label8.Font = new Font("Cascadia Code", 9.75F);
+            label8.Location = new Point(376, 80);
             label8.Name = "label8";
-            label8.Size = new Size(64, 21);
+            label8.Size = new Size(56, 17);
             label8.TabIndex = 17;
             label8.Text = "Kosten";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Cascadia Code", 12F);
+            label9.Font = new Font("Cascadia Code", 9.75F);
             label9.Location = new Point(376, 32);
             label9.Name = "label9";
-            label9.Size = new Size(64, 21);
+            label9.Size = new Size(56, 17);
             label9.TabIndex = 16;
             label9.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePrePreMonth
             // 
             textBoxOverviewRevenuePrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenuePrePreMonth.Location = new Point(376, 56);
+            textBoxOverviewRevenuePrePreMonth.Location = new Point(376, 48);
             textBoxOverviewRevenuePrePreMonth.Name = "textBoxOverviewRevenuePrePreMonth";
+            textBoxOverviewRevenuePrePreMonth.ReadOnly = true;
             textBoxOverviewRevenuePrePreMonth.Size = new Size(160, 26);
             textBoxOverviewRevenuePrePreMonth.TabIndex = 15;
             textBoxOverviewRevenuePrePreMonth.TabStop = false;
@@ -884,10 +929,10 @@
             // labelOverviewPrePreMonth
             // 
             labelOverviewPrePreMonth.AutoSize = true;
-            labelOverviewPrePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewPrePreMonth.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewPrePreMonth.Location = new Point(376, 8);
             labelOverviewPrePreMonth.Name = "labelOverviewPrePreMonth";
-            labelOverviewPrePreMonth.Size = new Size(109, 21);
+            labelOverviewPrePreMonth.Size = new Size(96, 17);
             labelOverviewPrePreMonth.TabIndex = 14;
             labelOverviewPrePreMonth.Text = "Vorvormonat";
             // 
@@ -895,26 +940,28 @@
             // 
             textBoxOverviewEarningsPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsPreMonth.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsPreMonth.Location = new Point(192, 168);
+            textBoxOverviewEarningsPreMonth.Location = new Point(192, 144);
             textBoxOverviewEarningsPreMonth.Name = "textBoxOverviewEarningsPreMonth";
+            textBoxOverviewEarningsPreMonth.ReadOnly = true;
             textBoxOverviewEarningsPreMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsPreMonth.TabIndex = 13;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Cascadia Code", 12F);
-            label3.Location = new Point(192, 144);
+            label3.Font = new Font("Cascadia Code", 9.75F);
+            label3.Location = new Point(192, 128);
             label3.Name = "label3";
-            label3.Size = new Size(64, 21);
+            label3.Size = new Size(56, 17);
             label3.TabIndex = 12;
             label3.Text = "Gewinn";
             // 
             // textBoxOverviewCostsPreMonth
             // 
             textBoxOverviewCostsPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsPreMonth.Location = new Point(192, 112);
+            textBoxOverviewCostsPreMonth.Location = new Point(192, 96);
             textBoxOverviewCostsPreMonth.Name = "textBoxOverviewCostsPreMonth";
+            textBoxOverviewCostsPreMonth.ReadOnly = true;
             textBoxOverviewCostsPreMonth.Size = new Size(160, 26);
             textBoxOverviewCostsPreMonth.TabIndex = 11;
             textBoxOverviewCostsPreMonth.TabStop = false;
@@ -922,28 +969,29 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Cascadia Code", 12F);
-            label4.Location = new Point(192, 88);
+            label4.Font = new Font("Cascadia Code", 9.75F);
+            label4.Location = new Point(192, 80);
             label4.Name = "label4";
-            label4.Size = new Size(64, 21);
+            label4.Size = new Size(56, 17);
             label4.TabIndex = 10;
             label4.Text = "Kosten";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Cascadia Code", 12F);
+            label5.Font = new Font("Cascadia Code", 9.75F);
             label5.Location = new Point(192, 32);
             label5.Name = "label5";
-            label5.Size = new Size(64, 21);
+            label5.Size = new Size(56, 17);
             label5.TabIndex = 9;
             label5.Text = "Umsatz";
             // 
             // textBoxOverviewRevenuePreMonth
             // 
             textBoxOverviewRevenuePreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenuePreMonth.Location = new Point(192, 56);
+            textBoxOverviewRevenuePreMonth.Location = new Point(192, 48);
             textBoxOverviewRevenuePreMonth.Name = "textBoxOverviewRevenuePreMonth";
+            textBoxOverviewRevenuePreMonth.ReadOnly = true;
             textBoxOverviewRevenuePreMonth.Size = new Size(160, 26);
             textBoxOverviewRevenuePreMonth.TabIndex = 8;
             textBoxOverviewRevenuePreMonth.TabStop = false;
@@ -951,10 +999,10 @@
             // labelOverviewPreMonth
             // 
             labelOverviewPreMonth.AutoSize = true;
-            labelOverviewPreMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewPreMonth.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewPreMonth.Location = new Point(192, 8);
             labelOverviewPreMonth.Name = "labelOverviewPreMonth";
-            labelOverviewPreMonth.Size = new Size(82, 21);
+            labelOverviewPreMonth.Size = new Size(72, 17);
             labelOverviewPreMonth.TabIndex = 7;
             labelOverviewPreMonth.Text = "Vormonat";
             // 
@@ -962,26 +1010,28 @@
             // 
             textBoxOverviewEarningsCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxOverviewEarningsCurrentMonth.ForeColor = Color.GreenYellow;
-            textBoxOverviewEarningsCurrentMonth.Location = new Point(8, 168);
+            textBoxOverviewEarningsCurrentMonth.Location = new Point(8, 144);
             textBoxOverviewEarningsCurrentMonth.Name = "textBoxOverviewEarningsCurrentMonth";
+            textBoxOverviewEarningsCurrentMonth.ReadOnly = true;
             textBoxOverviewEarningsCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewEarningsCurrentMonth.TabIndex = 6;
             // 
             // labelOverviewEarningsCurrentMonth
             // 
             labelOverviewEarningsCurrentMonth.AutoSize = true;
-            labelOverviewEarningsCurrentMonth.Font = new Font("Cascadia Code", 12F);
-            labelOverviewEarningsCurrentMonth.Location = new Point(8, 144);
+            labelOverviewEarningsCurrentMonth.Font = new Font("Cascadia Code", 9.75F);
+            labelOverviewEarningsCurrentMonth.Location = new Point(8, 128);
             labelOverviewEarningsCurrentMonth.Name = "labelOverviewEarningsCurrentMonth";
-            labelOverviewEarningsCurrentMonth.Size = new Size(64, 21);
+            labelOverviewEarningsCurrentMonth.Size = new Size(56, 17);
             labelOverviewEarningsCurrentMonth.TabIndex = 5;
             labelOverviewEarningsCurrentMonth.Text = "Gewinn";
             // 
             // textBoxOverviewCostsCurrentMonth
             // 
             textBoxOverviewCostsCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewCostsCurrentMonth.Location = new Point(8, 112);
+            textBoxOverviewCostsCurrentMonth.Location = new Point(8, 96);
             textBoxOverviewCostsCurrentMonth.Name = "textBoxOverviewCostsCurrentMonth";
+            textBoxOverviewCostsCurrentMonth.ReadOnly = true;
             textBoxOverviewCostsCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewCostsCurrentMonth.TabIndex = 4;
             textBoxOverviewCostsCurrentMonth.TabStop = false;
@@ -989,28 +1039,29 @@
             // labelOverviewCostsCurrentMonth
             // 
             labelOverviewCostsCurrentMonth.AutoSize = true;
-            labelOverviewCostsCurrentMonth.Font = new Font("Cascadia Code", 12F);
-            labelOverviewCostsCurrentMonth.Location = new Point(8, 88);
+            labelOverviewCostsCurrentMonth.Font = new Font("Cascadia Code", 9.75F);
+            labelOverviewCostsCurrentMonth.Location = new Point(8, 80);
             labelOverviewCostsCurrentMonth.Name = "labelOverviewCostsCurrentMonth";
-            labelOverviewCostsCurrentMonth.Size = new Size(64, 21);
+            labelOverviewCostsCurrentMonth.Size = new Size(56, 17);
             labelOverviewCostsCurrentMonth.TabIndex = 3;
             labelOverviewCostsCurrentMonth.Text = "Kosten";
             // 
             // labelOverviewCurrentMonthRevenue
             // 
             labelOverviewCurrentMonthRevenue.AutoSize = true;
-            labelOverviewCurrentMonthRevenue.Font = new Font("Cascadia Code", 12F);
+            labelOverviewCurrentMonthRevenue.Font = new Font("Cascadia Code", 9.75F);
             labelOverviewCurrentMonthRevenue.Location = new Point(8, 32);
             labelOverviewCurrentMonthRevenue.Name = "labelOverviewCurrentMonthRevenue";
-            labelOverviewCurrentMonthRevenue.Size = new Size(64, 21);
+            labelOverviewCurrentMonthRevenue.Size = new Size(56, 17);
             labelOverviewCurrentMonthRevenue.TabIndex = 2;
             labelOverviewCurrentMonthRevenue.Text = "Umsatz";
             // 
             // textBoxOverviewRevenueCurrentMonth
             // 
             textBoxOverviewRevenueCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOverviewRevenueCurrentMonth.Location = new Point(8, 56);
+            textBoxOverviewRevenueCurrentMonth.Location = new Point(8, 48);
             textBoxOverviewRevenueCurrentMonth.Name = "textBoxOverviewRevenueCurrentMonth";
+            textBoxOverviewRevenueCurrentMonth.ReadOnly = true;
             textBoxOverviewRevenueCurrentMonth.Size = new Size(160, 26);
             textBoxOverviewRevenueCurrentMonth.TabIndex = 1;
             textBoxOverviewRevenueCurrentMonth.TabStop = false;
@@ -1018,10 +1069,10 @@
             // labelOverviewCurrentMonth
             // 
             labelOverviewCurrentMonth.AutoSize = true;
-            labelOverviewCurrentMonth.Font = new Font("Cascadia Code", 12F, FontStyle.Bold);
+            labelOverviewCurrentMonth.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold);
             labelOverviewCurrentMonth.Location = new Point(8, 8);
             labelOverviewCurrentMonth.Name = "labelOverviewCurrentMonth";
-            labelOverviewCurrentMonth.Size = new Size(145, 21);
+            labelOverviewCurrentMonth.Size = new Size(128, 17);
             labelOverviewCurrentMonth.TabIndex = 0;
             labelOverviewCurrentMonth.Text = "Aktueller Monat";
             // 
@@ -1347,12 +1398,33 @@
             tabPageJournal.TabIndex = 1;
             tabPageJournal.Text = "Journal";
             // 
+            // textBoxJournalAsset
+            // 
+            textBoxJournalAsset.Font = new Font("Cascadia Code", 9.75F);
+            textBoxJournalAsset.Location = new Point(408, 488);
+            textBoxJournalAsset.Multiline = true;
+            textBoxJournalAsset.Name = "textBoxJournalAsset";
+            textBoxJournalAsset.ReadOnly = true;
+            textBoxJournalAsset.Size = new Size(352, 24);
+            textBoxJournalAsset.TabIndex = 40;
+            // 
+            // labelJournalAsset
+            // 
+            labelJournalAsset.AutoSize = true;
+            labelJournalAsset.Font = new Font("Cascadia Code", 9.75F);
+            labelJournalAsset.Location = new Point(408, 472);
+            labelJournalAsset.Name = "labelJournalAsset";
+            labelJournalAsset.Size = new Size(56, 17);
+            labelJournalAsset.TabIndex = 39;
+            labelJournalAsset.Text = "Anlage";
+            // 
             // textBoxJournalInvoiceReference
             // 
             textBoxJournalInvoiceReference.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalInvoiceReference.Location = new Point(408, 536);
             textBoxJournalInvoiceReference.Multiline = true;
             textBoxJournalInvoiceReference.Name = "textBoxJournalInvoiceReference";
+            textBoxJournalInvoiceReference.ReadOnly = true;
             textBoxJournalInvoiceReference.Size = new Size(352, 24);
             textBoxJournalInvoiceReference.TabIndex = 38;
             // 
@@ -1409,6 +1481,7 @@
             textBoxJournalVoucher.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxJournalVoucher.Location = new Point(408, 104);
             textBoxJournalVoucher.Name = "textBoxJournalVoucher";
+            textBoxJournalVoucher.ReadOnly = true;
             textBoxJournalVoucher.Size = new Size(352, 23);
             textBoxJournalVoucher.TabIndex = 32;
             // 
@@ -1427,6 +1500,7 @@
             textBoxJournalReversalVoucher.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalReversalVoucher.Location = new Point(408, 392);
             textBoxJournalReversalVoucher.Name = "textBoxJournalReversalVoucher";
+            textBoxJournalReversalVoucher.ReadOnly = true;
             textBoxJournalReversalVoucher.Size = new Size(352, 23);
             textBoxJournalReversalVoucher.TabIndex = 30;
             // 
@@ -1435,6 +1509,7 @@
             textBoxJournalPostingType.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalPostingType.Location = new Point(408, 344);
             textBoxJournalPostingType.Name = "textBoxJournalPostingType";
+            textBoxJournalPostingType.ReadOnly = true;
             textBoxJournalPostingType.Size = new Size(352, 23);
             textBoxJournalPostingType.TabIndex = 28;
             // 
@@ -1443,6 +1518,7 @@
             textBoxJournalCategory.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalCategory.Location = new Point(408, 296);
             textBoxJournalCategory.Name = "textBoxJournalCategory";
+            textBoxJournalCategory.ReadOnly = true;
             textBoxJournalCategory.Size = new Size(352, 23);
             textBoxJournalCategory.TabIndex = 27;
             // 
@@ -1451,6 +1527,7 @@
             textBoxJournalPostingText.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalPostingText.Location = new Point(408, 248);
             textBoxJournalPostingText.Name = "textBoxJournalPostingText";
+            textBoxJournalPostingText.ReadOnly = true;
             textBoxJournalPostingText.Size = new Size(352, 23);
             textBoxJournalPostingText.TabIndex = 26;
             // 
@@ -1459,6 +1536,7 @@
             textBoxJournalAmount.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalAmount.Location = new Point(408, 200);
             textBoxJournalAmount.Name = "textBoxJournalAmount";
+            textBoxJournalAmount.ReadOnly = true;
             textBoxJournalAmount.Size = new Size(352, 23);
             textBoxJournalAmount.TabIndex = 25;
             // 
@@ -1467,6 +1545,7 @@
             textBoxJournalVoucherDate.Font = new Font("Cascadia Code", 9.75F);
             textBoxJournalVoucherDate.Location = new Point(408, 152);
             textBoxJournalVoucherDate.Name = "textBoxJournalVoucherDate";
+            textBoxJournalVoucherDate.ReadOnly = true;
             textBoxJournalVoucherDate.Size = new Size(352, 23);
             textBoxJournalVoucherDate.TabIndex = 24;
             // 
@@ -1546,7 +1625,8 @@
             textBoxJournalNote.Location = new Point(408, 584);
             textBoxJournalNote.Multiline = true;
             textBoxJournalNote.Name = "textBoxJournalNote";
-            textBoxJournalNote.Size = new Size(176, 64);
+            textBoxJournalNote.ReadOnly = true;
+            textBoxJournalNote.Size = new Size(176, 72);
             textBoxJournalNote.TabIndex = 15;
             // 
             // textBoxJournalCreationDate
@@ -1555,6 +1635,7 @@
             textBoxJournalCreationDate.Location = new Point(408, 440);
             textBoxJournalCreationDate.Multiline = true;
             textBoxJournalCreationDate.Name = "textBoxJournalCreationDate";
+            textBoxJournalCreationDate.ReadOnly = true;
             textBoxJournalCreationDate.Size = new Size(352, 24);
             textBoxJournalCreationDate.TabIndex = 14;
             // 
@@ -1573,7 +1654,7 @@
             buttonJournalPicturePDF.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonJournalPicturePDF.Location = new Point(584, 584);
             buttonJournalPicturePDF.Name = "buttonJournalPicturePDF";
-            buttonJournalPicturePDF.Size = new Size(176, 64);
+            buttonJournalPicturePDF.Size = new Size(176, 72);
             buttonJournalPicturePDF.TabIndex = 12;
             buttonJournalPicturePDF.Text = "Bild / PDF anzeigen";
             buttonJournalPicturePDF.UseVisualStyleBackColor = true;
@@ -1609,23 +1690,23 @@
             dataGridViewJournal.BorderStyle = BorderStyle.None;
             dataGridViewJournal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewJournal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = SystemColors.Control;
+            dataGridViewCellStyle15.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
             dataGridViewJournal.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = SystemColors.Window;
+            dataGridViewCellStyle16.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle16.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle16.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle16.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle16;
             dataGridViewJournal.GridColor = SystemColors.Window;
             dataGridViewJournal.Location = new Point(-40, 88);
             dataGridViewJournal.MultiSelect = false;
@@ -1636,7 +1717,7 @@
             dataGridViewJournal.RowTemplate.ReadOnly = true;
             dataGridViewJournal.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewJournal.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewJournal.Size = new Size(440, 560);
+            dataGridViewJournal.Size = new Size(440, 568);
             dataGridViewJournal.TabIndex = 0;
             dataGridViewJournal.CellFormatting += dataGridViewJournal_CellFormatting;
             dataGridViewJournal.SelectionChanged += dataGridViewJournal_SelectionChanged;
@@ -1662,23 +1743,23 @@
             dataGridViewAssets.BorderStyle = BorderStyle.None;
             dataGridViewAssets.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewAssets.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = SystemColors.Control;
+            dataGridViewCellStyle17.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle17.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle17.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             dataGridViewAssets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Window;
-            dataGridViewCellStyle4.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = SystemColors.Window;
+            dataGridViewCellStyle18.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle18.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle18.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle18.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle18;
             dataGridViewAssets.GridColor = SystemColors.Control;
             dataGridViewAssets.Location = new Point(-40, 88);
             dataGridViewAssets.MultiSelect = false;
@@ -1689,7 +1770,7 @@
             dataGridViewAssets.RowTemplate.ReadOnly = true;
             dataGridViewAssets.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewAssets.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewAssets.Size = new Size(792, 544);
+            dataGridViewAssets.Size = new Size(800, 576);
             dataGridViewAssets.TabIndex = 14;
             // 
             // labelAssets
@@ -1727,7 +1808,8 @@
             // 
             // buttonCustomerEntrySave
             // 
-            buttonCustomerEntrySave.Location = new Point(8, 448);
+            buttonCustomerEntrySave.Font = new Font("Cascadia Code", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonCustomerEntrySave.Location = new Point(8, 368);
             buttonCustomerEntrySave.Name = "buttonCustomerEntrySave";
             buttonCustomerEntrySave.Size = new Size(216, 32);
             buttonCustomerEntrySave.TabIndex = 26;
@@ -1738,108 +1820,108 @@
             // textBoxCustomerEntryEmail
             // 
             textBoxCustomerEntryEmail.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryEmail.Location = new Point(8, 408);
+            textBoxCustomerEntryEmail.Location = new Point(8, 328);
             textBoxCustomerEntryEmail.Name = "textBoxCustomerEntryEmail";
-            textBoxCustomerEntryEmail.Size = new Size(216, 26);
+            textBoxCustomerEntryEmail.Size = new Size(752, 26);
             textBoxCustomerEntryEmail.TabIndex = 25;
             // 
             // label22
             // 
             label22.AutoSize = true;
-            label22.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label22.Location = new Point(8, 384);
+            label22.Font = new Font("Cascadia Code", 9.75F);
+            label22.Location = new Point(8, 312);
             label22.Name = "label22";
-            label22.Size = new Size(64, 21);
+            label22.Size = new Size(56, 17);
             label22.TabIndex = 24;
             label22.Text = "E-Mail";
             // 
             // textBoxCustomerEntryCountry
             // 
             textBoxCustomerEntryCountry.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryCountry.Location = new Point(8, 344);
+            textBoxCustomerEntryCountry.Location = new Point(8, 280);
             textBoxCustomerEntryCountry.Name = "textBoxCustomerEntryCountry";
-            textBoxCustomerEntryCountry.Size = new Size(216, 26);
+            textBoxCustomerEntryCountry.Size = new Size(752, 26);
             textBoxCustomerEntryCountry.TabIndex = 23;
             // 
             // label18
             // 
             label18.AutoSize = true;
-            label18.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label18.Location = new Point(8, 320);
+            label18.Font = new Font("Cascadia Code", 9.75F);
+            label18.Location = new Point(8, 264);
             label18.Name = "label18";
-            label18.Size = new Size(46, 21);
+            label18.Size = new Size(40, 17);
             label18.TabIndex = 22;
             label18.Text = "Land";
             // 
             // textBoxCustomerEntryCity
             // 
             textBoxCustomerEntryCity.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryCity.Location = new Point(8, 280);
+            textBoxCustomerEntryCity.Location = new Point(8, 232);
             textBoxCustomerEntryCity.Name = "textBoxCustomerEntryCity";
-            textBoxCustomerEntryCity.Size = new Size(216, 26);
+            textBoxCustomerEntryCity.Size = new Size(752, 26);
             textBoxCustomerEntryCity.TabIndex = 21;
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(8, 256);
+            label14.Font = new Font("Cascadia Code", 9.75F);
+            label14.Location = new Point(8, 216);
             label14.Name = "label14";
-            label14.Size = new Size(55, 21);
+            label14.Size = new Size(48, 17);
             label14.TabIndex = 20;
             label14.Text = "Stadt";
             // 
             // textBoxCustomerEntryZipCode
             // 
             textBoxCustomerEntryZipCode.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryZipCode.Location = new Point(8, 216);
+            textBoxCustomerEntryZipCode.Location = new Point(8, 184);
             textBoxCustomerEntryZipCode.Name = "textBoxCustomerEntryZipCode";
-            textBoxCustomerEntryZipCode.Size = new Size(216, 26);
+            textBoxCustomerEntryZipCode.Size = new Size(752, 26);
             textBoxCustomerEntryZipCode.TabIndex = 19;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(8, 192);
+            label10.Font = new Font("Cascadia Code", 9.75F);
+            label10.Location = new Point(8, 168);
             label10.Name = "label10";
-            label10.Size = new Size(37, 21);
+            label10.Size = new Size(32, 17);
             label10.TabIndex = 18;
             label10.Text = "PLZ";
             // 
             // textBoxCustomerEntryStreet
             // 
             textBoxCustomerEntryStreet.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryStreet.Location = new Point(8, 152);
+            textBoxCustomerEntryStreet.Location = new Point(8, 136);
             textBoxCustomerEntryStreet.Name = "textBoxCustomerEntryStreet";
-            textBoxCustomerEntryStreet.Size = new Size(216, 26);
+            textBoxCustomerEntryStreet.Size = new Size(752, 26);
             textBoxCustomerEntryStreet.TabIndex = 17;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(8, 128);
+            label6.Font = new Font("Cascadia Code", 9.75F);
+            label6.Location = new Point(8, 120);
             label6.Name = "label6";
-            label6.Size = new Size(181, 21);
+            label6.Size = new Size(160, 17);
             label6.TabIndex = 16;
             label6.Text = "Straße + Hausnummer";
             // 
             // textBoxCustomerEntryName
             // 
             textBoxCustomerEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCustomerEntryName.Location = new Point(8, 96);
+            textBoxCustomerEntryName.Location = new Point(8, 88);
             textBoxCustomerEntryName.Name = "textBoxCustomerEntryName";
-            textBoxCustomerEntryName.Size = new Size(216, 26);
+            textBoxCustomerEntryName.Size = new Size(752, 26);
             textBoxCustomerEntryName.TabIndex = 15;
             // 
             // labelCustomerEntryName
             // 
             labelCustomerEntryName.AutoSize = true;
-            labelCustomerEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCustomerEntryName.Font = new Font("Cascadia Code", 9.75F);
             labelCustomerEntryName.Location = new Point(8, 72);
             labelCustomerEntryName.Name = "labelCustomerEntryName";
-            labelCustomerEntryName.Size = new Size(46, 21);
+            labelCustomerEntryName.Size = new Size(40, 17);
             labelCustomerEntryName.TabIndex = 14;
             labelCustomerEntryName.Text = "Name";
             // 
@@ -1871,29 +1953,29 @@
             dataGridViewCustomers.AllowUserToResizeColumns = false;
             dataGridViewCustomers.AllowUserToResizeRows = false;
             dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCustomers.BackgroundColor = SystemColors.Control;
+            dataGridViewCustomers.BackgroundColor = Color.White;
             dataGridViewCustomers.BorderStyle = BorderStyle.None;
             dataGridViewCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = SystemColors.Control;
+            dataGridViewCellStyle19.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle19.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle19.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = SystemColors.Control;
+            dataGridViewCellStyle20.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle20.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle20.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle20.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle20;
             dataGridViewCustomers.GridColor = SystemColors.Control;
-            dataGridViewCustomers.Location = new Point(0, 88);
+            dataGridViewCustomers.Location = new Point(-40, 88);
             dataGridViewCustomers.MultiSelect = false;
             dataGridViewCustomers.Name = "dataGridViewCustomers";
             dataGridViewCustomers.ReadOnly = true;
@@ -1902,7 +1984,7 @@
             dataGridViewCustomers.RowTemplate.ReadOnly = true;
             dataGridViewCustomers.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewCustomers.Size = new Size(760, 544);
+            dataGridViewCustomers.Size = new Size(800, 568);
             dataGridViewCustomers.TabIndex = 16;
             // 
             // labelCustomers
@@ -1921,7 +2003,6 @@
             tabPageProductEntry.Controls.Add(checkBoxProductEntryIsStocked);
             tabPageProductEntry.Controls.Add(labelProductEntryStock);
             tabPageProductEntry.Controls.Add(textBoxProductEntryStock);
-            tabPageProductEntry.Controls.Add(labelProductEntryIsStocked);
             tabPageProductEntry.Controls.Add(pictureBoxProductEntry);
             tabPageProductEntry.Controls.Add(buttonProductEntryAddPicture);
             tabPageProductEntry.Controls.Add(buttonProductEntrySave);
@@ -1941,52 +2022,44 @@
             // checkBoxProductEntryIsStocked
             // 
             checkBoxProductEntryIsStocked.AutoSize = true;
-            checkBoxProductEntryIsStocked.Location = new Point(248, 96);
+            checkBoxProductEntryIsStocked.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxProductEntryIsStocked.Location = new Point(8, 208);
             checkBoxProductEntryIsStocked.Name = "checkBoxProductEntryIsStocked";
-            checkBoxProductEntryIsStocked.Size = new Size(15, 14);
+            checkBoxProductEntryIsStocked.Size = new Size(187, 21);
             checkBoxProductEntryIsStocked.TabIndex = 45;
+            checkBoxProductEntryIsStocked.Text = "Lagerbestand führen?";
             checkBoxProductEntryIsStocked.UseVisualStyleBackColor = true;
             // 
             // labelProductEntryStock
             // 
             labelProductEntryStock.AutoSize = true;
-            labelProductEntryStock.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelProductEntryStock.Location = new Point(248, 120);
+            labelProductEntryStock.Font = new Font("Cascadia Code", 9.75F);
+            labelProductEntryStock.Location = new Point(8, 232);
             labelProductEntryStock.Name = "labelProductEntryStock";
-            labelProductEntryStock.Size = new Size(118, 21);
+            labelProductEntryStock.Size = new Size(104, 17);
             labelProductEntryStock.TabIndex = 44;
             labelProductEntryStock.Text = "Lagerbestand";
             // 
             // textBoxProductEntryStock
             // 
-            textBoxProductEntryStock.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxProductEntryStock.Location = new Point(248, 144);
+            textBoxProductEntryStock.Font = new Font("Cascadia Code", 9.75F);
+            textBoxProductEntryStock.Location = new Point(8, 248);
             textBoxProductEntryStock.Name = "textBoxProductEntryStock";
-            textBoxProductEntryStock.Size = new Size(216, 26);
+            textBoxProductEntryStock.Size = new Size(216, 23);
             textBoxProductEntryStock.TabIndex = 43;
-            // 
-            // labelProductEntryIsStocked
-            // 
-            labelProductEntryIsStocked.AutoSize = true;
-            labelProductEntryIsStocked.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelProductEntryIsStocked.Location = new Point(248, 64);
-            labelProductEntryIsStocked.Name = "labelProductEntryIsStocked";
-            labelProductEntryIsStocked.Size = new Size(190, 21);
-            labelProductEntryIsStocked.TabIndex = 42;
-            labelProductEntryIsStocked.Text = "Lagerbestand führen?";
             // 
             // pictureBoxProductEntry
             // 
-            pictureBoxProductEntry.Location = new Point(8, 288);
+            pictureBoxProductEntry.Location = new Point(232, 80);
             pictureBoxProductEntry.Name = "pictureBoxProductEntry";
-            pictureBoxProductEntry.Size = new Size(216, 242);
+            pictureBoxProductEntry.Size = new Size(528, 576);
             pictureBoxProductEntry.TabIndex = 41;
             pictureBoxProductEntry.TabStop = false;
             // 
             // buttonProductEntryAddPicture
             // 
-            buttonProductEntryAddPicture.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonProductEntryAddPicture.Location = new Point(8, 248);
+            buttonProductEntryAddPicture.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonProductEntryAddPicture.Location = new Point(8, 280);
             buttonProductEntryAddPicture.Name = "buttonProductEntryAddPicture";
             buttonProductEntryAddPicture.Size = new Size(216, 32);
             buttonProductEntryAddPicture.TabIndex = 40;
@@ -1996,7 +2069,8 @@
             // 
             // buttonProductEntrySave
             // 
-            buttonProductEntrySave.Location = new Point(8, 552);
+            buttonProductEntrySave.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonProductEntrySave.Location = new Point(8, 320);
             buttonProductEntrySave.Name = "buttonProductEntrySave";
             buttonProductEntrySave.Size = new Size(216, 32);
             buttonProductEntrySave.TabIndex = 39;
@@ -2006,55 +2080,55 @@
             // 
             // textBoxProductEntryPrice
             // 
-            textBoxProductEntryPrice.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxProductEntryPrice.Location = new Point(8, 200);
+            textBoxProductEntryPrice.Font = new Font("Cascadia Code", 9.75F);
+            textBoxProductEntryPrice.Location = new Point(8, 176);
             textBoxProductEntryPrice.Name = "textBoxProductEntryPrice";
-            textBoxProductEntryPrice.Size = new Size(216, 26);
+            textBoxProductEntryPrice.Size = new Size(216, 23);
             textBoxProductEntryPrice.TabIndex = 32;
             // 
             // labelProductEntryPrice
             // 
             labelProductEntryPrice.AutoSize = true;
-            labelProductEntryPrice.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelProductEntryPrice.Location = new Point(8, 176);
+            labelProductEntryPrice.Font = new Font("Cascadia Code", 9.75F);
+            labelProductEntryPrice.Location = new Point(8, 160);
             labelProductEntryPrice.Name = "labelProductEntryPrice";
-            labelProductEntryPrice.Size = new Size(55, 21);
+            labelProductEntryPrice.Size = new Size(48, 17);
             labelProductEntryPrice.TabIndex = 31;
             labelProductEntryPrice.Text = "Preis";
             // 
             // textBoxProductEntryDescription
             // 
-            textBoxProductEntryDescription.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxProductEntryDescription.Location = new Point(8, 144);
+            textBoxProductEntryDescription.Font = new Font("Cascadia Code", 9.75F);
+            textBoxProductEntryDescription.Location = new Point(8, 128);
             textBoxProductEntryDescription.Name = "textBoxProductEntryDescription";
-            textBoxProductEntryDescription.Size = new Size(216, 26);
+            textBoxProductEntryDescription.Size = new Size(216, 23);
             textBoxProductEntryDescription.TabIndex = 30;
             // 
             // label27
             // 
             label27.AutoSize = true;
-            label27.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label27.Location = new Point(8, 120);
+            label27.Font = new Font("Cascadia Code", 9.75F);
+            label27.Location = new Point(8, 112);
             label27.Name = "label27";
-            label27.Size = new Size(118, 21);
+            label27.Size = new Size(104, 17);
             label27.TabIndex = 29;
             label27.Text = "Beschreibung";
             // 
             // textBoxProductEntryName
             // 
-            textBoxProductEntryName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxProductEntryName.Location = new Point(8, 88);
+            textBoxProductEntryName.Font = new Font("Cascadia Code", 9.75F);
+            textBoxProductEntryName.Location = new Point(8, 80);
             textBoxProductEntryName.Name = "textBoxProductEntryName";
-            textBoxProductEntryName.Size = new Size(216, 26);
+            textBoxProductEntryName.Size = new Size(216, 23);
             textBoxProductEntryName.TabIndex = 28;
             // 
             // label28
             // 
             label28.AutoSize = true;
-            label28.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label28.Font = new Font("Cascadia Code", 9.75F);
             label28.Location = new Point(8, 64);
             label28.Name = "label28";
-            label28.Size = new Size(46, 21);
+            label28.Size = new Size(40, 17);
             label28.TabIndex = 27;
             label28.Text = "Name";
             // 
@@ -2083,7 +2157,7 @@
             // 
             // pictureBoxProducts
             // 
-            pictureBoxProducts.Location = new Point(536, 96);
+            pictureBoxProducts.Location = new Point(536, 80);
             pictureBoxProducts.Name = "pictureBoxProducts";
             pictureBoxProducts.Size = new Size(216, 224);
             pictureBoxProducts.TabIndex = 19;
@@ -2096,29 +2170,29 @@
             dataGridViewProducts.AllowUserToResizeColumns = false;
             dataGridViewProducts.AllowUserToResizeRows = false;
             dataGridViewProducts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewProducts.BackgroundColor = SystemColors.Control;
+            dataGridViewProducts.BackgroundColor = Color.White;
             dataGridViewProducts.BorderStyle = BorderStyle.None;
             dataGridViewProducts.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = SystemColors.Control;
-            dataGridViewCellStyle7.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = SystemColors.Control;
+            dataGridViewCellStyle21.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle21.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle21.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Control;
-            dataGridViewCellStyle8.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = SystemColors.Control;
+            dataGridViewCellStyle22.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle22.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle22.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle22.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle22;
             dataGridViewProducts.GridColor = SystemColors.Control;
-            dataGridViewProducts.Location = new Point(-40, 98);
+            dataGridViewProducts.Location = new Point(-40, 88);
             dataGridViewProducts.MultiSelect = false;
             dataGridViewProducts.Name = "dataGridViewProducts";
             dataGridViewProducts.ReadOnly = true;
@@ -2145,6 +2219,7 @@
             // tabPageInvoiceEntry
             // 
             tabPageInvoiceEntry.BackColor = Color.White;
+            tabPageInvoiceEntry.Controls.Add(label23);
             tabPageInvoiceEntry.Controls.Add(labelInvoiceEntryInvoiceLines);
             tabPageInvoiceEntry.Controls.Add(buttonInvoiceEntryPost);
             tabPageInvoiceEntry.Controls.Add(dataGridViewInvoiceEntry);
@@ -2159,20 +2234,32 @@
             tabPageInvoiceEntry.TabIndex = 11;
             tabPageInvoiceEntry.Text = "Rechnungserfassung";
             // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label23.Location = new Point(8, 72);
+            label23.Name = "label23";
+            label23.Size = new Size(112, 17);
+            label23.TabIndex = 22;
+            label23.Text = "Rechnungskopf";
+            // 
             // labelInvoiceEntryInvoiceLines
             // 
             labelInvoiceEntryInvoiceLines.AutoSize = true;
-            labelInvoiceEntryInvoiceLines.Location = new Point(8, 168);
+            labelInvoiceEntryInvoiceLines.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelInvoiceEntryInvoiceLines.Location = new Point(8, 208);
             labelInvoiceEntryInvoiceLines.Name = "labelInvoiceEntryInvoiceLines";
-            labelInvoiceEntryInvoiceLines.Size = new Size(63, 15);
+            labelInvoiceEntryInvoiceLines.Size = new Size(160, 17);
             labelInvoiceEntryInvoiceLines.TabIndex = 21;
-            labelInvoiceEntryInvoiceLines.Text = "Positionen";
+            labelInvoiceEntryInvoiceLines.Text = "Rechnungspositionen";
             // 
             // buttonInvoiceEntryPost
             // 
+            buttonInvoiceEntryPost.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonInvoiceEntryPost.Location = new Point(8, 624);
             buttonInvoiceEntryPost.Name = "buttonInvoiceEntryPost";
-            buttonInvoiceEntryPost.Size = new Size(336, 23);
+            buttonInvoiceEntryPost.Size = new Size(336, 32);
             buttonInvoiceEntryPost.TabIndex = 20;
             buttonInvoiceEntryPost.Text = "Rechnung buchen";
             buttonInvoiceEntryPost.UseVisualStyleBackColor = true;
@@ -2182,35 +2269,35 @@
             // 
             dataGridViewInvoiceEntry.AllowUserToResizeColumns = false;
             dataGridViewInvoiceEntry.AllowUserToResizeRows = false;
-            dataGridViewInvoiceEntry.BackgroundColor = SystemColors.Control;
+            dataGridViewInvoiceEntry.BackgroundColor = Color.White;
             dataGridViewInvoiceEntry.BorderStyle = BorderStyle.None;
             dataGridViewInvoiceEntry.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoiceEntry.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = SystemColors.Control;
-            dataGridViewCellStyle9.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = SystemColors.Control;
+            dataGridViewCellStyle23.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle23.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle23.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             dataGridViewInvoiceEntry.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewInvoiceEntry.Columns.AddRange(new DataGridViewColumn[] { colProductId, colProductName, colQuantity, colPrice, colTotal });
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = SystemColors.Control;
-            dataGridViewCellStyle10.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = SystemColors.Control;
+            dataGridViewCellStyle24.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle24.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle24.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle24.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle24;
             dataGridViewInvoiceEntry.GridColor = SystemColors.Control;
-            dataGridViewInvoiceEntry.Location = new Point(8, 192);
+            dataGridViewInvoiceEntry.Location = new Point(-44, 232);
             dataGridViewInvoiceEntry.Name = "dataGridViewInvoiceEntry";
             dataGridViewInvoiceEntry.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewInvoiceEntry.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewInvoiceEntry.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dataGridViewInvoiceEntry.Size = new Size(744, 416);
+            dataGridViewInvoiceEntry.Size = new Size(804, 384);
             dataGridViewInvoiceEntry.TabIndex = 19;
             dataGridViewInvoiceEntry.CellValueChanged += dataGridViewInvoiceEntry_CellValueChanged;
             // 
@@ -2220,58 +2307,67 @@
             colProductId.Name = "colProductId";
             colProductId.Resizable = DataGridViewTriState.True;
             colProductId.SortMode = DataGridViewColumnSortMode.Automatic;
+            colProductId.Width = 200;
             // 
             // colProductName
             // 
             colProductName.HeaderText = "Artikelname";
             colProductName.Name = "colProductName";
+            colProductName.Width = 200;
             // 
             // colQuantity
             // 
             colQuantity.HeaderText = "Menge";
             colQuantity.Name = "colQuantity";
+            colQuantity.Width = 110;
             // 
             // colPrice
             // 
             colPrice.HeaderText = "Einzelpreis";
             colPrice.Name = "colPrice";
+            colPrice.Width = 125;
             // 
             // colTotal
             // 
             colTotal.HeaderText = "Gesamtpreis";
             colTotal.Name = "colTotal";
+            colTotal.Width = 125;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(8, 120);
+            dateTimePicker1.CalendarFont = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimePicker1.Location = new Point(8, 160);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(336, 23);
+            dateTimePicker1.Size = new Size(752, 23);
             dateTimePicker1.TabIndex = 17;
             // 
             // comboxBoxInoviceEntryCustomers
             // 
+            comboxBoxInoviceEntryCustomers.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboxBoxInoviceEntryCustomers.FormattingEnabled = true;
-            comboxBoxInoviceEntryCustomers.Location = new Point(8, 72);
+            comboxBoxInoviceEntryCustomers.Location = new Point(8, 112);
             comboxBoxInoviceEntryCustomers.Name = "comboxBoxInoviceEntryCustomers";
-            comboxBoxInoviceEntryCustomers.Size = new Size(336, 23);
+            comboxBoxInoviceEntryCustomers.Size = new Size(752, 25);
             comboxBoxInoviceEntryCustomers.TabIndex = 16;
             comboxBoxInoviceEntryCustomers.SelectedIndexChanged += comboxBoxInoviceEntryCustomers_SelectedIndexChanged;
             // 
             // labelInvoiceEntryCustomer
             // 
             labelInvoiceEntryCustomer.AutoSize = true;
-            labelInvoiceEntryCustomer.Location = new Point(8, 56);
+            labelInvoiceEntryCustomer.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelInvoiceEntryCustomer.Location = new Point(8, 96);
             labelInvoiceEntryCustomer.Name = "labelInvoiceEntryCustomer";
-            labelInvoiceEntryCustomer.Size = new Size(41, 15);
+            labelInvoiceEntryCustomer.Size = new Size(48, 17);
             labelInvoiceEntryCustomer.TabIndex = 15;
             labelInvoiceEntryCustomer.Text = "Kunde";
             // 
             // labelInvoiceEntryInvoiceDate
             // 
             labelInvoiceEntryInvoiceDate.AutoSize = true;
-            labelInvoiceEntryInvoiceDate.Location = new Point(8, 104);
+            labelInvoiceEntryInvoiceDate.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelInvoiceEntryInvoiceDate.Location = new Point(8, 144);
             labelInvoiceEntryInvoiceDate.Name = "labelInvoiceEntryInvoiceDate";
-            labelInvoiceEntryInvoiceDate.Size = new Size(101, 15);
+            labelInvoiceEntryInvoiceDate.Size = new Size(120, 17);
             labelInvoiceEntryInvoiceDate.TabIndex = 14;
             labelInvoiceEntryInvoiceDate.Text = "Rechnungsdatum";
             // 
@@ -2289,6 +2385,14 @@
             // tabPageInvoices
             // 
             tabPageInvoices.BackColor = Color.White;
+            tabPageInvoices.Controls.Add(label30);
+            tabPageInvoices.Controls.Add(dataGridViewInvoicesLines);
+            tabPageInvoices.Controls.Add(label29);
+            tabPageInvoices.Controls.Add(label26);
+            tabPageInvoices.Controls.Add(textBoxInvoicesIsPaid);
+            tabPageInvoices.Controls.Add(textBoxInvoicesIsCancelled);
+            tabPageInvoices.Controls.Add(label25);
+            tabPageInvoices.Controls.Add(label24);
             tabPageInvoices.Controls.Add(buttonInvoicesIsCancelled);
             tabPageInvoices.Controls.Add(buttonInvoicesPDF);
             tabPageInvoices.Controls.Add(dataGridViewInvoices);
@@ -2299,24 +2403,133 @@
             tabPageInvoices.TabIndex = 12;
             tabPageInvoices.Text = "Rechnungen";
             // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label30.Location = new Point(0, 408);
+            label30.Name = "label30";
+            label30.Size = new Size(160, 17);
+            label30.TabIndex = 30;
+            label30.Text = "Rechnungspositionen";
+            // 
+            // dataGridViewInvoicesLines
+            // 
+            dataGridViewInvoicesLines.AllowUserToAddRows = false;
+            dataGridViewInvoicesLines.AllowUserToDeleteRows = false;
+            dataGridViewInvoicesLines.AllowUserToResizeColumns = false;
+            dataGridViewInvoicesLines.AllowUserToResizeRows = false;
+            dataGridViewInvoicesLines.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewInvoicesLines.BackgroundColor = Color.White;
+            dataGridViewInvoicesLines.BorderStyle = BorderStyle.None;
+            dataGridViewInvoicesLines.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewInvoicesLines.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.BackColor = SystemColors.Control;
+            dataGridViewCellStyle25.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle25.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle25.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoicesLines.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewInvoicesLines.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = SystemColors.Control;
+            dataGridViewCellStyle26.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle26.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle26.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle26.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoicesLines.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewInvoicesLines.GridColor = SystemColors.Control;
+            dataGridViewInvoicesLines.Location = new Point(-40, 432);
+            dataGridViewInvoicesLines.MultiSelect = false;
+            dataGridViewInvoicesLines.Name = "dataGridViewInvoicesLines";
+            dataGridViewInvoicesLines.ReadOnly = true;
+            dataGridViewInvoicesLines.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewInvoicesLines.RowTemplate.Height = 50;
+            dataGridViewInvoicesLines.RowTemplate.ReadOnly = true;
+            dataGridViewInvoicesLines.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewInvoicesLines.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewInvoicesLines.Size = new Size(592, 224);
+            dataGridViewInvoicesLines.TabIndex = 29;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label29.Location = new Point(552, 184);
+            label29.Name = "label29";
+            label29.Size = new Size(72, 17);
+            label29.TabIndex = 28;
+            label29.Text = "Bezahlt?";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label26.Location = new Point(552, 136);
+            label26.Name = "label26";
+            label26.Size = new Size(88, 17);
+            label26.TabIndex = 27;
+            label26.Text = "Storniert?";
+            // 
+            // textBoxInvoicesIsPaid
+            // 
+            textBoxInvoicesIsPaid.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxInvoicesIsPaid.Location = new Point(552, 200);
+            textBoxInvoicesIsPaid.Name = "textBoxInvoicesIsPaid";
+            textBoxInvoicesIsPaid.ReadOnly = true;
+            textBoxInvoicesIsPaid.Size = new Size(208, 23);
+            textBoxInvoicesIsPaid.TabIndex = 26;
+            // 
+            // textBoxInvoicesIsCancelled
+            // 
+            textBoxInvoicesIsCancelled.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxInvoicesIsCancelled.Location = new Point(552, 152);
+            textBoxInvoicesIsCancelled.Name = "textBoxInvoicesIsCancelled";
+            textBoxInvoicesIsCancelled.ReadOnly = true;
+            textBoxInvoicesIsCancelled.Size = new Size(208, 23);
+            textBoxInvoicesIsCancelled.TabIndex = 25;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label25.Location = new Point(552, 80);
+            label25.Name = "label25";
+            label25.Size = new Size(128, 17);
+            label25.TabIndex = 24;
+            label25.Text = "Weitere Details";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label24.Location = new Point(552, 240);
+            label24.Name = "label24";
+            label24.Size = new Size(72, 17);
+            label24.TabIndex = 23;
+            label24.Text = "Aktionen";
+            // 
             // buttonInvoicesIsCancelled
             // 
             buttonInvoicesIsCancelled.AutoSize = true;
-            buttonInvoicesIsCancelled.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonInvoicesIsCancelled.Location = new Point(560, 96);
+            buttonInvoicesIsCancelled.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoicesIsCancelled.Location = new Point(552, 256);
             buttonInvoicesIsCancelled.Name = "buttonInvoicesIsCancelled";
-            buttonInvoicesIsCancelled.Size = new Size(200, 25);
+            buttonInvoicesIsCancelled.Size = new Size(179, 21);
             buttonInvoicesIsCancelled.TabIndex = 22;
-            buttonInvoicesIsCancelled.Text = "Rechnung storniert?";
+            buttonInvoicesIsCancelled.Text = "Rechnung stornieren";
             buttonInvoicesIsCancelled.UseVisualStyleBackColor = true;
-            buttonInvoicesIsCancelled.CheckedChanged += buttonInvoicesIsCancelled_CheckedChanged;
+            buttonInvoicesIsCancelled.Click += buttonInvoicesIsCancelled_Clicked;
             // 
             // buttonInvoicesPDF
             // 
-            buttonInvoicesPDF.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonInvoicesPDF.Location = new Point(560, 64);
+            buttonInvoicesPDF.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonInvoicesPDF.Location = new Point(552, 96);
             buttonInvoicesPDF.Name = "buttonInvoicesPDF";
-            buttonInvoicesPDF.Size = new Size(192, 32);
+            buttonInvoicesPDF.Size = new Size(208, 32);
             buttonInvoicesPDF.TabIndex = 21;
             buttonInvoicesPDF.Text = "Rechnung anzeigen (PDF)";
             buttonInvoicesPDF.UseVisualStyleBackColor = true;
@@ -2329,29 +2542,29 @@
             dataGridViewInvoices.AllowUserToResizeColumns = false;
             dataGridViewInvoices.AllowUserToResizeRows = false;
             dataGridViewInvoices.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewInvoices.BackgroundColor = SystemColors.Control;
+            dataGridViewInvoices.BackgroundColor = Color.White;
             dataGridViewInvoices.BorderStyle = BorderStyle.None;
             dataGridViewInvoices.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoices.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = SystemColors.Control;
-            dataGridViewCellStyle11.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = SystemColors.Control;
+            dataGridViewCellStyle27.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle27.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle27.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
             dataGridViewInvoices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = SystemColors.Control;
-            dataGridViewCellStyle12.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = SystemColors.Control;
+            dataGridViewCellStyle28.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle28.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle28.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle28.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle28;
             dataGridViewInvoices.GridColor = SystemColors.Control;
-            dataGridViewInvoices.Location = new Point(-15, 63);
+            dataGridViewInvoices.Location = new Point(-40, 88);
             dataGridViewInvoices.MultiSelect = false;
             dataGridViewInvoices.Name = "dataGridViewInvoices";
             dataGridViewInvoices.ReadOnly = true;
@@ -2360,7 +2573,7 @@
             dataGridViewInvoices.RowTemplate.ReadOnly = true;
             dataGridViewInvoices.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewInvoices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewInvoices.Size = new Size(568, 544);
+            dataGridViewInvoices.Size = new Size(592, 288);
             dataGridViewInvoices.TabIndex = 20;
             dataGridViewInvoices.SelectionChanged += dataGridViewInvoices_SelectionChanged;
             // 
@@ -2378,11 +2591,57 @@
             // tabPageDataexport
             // 
             tabPageDataexport.BackColor = Color.White;
+            tabPageDataexport.Controls.Add(buttonDataExportExportEUER);
+            tabPageDataexport.Controls.Add(buttonDataExportExportData);
+            tabPageDataexport.Controls.Add(label32);
+            tabPageDataexport.Controls.Add(comboBoxDataExportYear);
+            tabPageDataexport.Controls.Add(label31);
             tabPageDataexport.Location = new Point(4, 24);
             tabPageDataexport.Name = "tabPageDataexport";
             tabPageDataexport.Size = new Size(762, 668);
             tabPageDataexport.TabIndex = 4;
             tabPageDataexport.Text = "Datenexport";
+            // 
+            // buttonDataExportExportData
+            // 
+            buttonDataExportExportData.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonDataExportExportData.Location = new Point(8, 112);
+            buttonDataExportExportData.Name = "buttonDataExportExportData";
+            buttonDataExportExportData.Size = new Size(288, 32);
+            buttonDataExportExportData.TabIndex = 14;
+            buttonDataExportExportData.Text = "Belegbuchungen exportieren";
+            buttonDataExportExportData.UseVisualStyleBackColor = true;
+            buttonDataExportExportData.Click += buttonDataExportExportData_Click;
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label32.Location = new Point(8, 64);
+            label32.Name = "label32";
+            label32.Size = new Size(40, 17);
+            label32.TabIndex = 13;
+            label32.Text = "Jahr";
+            // 
+            // comboBoxDataExportYear
+            // 
+            comboBoxDataExportYear.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxDataExportYear.FormattingEnabled = true;
+            comboBoxDataExportYear.Location = new Point(8, 80);
+            comboBoxDataExportYear.Name = "comboBoxDataExportYear";
+            comboBoxDataExportYear.Size = new Size(288, 25);
+            comboBoxDataExportYear.TabIndex = 12;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label31.ForeColor = Color.Black;
+            label31.Location = new Point(0, 16);
+            label31.Name = "label31";
+            label31.Size = new Size(191, 35);
+            label31.TabIndex = 11;
+            label31.Text = "Datenexport";
             // 
             // tabPageSettings
             // 
@@ -2753,24 +3012,16 @@
             tabPageAbout.TabIndex = 6;
             tabPageAbout.Text = "Über...";
             // 
-            // labelJournalAsset
+            // buttonDataExportExportEUER
             // 
-            labelJournalAsset.AutoSize = true;
-            labelJournalAsset.Font = new Font("Cascadia Code", 9.75F);
-            labelJournalAsset.Location = new Point(408, 472);
-            labelJournalAsset.Name = "labelJournalAsset";
-            labelJournalAsset.Size = new Size(56, 17);
-            labelJournalAsset.TabIndex = 39;
-            labelJournalAsset.Text = "Anlage";
-            // 
-            // textBoxJournalAsset
-            // 
-            textBoxJournalAsset.Font = new Font("Cascadia Code", 9.75F);
-            textBoxJournalAsset.Location = new Point(408, 488);
-            textBoxJournalAsset.Multiline = true;
-            textBoxJournalAsset.Name = "textBoxJournalAsset";
-            textBoxJournalAsset.Size = new Size(352, 24);
-            textBoxJournalAsset.TabIndex = 40;
+            buttonDataExportExportEUER.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonDataExportExportEUER.Location = new Point(8, 152);
+            buttonDataExportExportEUER.Name = "buttonDataExportExportEUER";
+            buttonDataExportExportEUER.Size = new Size(288, 32);
+            buttonDataExportExportEUER.TabIndex = 15;
+            buttonDataExportExportEUER.Text = "EÜR Zusammenfassung exportieren";
+            buttonDataExportExportEUER.UseVisualStyleBackColor = true;
+            buttonDataExportExportEUER.Click += btnExportEuerFinal_Click;
             // 
             // Form1
             // 
@@ -2820,7 +3071,10 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewInvoiceEntry).EndInit();
             tabPageInvoices.ResumeLayout(false);
             tabPageInvoices.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewInvoicesLines).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewInvoices).EndInit();
+            tabPageDataexport.ResumeLayout(false);
+            tabPageDataexport.PerformLayout();
             tabPageSettings.ResumeLayout(false);
             tabPageSettings.PerformLayout();
             panelSettings.ResumeLayout(false);
@@ -2993,7 +3247,6 @@
         private CheckBox checkBoxProductEntryIsStocked;
         private Label labelProductEntryStock;
         private TextBox textBoxProductEntryStock;
-        private Label labelProductEntryIsStocked;
         private Panel panelSettings;
         private Label labelSettings;
         private GroupBox groupBoxSettingsCompanyData;
@@ -3040,11 +3293,6 @@
         private Button buttonInvoiceEntryPost;
         private DataGridView dataGridViewInvoiceEntry;
         private Label labelInvoiceEntryInvoiceLines;
-        private DataGridViewComboBoxColumn colProductId;
-        private DataGridViewTextBoxColumn colProductName;
-        private DataGridViewTextBoxColumn colQuantity;
-        private DataGridViewTextBoxColumn colPrice;
-        private DataGridViewTextBoxColumn colTotal;
         private Label labelInvoices;
         private Button buttonInvoicesPDF;
         private DataGridView dataGridViewInvoices;
@@ -3055,5 +3303,25 @@
         private Label labelJournalInvoiceReference;
         private TextBox textBoxJournalAsset;
         private Label labelJournalAsset;
+        private Label label23;
+        private DataGridViewComboBoxColumn colProductId;
+        private DataGridViewTextBoxColumn colProductName;
+        private DataGridViewTextBoxColumn colQuantity;
+        private DataGridViewTextBoxColumn colPrice;
+        private DataGridViewTextBoxColumn colTotal;
+        private Label label29;
+        private Label label26;
+        private TextBox textBoxInvoicesIsPaid;
+        private TextBox textBoxInvoicesIsCancelled;
+        private Label label25;
+        private Label label24;
+        private Label label30;
+        private DataGridView dataGridViewInvoicesLines;
+        private Button buttonUpdate;
+        private Label label31;
+        private Button buttonDataExportExportData;
+        private Label label32;
+        private ComboBox comboBoxDataExportYear;
+        private Button buttonDataExportExportEUER;
     }
 }

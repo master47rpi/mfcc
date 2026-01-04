@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 namespace mirada_finanza_control_central
@@ -428,6 +429,7 @@ namespace mirada_finanza_control_central
 
                 // DATEN ÜBER MANAGER HOLEN
                 EntryTransaction entry = dbManager.GetTransactionByVoucher(voucherNr);
+                Asset asset = dbManager.GetAssetByTransactionId(entry.ID);
 
                 if (entry != null)
                 {
@@ -441,7 +443,6 @@ namespace mirada_finanza_control_central
                     textBoxJournalPostingText.Text = entry.Description;
                     textBoxJournalPostingType.Text = entry.TransactionType;
                     textBoxJournalInvoiceReference.Text = entry.InvoiceReference;
-                    // textBoxJournalAsset.Text = entry.Asset;
 
                     // DATUM FORMATIEREN
                     if (!string.IsNullOrEmpty(entry.CreatedDate))
@@ -455,6 +456,11 @@ namespace mirada_finanza_control_central
                     {
                         textBoxJournalCreationDate.Text = "Kein Datum";
                     }
+                }
+
+                if (asset.Id != 0)
+                {
+                    textBoxJournalAsset.Text = asset.Id.ToString();
                 }
             }
             else
@@ -604,8 +610,10 @@ namespace mirada_finanza_control_central
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
+            comboBoxDataExportYearFillYearDropdown();
             tabControl.SelectedTab = tabPageDataexport;
             HighlightButton(buttonExport);
+
         }
 
         private void buttonSettings_Click(object sender, EventArgs e)
@@ -1438,21 +1446,48 @@ namespace mirada_finanza_control_central
             // 1. Daten holen
             var invoices = dbManager.GetAllInvoices();
 
-            // 2. WICHTIG: Spalten automatisch erzeugen lassen
-            dataGridViewInvoices.AutoGenerateColumns = true;
+            // 2. Automatische Spalten deaktivieren
+            dataGridViewInvoices.AutoGenerateColumns = false;
 
-            // 3. BindingList zuweisen (erzeugt jetzt automatisch die Spalten für Id, InvoiceNumber, etc.)
+            // 3. Spalten definieren (nur falls sie noch nicht existieren)
+            if (dataGridViewInvoices.Columns.Count == 0)
+            {
+                dataGridViewInvoices.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "InvoiceNumber",
+                    HeaderText = "Rechnungs-Nr.",
+                    Name = "InvoiceNumber"
+                });
+
+                dataGridViewInvoices.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "CustomerId",
+                    HeaderText = "Kundennummer",
+                    Name = "CustomerId"
+                });
+
+                dataGridViewInvoices.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "DateCreated",
+                    HeaderText = "Erstellungsdatum",
+                    Name = "DateCreated",
+                    DefaultCellStyle = { Format = "dd.MM.yyyy" }
+                });
+
+                dataGridViewInvoices.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TotalAmount",
+                    HeaderText = "Gesamtbetrag",
+                    Name = "TotalAmount",
+                    DefaultCellStyle = { Format = "C2" } // Währungsformat
+                });
+            }
+
+            // 4. Daten binden
             dataGridViewInvoices.DataSource = new BindingList<Invoice>(invoices);
 
-            // 4. Nachträgliches "Aufräumen" der dynamischen Spalten (optional)
-            if (dataGridViewInvoices.Columns["Id"] != null)
-                dataGridViewInvoices.Columns["Id"].Visible = false;
-
-            if (dataGridViewInvoices.Columns["TotalAmount"] != null)
-            {
-                dataGridViewInvoices.Columns["TotalAmount"].HeaderText = "Gesamtbetrag";
-                dataGridViewInvoices.Columns["TotalAmount"].DefaultCellStyle.Format = "C2"; // Währungsformat
-            }
+            // Kleiner Bonus: Spaltenbreite automatisch anpassen
+            dataGridViewInvoices.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         // Der Button-Klick für die PDF-Anzeige
@@ -1537,7 +1572,7 @@ namespace mirada_finanza_control_central
             }
         }
 
-        private void buttonInvoicesIsCancelled_CheckedChanged(object sender, EventArgs e)
+        private void buttonInvoicesIsCancelled_Clicked(object sender, EventArgs e)
         {
             // Wir reagieren nur, wenn die Checkbox manuell angehakt wird
             if (buttonInvoicesIsCancelled.Checked && buttonInvoicesIsCancelled.Enabled)
@@ -1590,6 +1625,225 @@ namespace mirada_finanza_control_central
 
                 // Wenn storniert, dann deaktivieren, sonst aktiv lassen
                 buttonInvoicesIsCancelled.Enabled = !inv.IsCancelled;
+
+                textBoxInvoicesIsCancelled.Text = inv.IsCancelled ? "Ja" : "Nein";
+                textBoxInvoicesIsPaid.Text = inv.IsPaid == 1 ? "Ja" : "Nein";
+
+                LoadInvoiceDetails(inv.Id);
+            }
+        }
+
+        private void LoadInvoiceDetails(int invoiceId)
+        {
+            var lines = dbManager.GetInvoiceLines(invoiceId);
+
+            dataGridViewInvoicesLines.AutoGenerateColumns = false;
+            dataGridViewInvoicesLines.Columns.Clear(); // Falls du sie nicht im Designer festlegst
+
+            // Spalten definieren
+            dataGridViewInvoicesLines.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "LineNum",
+                HeaderText = "Pos.",
+                Width = 40
+            });
+
+            dataGridViewInvoicesLines.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ProductName",
+                HeaderText = "Produkt",
+                Width = 225
+            });
+
+            dataGridViewInvoicesLines.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Quantity",
+                HeaderText = "Menge",
+                Width = 80,
+                DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            dataGridViewInvoicesLines.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CurrentPrice",
+                HeaderText = "Einzelpreis",
+                Width = 100,
+                DefaultCellStyle = { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            dataGridViewInvoicesLines.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "LineTotal",
+                HeaderText = "Gesamtpreis",
+                Width = 100,
+                DefaultCellStyle = { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            // Daten binden
+            dataGridViewInvoicesLines.DataSource = new BindingList<InvoiceLine>(lines);
+        }
+
+        private void comboBoxDataExportYearFillYearDropdown()
+        {
+            int currentYear = DateTime.Now.Year;
+            comboBoxDataExportYear.Items.Clear();
+            for (int i = 0; i < 6; i++)
+            {
+                comboBoxDataExportYear.Items.Add(currentYear - i);
+            }
+            comboBoxDataExportYear.SelectedIndex = 1; // Standardmäßig das letzte Jahr
+        }
+
+        private void buttonDataExportExportData_Click(object sender, EventArgs e)
+        {
+            // Sicherstellen, dass ein Jahr ausgewählt ist
+            if (comboBoxDataExportYear.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie ein Jahr aus.");
+                return;
+            }
+
+            int selectedYear = (int)comboBoxDataExportYear.SelectedItem;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "CSV Datei|*.csv";
+            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            sfd.FileName = $"Belegbuchungen_{selectedYear}.csv";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // 1. Daten mit allen Spalten aus dem DBManager holen
+                    DataTable dt = dbManager.GetFullTransactionTableByYear(selectedYear);
+
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        MessageBox.Show($"Keine Buchungsdaten für das Jahr {selectedYear} gefunden.",
+                                        "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // 2. Export starten
+                    ExportToCSV(sfd.FileName, dt);
+
+                    MessageBox.Show($"Der Export von {dt.Rows.Count} Datensätzen für das Jahr {selectedYear} war erfolgreich.",
+                                    "Export abgeschlossen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Kritischer Fehler beim Export: " + ex.Message,
+                                    "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        public void ExportToCSV(string filePath, DataTable dt)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Spaltenüberschriften
+            string[] columnNames = dt.Columns.Cast<DataColumn>()
+                                     .Select(column => column.ColumnName)
+                                     .ToArray();
+            sb.AppendLine(string.Join(";", columnNames));
+
+            // Datenzeilen
+            foreach (DataRow row in dt.Rows)
+            {
+                var fields = row.ItemArray.Select(field =>
+                {
+                    if (field == null || field == DBNull.Value) return "";
+
+                    string val = field.ToString();
+
+                    // Semikolon verhindern (zerstört sonst die CSV-Struktur)
+                    val = val.Replace(";", ",");
+                    // Zeilenumbrüche in Beschreibungen entfernen
+                    val = val.Replace(Environment.NewLine, " ").Replace("\n", " ");
+
+                    // Spezialbehandlung für Zahlen (Punkt zu Komma für deutsches Excel)
+                    if (field is decimal || field is double || field is float)
+                    {
+                        val = val.Replace(".", ",");
+                    }
+
+                    return val;
+                });
+
+                sb.AppendLine(string.Join(";", fields));
+            }
+
+            // Mit UTF-8 Encoding speichern, damit Umlaute korrekt sind
+            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+        }
+
+        private void btnExportEuerFinal_Click(object sender, EventArgs e)
+        {
+            if (comboBoxDataExportYear.SelectedItem == null) return;
+            int year = (int)comboBoxDataExportYear.SelectedItem;
+
+            // 1. Speicherdialog konfigurieren
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "CSV Datei|*.csv";
+            sfd.FileName = $"EÜR_Zusammenfassung_{year}.csv";
+            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // 2. Daten laden
+                    DataTable summary = dbManager.GetEuerSummaryTable(year);
+                    decimal afaYear = dbManager.GetAfaSumForYear(year);
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine($"EÜR ZUSAMMENFASSUNG;Jahr: {year};Erstellt am: {DateTime.Now:dd.MM.yyyy}");
+                    sb.AppendLine("Kategorie;Typ;Summe (EUR)");
+
+                    decimal einnahmen = 0;
+                    decimal ausgaben = 0;
+
+                    foreach (DataRow row in summary.Rows)
+                    {
+                        string cat = row["Kategorie"].ToString();
+                        string type = row["Typ"].ToString();
+                        decimal amt = Convert.ToDecimal(row["Gesamtsumme"]);
+
+                        // Anlagen-Käufe werden in der EÜR nicht direkt als Ausgabe gezählt, 
+                        // sondern nur über die AfA (Abschreibung). Daher markieren wir sie nur.
+                        if (cat.Contains("AfA") || cat.Contains("Anlage"))
+                        {
+                            sb.AppendLine($"{cat} (Anschaffungskosten - Info);Info;{amt:F2}".Replace(".", ","));
+                            continue;
+                        }
+
+                        if (type == "Einnahme") einnahmen += amt;
+                        else ausgaben += amt;
+
+                        sb.AppendLine($"{cat};{type};{amt:F2}".Replace(".", ","));
+                    }
+
+                    // 3. Verfeinerte AfA als Ausgabe hinzufügen
+                    ausgaben += afaYear;
+                    sb.AppendLine($"Abschreibungen (AfA monatsgenau);Ausgabe;{afaYear:F2}".Replace(".", ","));
+
+                    // 4. Abschlussrechnung
+                    sb.AppendLine("");
+                    sb.AppendLine($";GESAMT EINNAHMEN;{einnahmen:F2}".Replace(".", ","));
+                    sb.AppendLine($";GESAMT AUSGABEN;{ausgaben:F2}".Replace(".", ","));
+                    sb.AppendLine($";ERGEBNIS (Gewinn/Verlust);{einnahmen - ausgaben:F2}".Replace(".", ","));
+
+                    // 5. Datei schreiben
+                    File.WriteAllText(sfd.FileName, sb.ToString(), Encoding.UTF8);
+
+                    MessageBox.Show($"EÜR für {year} wurde erfolgreich gespeichert!\n\nGewinn/Verlust: {einnahmen - ausgaben:C2}",
+                                    "Export Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim EÜR-Export: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

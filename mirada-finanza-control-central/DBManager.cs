@@ -1367,5 +1367,212 @@ namespace mirada_finanza_control_central
                 }
             }
         }
+
+        public Asset GetAssetByTransactionId(long transactionId)
+        {
+            string sql = @"
+            SELECT 
+                Id,
+                EntryTransactionId,
+                Description,
+                PurchaseDate,
+                Amount,
+                UsefulLifeYears,
+                Note,
+                Status
+            FROM asset 
+            WHERE EntryTransactionId = @tId
+            LIMIT 1;";
+
+            // Wir erstellen erst einmal ein leeres Objekt
+            Asset asset = new Asset();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@tId", transactionId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Falls ein Datensatz gefunden wurde, befüllen wir das Objekt
+                                asset.Id = Convert.ToInt64(reader["Id"]);
+                                asset.EntryTransactionId = Convert.ToInt64(reader["EntryTransactionId"]);
+                                asset.Description = reader["Description"].ToString();
+                                asset.PurchaseDate = reader["PurchaseDate"].ToString();
+                                asset.Amount = Convert.ToDecimal(reader["Amount"]);
+                                asset.UsefulLifeYears = Convert.ToInt32(reader["UsefulLifeYears"]);
+                                asset.Note = reader["Note"] != DBNull.Value ? reader["Note"].ToString() : string.Empty;
+                                asset.Status = Convert.ToInt32(reader["Status"]);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fehler beim Abrufen des Assets: " + ex.Message);
+            }
+
+            return asset;
+        }
+
+        public List<InvoiceLine> GetInvoiceLines(int invoiceId)
+        {
+            List<InvoiceLine> lines = new List<InvoiceLine>();
+            string sql = @"
+            SELECT Id, InvoiceId, ProductId, ProductName, Quantity, CurrentPrice, LineTotal, LineNum 
+            FROM InvoiceLine 
+            WHERE InvoiceId = @invoiceId 
+            ORDER BY LineNum ASC";
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@invoiceId", invoiceId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                lines.Add(new InvoiceLine
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    InvoiceId = Convert.ToInt32(reader["InvoiceId"]),
+                                    ProductId = reader["ProductId"] != DBNull.Value ? (int?)Convert.ToInt32(reader["ProductId"]) : null,
+                                    ProductName = reader["ProductName"].ToString(),
+                                    Quantity = Convert.ToDouble(reader["Quantity"]),
+                                    CurrentPrice = Convert.ToDouble(reader["CurrentPrice"]),
+                                    LineTotal = Convert.ToDouble(reader["LineTotal"]),
+                                    LineNum = Convert.ToDouble(reader["LineNum"])
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fehler beim Laden der Rechnungspositionen: " + ex.Message);
+            }
+            return lines;
+        }
+        public DataTable GetFullTransactionTableByYear(int year)
+        {
+            // Wir nehmen alle Felder (außer das BLOB 'Attachment')
+            string sql = @"
+            SELECT 
+                ID,
+                Voucher AS 'Beleg-Nr',
+                Year AS 'Steuerjahr',
+                EntryCategoryName AS 'Kategorie',
+                TransactionType AS 'Typ',
+                Amount AS 'Betrag',
+                Description AS 'Beschreibung',
+                Note AS 'Notiz',
+                TransDate AS 'Belegdatum',
+                CreatedDate AS 'Erfasst-Am',
+                Reversal AS 'Storno-Haken',
+                ReversalReferenceVoucher AS 'Storno-Referenz',
+                InvoiceReference AS 'Rechnungs-Referenz'
+            FROM entryTransaction 
+            WHERE Year = @year 
+            ORDER BY TransDate ASC, ID ASC";
+
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@year", year);
+                    DataTable dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+                    return dt;
+                }
+            }
+        }
+
+        public DataTable GetEuerSummaryTable(int year)
+        {
+            // Wir gruppieren nach Kategorien und rechnen Typen gegen
+            string sql = @"
+            SELECT 
+                EntryCategoryName AS 'Kategorie',
+                TransactionType AS 'Typ',
+                SUM(Amount) AS 'Gesamtsumme'
+            FROM entryTransaction 
+            WHERE Year = @year AND Reversal = 0
+            GROUP BY EntryCategoryName, TransactionType
+            ORDER BY TransactionType DESC, EntryCategoryName ASC";
+
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@year", year);
+                    DataTable dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+                    return dt;
+                }
+            }
+        }
+
+        public decimal GetAfaSumForYear(int year)
+        {
+            decimal totalAfa = 0;
+            string sql = "SELECT Amount, UsefulLifeYears, PurchaseDate FROM asset WHERE Status = 0";
+
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        decimal amount = Convert.ToDecimal(reader["Amount"]);
+                        int years = Convert.ToInt32(reader["UsefulLifeYears"]);
+                        DateTime purchaseDate = Convert.ToDateTime(reader["PurchaseDate"]);
+
+                        // Ende der Abschreibung berechnen (Kaufdatum + Jahre)
+                        DateTime endOfDepreciation = purchaseDate.AddYears(years);
+
+                        // Wenn das gesuchte Jahr außerhalb des Zeitraums liegt -> 0 €
+                        if (year < purchaseDate.Year || year > endOfDepreciation.Year)
+                            continue;
+
+                        decimal ratePerMonth = amount / (years * 12);
+                        int monthsInYear = 0;
+
+                        if (year == purchaseDate.Year)
+                        {
+                            // Im ersten Jahr: Monate ab Kauf (inkl. Kaufmonat)
+                            monthsInYear = 12 - purchaseDate.Month + 1;
+                        }
+                        else if (year == endOfDepreciation.Year)
+                        {
+                            // Im letzten Jahr: Monate bis zum Enddatum
+                            monthsInYear = purchaseDate.Month - 1;
+                        }
+                        else
+                        {
+                            // Vollen 12 Monate in den Jahren dazwischen
+                            monthsInYear = 12;
+                        }
+
+                        totalAfa += ratePerMonth * monthsInYear;
+                    }
+                }
+            }
+            return Math.Round(totalAfa, 2);
+        }
     }
 }
