@@ -15,18 +15,17 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4 # Aktualisiert auf v4
       with:
         fetch-depth: 0
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2 # Aktualisiert auf v2
 
     - name: NuGet Restore
       run: nuget restore mirada-finanza-control-central.sln
 
     - name: Build Main App Only (Release)
-      # Baut nur das Hauptprojekt, um Konflikte mit dem Generator zu vermeiden
       run: msbuild mirada-finanza-control-central/mirada-finanza-control-central.csproj /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Extract Version
@@ -40,14 +39,15 @@ jobs:
         fi
 
     - name: Build Inno Setup Installer
+      # Korrigierter Name der Action (Groß-/Kleinschreibung prüfen)
       uses: aybe/Inno-Setup-Action@v1.2.2
       with:
         filepath: mfcc_installer.iss
-        # Übergibt die Version an das {#AppVersion} Makro in der .iss Datei
         options: /dAppVersion=${{ steps.get_version.outputs.VERSION }}
 
     - name: Upload Installer Artifact
-      uses: actions/upload-artifact@v3
+      # WICHTIG: Aktualisiert auf v4, damit der Fehler verschwindet
+      uses: actions/upload-artifact@v4 
       with:
         name: Mirada-Finanza-Setup
         path: InstallerOutput/Mirada-Finanza-Control-Central.exe
