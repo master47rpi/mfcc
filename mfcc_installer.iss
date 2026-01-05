@@ -18,7 +18,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\mirada-finanza-control-central.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.db"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Der 'runtimes' Ordner ist wichtig für Bibliotheken wie SQLite
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\runtimes\*"; DestDir: "{app}\runtimes"; Flags: ignoreversion recursesubdirs
