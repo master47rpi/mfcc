@@ -2,10 +2,12 @@ name: Build and Release Installer
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - develop
   create:
     tags:
-      - 'v*' 
+      - 'v*'
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -24,30 +26,28 @@ jobs:
       run: nuget restore mirada-finanza-control-central.sln
 
     - name: Build Main App Only (Release)
-      # Wir bauen nur die Haupt-App, um den Fehler im LicenseGenerator zu umgehen
+      # Baut nur das Hauptprojekt, um Konflikte mit dem Generator zu vermeiden
       run: msbuild mirada-finanza-control-central/mirada-finanza-control-central.csproj /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Extract Version
       id: get_version
       shell: bash
       run: |
-        if [[ $GITHUB_REF == refs/tags/* ]]; then
+        if [[ $GITHUB_REF == refs/tags/v* ]]; then
           echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         else
           echo "VERSION=1.0.0" >> $GITHUB_OUTPUT
         fi
 
-    # --- HIER IST DER NEUE INSTALLER-TEIL ---
     - name: Build Inno Setup Installer
       uses: aybe/Inno-Setup-Action@v1.2.2
       with:
         filepath: mfcc_installer.iss
-        # Übergibt die Version an dein .iss Skript
+        # Übergibt die Version an das {#AppVersion} Makro in der .iss Datei
         options: /dAppVersion=${{ steps.get_version.outputs.VERSION }}
 
     - name: Upload Installer Artifact
       uses: actions/upload-artifact@v3
       with:
         name: Mirada-Finanza-Setup
-        # Dieser Pfad muss zum OutputDir in deiner .iss Datei passen
         path: InstallerOutput/Mirada-Finanza-Control-Central.exe
