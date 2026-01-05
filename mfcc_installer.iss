@@ -14,9 +14,10 @@ PrivilegesRequired=admin
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "mirada-finanza-control-central\bin\Release\mirada-finanza-control-central.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "mirada-finanza-control-central\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "mirada-finanza-control-central\bin\Release\*.config"; DestDir: "{app}"; Flags: ignoreversion
+; Der Pfad greift jetzt tief in die Ordnerstruktur bis zum net10.0-windows Ordner
+Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\mirada-finanza-control-central.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Dirs]
 Name: "{userappdata}\Mirada-Finanza-Control-Central"
