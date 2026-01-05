@@ -1857,12 +1857,20 @@ namespace mirada_finanza_control_central
         private bool PerformLicenseCheck()
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string folder = Path.Combine(appData, "MiradaFinanzaControlCentral");
+            // Ich habe den Namen hier an deine Ordnerstruktur angepasst
+            string folder = Path.Combine(appData, "Mirada-Finanza-Control-Central");
             string licensePath = Path.Combine(folder, "license.txt");
 
-            if (File.Exists(licensePath))
+            try
             {
-                try
+                // ERSTELLT DEN ORDNER, FALLS ER FEHLT
+                // Wenn er schon existiert, passiert einfach gar nichts (kein Fehler)
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                if (File.Exists(licensePath))
                 {
                     string[] lines = File.ReadAllLines(licensePath);
                     if (lines.Length >= 2)
@@ -1872,20 +1880,24 @@ namespace mirada_finanza_control_central
 
                         if (LicenseValidator.IsLicenseValid(userName, licenseKey))
                         {
-                            return true; // Alles okay!
+                            return true; // Lizenz ok!
                         }
                     }
                 }
-                catch { /* Fehler beim Lesen */ }
+            }
+            catch (Exception ex)
+            {
+                // Optional: Fehler beim Erstellen des Ordners oder Lesen der Datei loggen
             }
 
-            // Wenn wir hier landen, war die Lizenz ungültig oder nicht da
+            // Wenn wir hier landen: Ordner existiert nun zwar, aber keine gültige Lizenz gefunden
             MessageBox.Show(
                 "Keine gültige Lizenz gefunden!\n\n" +
-                $"Bitte hinterlegen Sie die Datei 'license.lic' in folgendem Ordner:\n{folder}",
-                "Lizenzfehler",
+                $"Bitte hinterlegen Sie die Datei 'license.txt' in folgendem Ordner:\n{folder}\n\n" +
+                "Das Programm wird nun beendet.",
+                "Lizenz erforderlich",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+                MessageBoxIcon.Warning);
 
             return false;
         }
