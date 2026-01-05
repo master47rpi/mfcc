@@ -269,8 +269,6 @@ namespace mirada_finanza_control_central
         public string GetTransactionTypeFromCategory(string _categoryName)
         {
             string transType = "";
-            string dbFile = "mirada-finanza-control-central.db";
-            string connString = $"Data Source={dbFile};Version=3;";
 
             try
             {
