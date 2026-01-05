@@ -15,16 +15,24 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4 # v4 ist aktuell
+      uses: actions/checkout@v4
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2 # v2 ist aktuell
+      uses: microsoft/setup-msbuild@v2
 
     - name: NuGet Restore
+      # Hier nutzen wir deine .slnx Datei
       run: nuget restore mirada-finanza-control-central.slnx
 
     - name: Build Main App Only (Release)
       run: msbuild mirada-finanza-control-central/mirada-finanza-control-central.csproj /p:Configuration=Release /p:Platform="Any CPU"
+
+    # --- DEBUG SCHRITT: ZEIGT UNS ALLE PFADE AN ---
+    - name: Debug - List all EXE files
+      shell: cmd
+      run: |
+        echo "Suche nach der fertigen EXE..."
+        dir /s /b *.exe
 
     - name: Extract Version
       id: get_version
@@ -37,14 +45,13 @@ jobs:
         fi
 
     - name: Build Inno Setup Installer
-      # Wir nutzen jetzt diese stabilere Action:
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
-        path: mfcc_installer.iss # Beachte: Hier heißt der Parameter 'path' statt 'filepath'
+        path: mfcc_installer.iss
         options: /dAppVersion=${{ steps.get_version.outputs.VERSION }}
 
     - name: Upload Installer Artifact
-      uses: actions/upload-artifact@v4 # v4 behebt den "Deprecated" Fehler
+      uses: actions/upload-artifact@v4
       with:
         name: Mirada-Finanza-Setup
         path: InstallerOutput/Mirada-Finanza-Control-Central.exe
