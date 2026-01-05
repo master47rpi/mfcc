@@ -22,8 +22,15 @@ namespace mirada_finanza_control_central
         // Der Manager baut sich seinen ConnectionString jetzt selbst
         public DBManager(string _dbFile = "mirada-finanza-control-central.db")
         {
-            dbFile = _dbFile;
-            connString = $"Data Source={_dbFile};version=3;";
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string folder = Path.Combine(appData, "MiradaFinanza");
+            Directory.CreateDirectory(folder);
+
+            // Hier speichern wir den KOMPLETTEN Pfad (C:\Users\...\AppData\...)
+            dbFile = Path.Combine(folder, _dbFile);
+
+            // WICHTIG: Im Connection String muss nun der volle Pfad 'dbFile' stehen!
+            connString = $"Data Source={dbFile};version=3;";
         }
 
         // Hilfsmethode, um überall im Manager schnell eine Verbindung zu bekommen
