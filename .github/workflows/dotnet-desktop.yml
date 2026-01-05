@@ -1,73 +1,53 @@
-name: .NET Build and Release
+name: Build and Release Installer
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ main ]
+  create:
+    tags:
+      - 'v*' 
 
 jobs:
   build:
     runs-on: windows-latest
-    permissions:
-      contents: write
-
-    env:
-      Solution_Name: mirada-finanza-control-central.slnx
-      Configuration: Release
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    - name: Install .NET 10
-      uses: actions/setup-dotnet@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: NuGet Restore
+      run: nuget restore mirada-finanza-control-central.sln
+
+    - name: Build Main App Only (Release)
+      # Wir bauen nur die Haupt-App, um den Fehler im LicenseGenerator zu umgehen
+      run: msbuild mirada-finanza-control-central/mirada-finanza-control-central.csproj /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Extract Version
+      id: get_version
+      shell: bash
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        else
+          echo "VERSION=1.0.0" >> $GITHUB_OUTPUT
+        fi
+
+    # --- HIER IST DER NEUE INSTALLER-TEIL ---
+    - name: Build Inno Setup Installer
+      uses: aybe/Inno-Setup-Action@v1.2.2
       with:
-        dotnet-version: 10.0.x
+        filepath: mfcc_installer.iss
+        # Übergibt die Version an dein .iss Skript
+        options: /dAppVersion=${{ steps.get_version.outputs.VERSION }}
 
-    - name: Generate Version Strings
-      shell: pwsh
-      run: |
-        $dt = Get-Date
-        # Nur noch die nackte GitHub Build-Nummer (1, 2, 3...)
-        $ver = "${{ github.run_number }}"
-        
-        # Für den Dateinamen und Release-Titel nutzen wir weiterhin das Datum zur Orientierung
-        $fileDate = $dt.ToString("yyyyMMdd")
-        $relName = $dt.ToString("dd.MM.yyyy HH:mm")
-        
-        # Der Dateiname enthält jetzt die einfache Build-Nummer
-        $zipName = "Mirada-Finanza-Control-Central-$fileDate-$ver.zip"
-        
-        echo "NEW_VERSION=$ver" >> $env:GITHUB_ENV
-        echo "RELEASE_NAME=$relName" >> $env:GITHUB_ENV
-        echo "FILE_DATE=$fileDate" >> $env:GITHUB_ENV
-        echo "ZIP_FILE_NAME=$zipName" >> $env:GITHUB_ENV
-
-    - name: Publish Application
-      run: |
-        dotnet publish ${{ env.Solution_Name }} `
-          -c ${{ env.Configuration }} `
-          -o ./publish_output `
-          /p:Version=${{ env.NEW_VERSION }}.0.0 `
-          /p:AssemblyVersion=${{ env.NEW_VERSION }}.0.0 `
-          /p:FileVersion=${{ env.NEW_VERSION }}.0.0
-
-    - name: Package Application
-      shell: pwsh
-      run: |
-        if (Test-Path "./publish_output/*.db") { Remove-Item "./publish_output/*.db" }
-        Compress-Archive -Path ./publish_output/* -DestinationPath ${{ env.ZIP_FILE_NAME }}
-
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
+    - name: Upload Installer Artifact
+      uses: actions/upload-artifact@v3
       with:
-        tag_name: b${{ env.NEW_VERSION }} # 'b' für Build (z.B. b45)
-        name: Build ${{ env.NEW_VERSION }} vom ${{ env.RELEASE_NAME }}
-        body: |
-          ### Release Information
-          - **Build-Nummer:** ${{ env.NEW_VERSION }}
-          - **Zeitpunkt:** ${{ env.RELEASE_NAME }}
-        files: ${{ env.ZIP_FILE_NAME }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: Mirada-Finanza-Setup
+        # Dieser Pfad muss zum OutputDir in deiner .iss Datei passen
+        path: InstallerOutput/Mirada-Finanza-Control-Central.exe
