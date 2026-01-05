@@ -23,7 +23,7 @@ namespace mirada_finanza_control_central
         public DBManager(string _dbFile = "mirada-finanza-control-central.db")
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string folder = Path.Combine(appData, "MiradaFinanza");
+            string folder = Path.Combine(appData, "MiradaFinanzaControlCentral");
             Directory.CreateDirectory(folder);
 
             // Hier speichern wir den KOMPLETTEN Pfad (C:\Users\...\AppData\...)

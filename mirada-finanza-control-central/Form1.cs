@@ -29,6 +29,13 @@ namespace mirada_finanza_control_central
 
         public Form1()
         {
+            // 1. ZUERST DIE LIZENZ PRÜFEN
+            if (!PerformLicenseCheck())
+            {
+                // Wenn ungültig, ist hier Schluss.
+                Environment.Exit(0);
+            }
+
             InitializeComponent();
 
             dbManager = new DBManager();
@@ -1845,6 +1852,42 @@ namespace mirada_finanza_control_central
                     MessageBox.Show("Fehler beim EÜR-Export: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private bool PerformLicenseCheck()
+        {
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string folder = Path.Combine(appData, "MiradaFinanzaControlCentral");
+            string licensePath = Path.Combine(folder, "license.txt");
+
+            if (File.Exists(licensePath))
+            {
+                try
+                {
+                    string[] lines = File.ReadAllLines(licensePath);
+                    if (lines.Length >= 2)
+                    {
+                        string userName = lines[0].Trim();
+                        string licenseKey = lines[1].Trim();
+
+                        if (LicenseValidator.IsLicenseValid(userName, licenseKey))
+                        {
+                            return true; // Alles okay!
+                        }
+                    }
+                }
+                catch { /* Fehler beim Lesen */ }
+            }
+
+            // Wenn wir hier landen, war die Lizenz ungültig oder nicht da
+            MessageBox.Show(
+                "Keine gültige Lizenz gefunden!\n\n" +
+                $"Bitte hinterlegen Sie die Datei 'license.lic' in folgendem Ordner:\n{folder}",
+                "Lizenzfehler",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
+            return false;
         }
     }
 }
