@@ -14,10 +14,14 @@ PrivilegesRequired=admin
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-; Der Pfad greift jetzt tief in die Ordnerstruktur bis zum net10.0-windows Ordner
-Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\mirada-finanza-control-central.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "mirada-finanza-control-central\mirada-finanza-control-central\bin\Release\net10.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
+; Haupt-Anwendung und wichtige Konfigurationsdateien
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\mirada-finanza-control-central.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.db"; DestDir: "{app}"; Flags: ignoreversion
+
+; Der 'runtimes' Ordner ist wichtig für Bibliotheken wie SQLite
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\runtimes\*"; DestDir: "{app}\runtimes"; Flags: ignoreversion recursesubdirs
 
 [Dirs]
 Name: "{userappdata}\Mirada-Finanza-Control-Central"
