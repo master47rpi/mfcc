@@ -11,7 +11,7 @@ namespace mirada_finanza_control_central
         public string Description { get; set; }
 
         // In SQLite ist REAL ein double, in C# nutzen wir für Preise 
-        // wegen der Rechengenauigkeit lieber decimal.
+        // wegen der Rechengenauigkeit lieber decimal. 
         public decimal Price { get; set; }
 
         // Das Bild als Byte-Array (BLOB)
