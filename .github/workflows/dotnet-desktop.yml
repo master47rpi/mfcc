@@ -15,12 +15,10 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4 # Aktualisiert auf v4
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v4 # v4 ist aktuell
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2 # Aktualisiert auf v2
+      uses: microsoft/setup-msbuild@v2 # v2 ist aktuell
 
     - name: NuGet Restore
       run: nuget restore mirada-finanza-control-central.sln
@@ -39,15 +37,14 @@ jobs:
         fi
 
     - name: Build Inno Setup Installer
-      # Korrigierter Name der Action (Groß-/Kleinschreibung prüfen)
-      uses: aybe/Inno-Setup-Action@v1.2.2
+      # Wir nutzen jetzt diese stabilere Action:
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
-        filepath: mfcc_installer.iss
+        path: mfcc_installer.iss # Beachte: Hier heißt der Parameter 'path' statt 'filepath'
         options: /dAppVersion=${{ steps.get_version.outputs.VERSION }}
 
     - name: Upload Installer Artifact
-      # WICHTIG: Aktualisiert auf v4, damit der Fehler verschwindet
-      uses: actions/upload-artifact@v4 
+      uses: actions/upload-artifact@v4 # v4 behebt den "Deprecated" Fehler
       with:
         name: Mirada-Finanza-Setup
         path: InstallerOutput/Mirada-Finanza-Control-Central.exe
