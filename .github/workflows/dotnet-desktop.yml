@@ -21,7 +21,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2 # v2 ist aktuell
 
     - name: NuGet Restore
-      run: nuget restore mirada-finanza-control-central.sln
+      run: nuget restore mirada-finanza-control-central.slnx
 
     - name: Build Main App Only (Release)
       run: msbuild mirada-finanza-control-central/mirada-finanza-control-central.csproj /p:Configuration=Release /p:Platform="Any CPU"
