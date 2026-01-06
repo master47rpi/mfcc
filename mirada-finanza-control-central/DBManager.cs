@@ -1,14 +1,14 @@
-﻿using QuestPDF.Infrastructure;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
-
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 
 
 
@@ -230,6 +230,26 @@ namespace mirada_finanza_control_central
                         cmd.ExecuteNonQuery();
                     }
 
+                    // Suppliers (Lieferanten)
+                    string sqlSupplier = @"
+                    CREATE TABLE IF NOT EXISTS supplier (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Name TEXT NOT NULL,
+                        Street TEXT,
+                        Zipcode TEXT,
+                        City TEXT,
+                        Country TEXT,
+                        Email TEXT
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlSupplier, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // DB aktualisieren.
+                    UpdateDatabaseSchema();
+
 
                 }
             }
@@ -334,9 +354,9 @@ namespace mirada_finanza_control_central
             {
                 conn.Open();
                 string sql = @"INSERT INTO EntryTransaction 
-                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference) 
+                (Voucher, Year, EntryCategoryName, TransactionType, Amount, Description, Note, TransDate, CreatedDate, Reversal, ReversalReferenceVoucher, Attachment, FileExt, InvoiceReference, CustomerId, SupplierId) 
                 VALUES 
-                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference)";
+                (@vouch, @year, @cat, @type, @amount, @desc, @note, @tDate, @cDate, @rev, @revRef, @file, @ext, @invoiceReference, @customerid, @supplierid)";
 
                 using (var cmd = new SQLiteCommand(sql, conn))
                 {
@@ -354,6 +374,9 @@ namespace mirada_finanza_control_central
                     cmd.Parameters.AddWithValue("@invoiceReference", _entryTransaction.InvoiceReference);
                     cmd.Parameters.Add("@file", System.Data.DbType.Binary).Value = _entryTransaction.Attachment;
                     cmd.Parameters.AddWithValue("@ext", _entryTransaction.FileExt);
+
+                    cmd.Parameters.AddWithValue("@customerid", _entryTransaction.CustomerId);
+                    cmd.Parameters.AddWithValue("@supplierid", _entryTransaction.SupplierId);
 
                     cmd.ExecuteNonQuery();
 
@@ -488,7 +511,9 @@ namespace mirada_finanza_control_central
             t.EntryCategoryName, 
             t.Description, 
             t.ReversalReferenceVoucher, 
-            t.InvoiceReference, 
+            t.InvoiceReference,
+            t.SupplierId,
+            t.CustomerId,
             COALESCE(a.Id, a_ref.Id) AS AssetId,
             t.Voucher || char(10) || t.TransDate AS Disp_VoucherDate, 
             t.TransactionType || char(10) || t.EntryCategoryName AS Disp_TypeCategory, 
@@ -549,7 +574,16 @@ namespace mirada_finanza_control_central
                                     CreatedDate = reader["CreatedDate"]?.ToString(),
                                     Reversal = Convert.ToInt32(reader["Reversal"]) == 1, // Mapping auf bool
                                     ReversalReferenceVoucher = reader["ReversalReferenceVoucher"]?.ToString(),
-                                    InvoiceReference = reader["InvoiceReference"]?.ToString()
+                                    InvoiceReference = reader["InvoiceReference"]?.ToString(),
+                                    // Prüfung für CustomerId
+                                    CustomerId = reader["CustomerId"] != DBNull.Value
+                                     ? Convert.ToInt32(reader["CustomerId"])
+                                     : (int?)null,
+
+                                    // Prüfung für SupplierId
+                                    SupplierId = reader["SupplierId"] != DBNull.Value
+                                     ? Convert.ToInt32(reader["SupplierId"])
+                                     : (int?)null
                                 };
                             }
                         }
@@ -847,6 +881,29 @@ namespace mirada_finanza_control_central
             catch (Exception ex)
             {
                 throw new Exception("Fehler beim Laden der Kunden aus der Datenbank: " + ex.Message);
+            }
+        }
+
+        public DataTable FetchAllSuppliers()
+        {
+            string sql = "SELECT Id, Name, Street, Zipcode, City, Country, Email FROM supplier ORDER BY Id DESC";
+            try
+            {
+                using (var conn = new SQLiteConnection(connString))
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(sql, conn))
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fehler beim Laden des Lieferanten aus der Datenbank: " + ex.Message);
             }
         }
 
@@ -1578,6 +1635,230 @@ namespace mirada_finanza_control_central
                 }
             }
             return Math.Round(totalAfa, 2);
+        }
+
+        public void UpdateDatabaseSchema()
+        {
+            string[] alterStatements = new string[]
+            {
+                "ALTER TABLE entryTransaction ADD COLUMN CustomerId INTEGER;",
+                "ALTER TABLE entryTransaction ADD COLUMN SupplierId INTEGER;"
+            };
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+
+                foreach (var sql in alterStatements)
+                {
+                    try
+                    {
+                        using (var command = new SQLiteCommand(sql, conn))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        // ErrorCode 1 oder die Nachricht "duplicate column name" 
+                        // bedeutet, dass das Feld schon existiert. Das ignorieren wir.
+                        if (!ex.Message.Contains("duplicate column name"))
+                        {
+                            throw; // Falls es ein anderer Fehler ist, wollen wir ihn wissen
+                        }
+                    }
+
+                }
+            }
+        }
+
+        public int CreateEmptyCustomer()
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                // Wir legen einen minimalen Datensatz an
+                string sql = "INSERT INTO customer (Name) VALUES (''); SELECT last_insert_rowid();";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    // Gibt die ID des gerade erstellten Zeile zurück
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+        }
+
+        public Customer GetCustomerById(int id)
+        {
+            Customer customer = null;
+
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM customer WHERE Id = @Id";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            customer = new Customer
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Name = reader["Name"]?.ToString(),
+                                Street = reader["Street"]?.ToString(),
+                                Zipcode = reader["Zipcode"]?.ToString(),
+                                City = reader["City"]?.ToString(),
+                                Country = reader["Country"]?.ToString(),
+                                Email = reader["Email"]?.ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return customer;
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = @"
+                UPDATE customer 
+                SET Name = @Name, 
+                    Street = @Street, 
+                    Zipcode = @Zipcode, 
+                    City = @City, 
+                    Country = @Country, 
+                    Email = @Email
+                WHERE Id = @Id";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Name", customer.Name ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Street", customer.Street ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Zipcode", customer.Zipcode ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@City", customer.City ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Country", customer.Country ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", customer.Email ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Id", customer.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = "DELETE FROM customer WHERE Id = @Id";
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int CreateEmptySupplier()
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                // Wir legen einen minimalen Datensatz an
+                string sql = "INSERT INTO supplier (Name) VALUES (''); SELECT last_insert_rowid();";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    // Gibt die ID des gerade erstellten Zeile zurück
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+        }
+
+        public Supplier GetSupplierById(int id)
+        {
+            Supplier supplier = null;
+
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM supplier WHERE Id = @Id";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            supplier = new Supplier
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Name = reader["Name"]?.ToString(),
+                                Street = reader["Street"]?.ToString(),
+                                Zipcode = reader["Zipcode"]?.ToString(),
+                                City = reader["City"]?.ToString(),
+                                Country = reader["Country"]?.ToString(),
+                                Email = reader["Email"]?.ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return supplier;
+        }
+
+        public void UpdateSupplier(Supplier supplier)
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = @"
+                UPDATE supplier 
+                SET Name = @Name, 
+                    Street = @Street, 
+                    Zipcode = @Zipcode, 
+                    City = @City, 
+                    Country = @Country, 
+                    Email = @Email
+                WHERE Id = @Id";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Name", supplier.Name ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Street", supplier.Street ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Zipcode", supplier.Zipcode ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@City", supplier.City ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Country", supplier.Country ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", supplier.Email ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Id", supplier.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteSupplier(int id)
+        {
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+                string sql = "DELETE FROM supplier WHERE Id = @Id";
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

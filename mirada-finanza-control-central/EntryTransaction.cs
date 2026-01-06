@@ -22,6 +22,9 @@ namespace mirada_finanza_control_central
         public string ReversalReferenceVoucher { get; set; }
         public string InvoiceReference { get; set; }
 
+        public int? CustomerId { get; set; }
+        public int? SupplierId { get; set; }
+
         // Hilfs-Property: Falls du im Code lieber mit DateTime arbeitest
         public DateTime GetTransDateAsDateTime()
         {

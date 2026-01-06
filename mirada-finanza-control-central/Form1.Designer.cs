@@ -28,26 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            buttonSuppliers = new Button();
             buttonUpdate = new Button();
             buttonCustomers = new Button();
             buttonInvoices = new Button();
             buttonInvoiceEntry = new Button();
-            buttonCustomerEntry = new Button();
             buttonItems = new Button();
             buttonItemEntry = new Button();
             labelControlCentral = new Label();
@@ -107,6 +109,10 @@
             labelOverviewCurrentMonth = new Label();
             labelOverview = new Label();
             tabPageEntry = new TabPage();
+            labelEntryCustomer = new Label();
+            comboBoxEntryCustomer = new ComboBox();
+            labelEntrySupplier = new Label();
+            comboBoxEntrySupplier = new ComboBox();
             comboBoxEntryTransactionOpenInvoices = new ComboBox();
             checkBoxSettleInvoice = new CheckBox();
             textBoxEntryPostingType = new TextBox();
@@ -130,6 +136,10 @@
             numericUpDownAmount = new NumericUpDown();
             dateTimePickerVoucherDate = new DateTimePicker();
             tabPageJournal = new TabPage();
+            textBoxJournalSupplierId = new TextBox();
+            label47 = new Label();
+            textBoxJournalCustomerId = new TextBox();
+            label40 = new Label();
             textBoxJournalAsset = new TextBox();
             labelJournalAsset = new Label();
             textBoxJournalInvoiceReference = new TextBox();
@@ -179,7 +189,26 @@
             labelCustomerEntryName = new Label();
             labelCustomerEntry = new Label();
             tabPageCustomers = new TabPage();
+            labelCustomersZipCode = new Label();
+            textBoxCustomersId = new TextBox();
+            labelCustomersId = new Label();
+            textBoxCustomersEmail = new TextBox();
+            label33 = new Label();
+            textBoxCustomersCountry = new TextBox();
+            label34 = new Label();
+            textBoxCustomersCity = new TextBox();
+            label35 = new Label();
+            textBoxCustomersZipCode = new TextBox();
+            label36 = new Label();
+            textBoxCustomersStreet = new TextBox();
+            label37 = new Label();
+            textBoxCustomersName = new TextBox();
+            label38 = new Label();
+            buttonCustomersDelete = new Button();
+            buttonCustomersNew = new Button();
             dataGridViewCustomers = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            name = new DataGridViewTextBoxColumn();
             labelCustomers = new Label();
             tabPageProductEntry = new TabPage();
             checkBoxProductEntryIsStocked = new CheckBox();
@@ -228,6 +257,7 @@
             dataGridViewInvoices = new DataGridView();
             labelInvoices = new Label();
             tabPageDataexport = new TabPage();
+            buttonDataExportExportEUER = new Button();
             buttonDataExportExportData = new Button();
             label32 = new Label();
             comboBoxDataExportYear = new ComboBox();
@@ -272,7 +302,28 @@
             labelSettingsCompanyName = new Label();
             labelSettings = new Label();
             tabPageAbout = new TabPage();
-            buttonDataExportExportEUER = new Button();
+            tabPageSuppliers = new TabPage();
+            label39 = new Label();
+            textBoxSuppliersId = new TextBox();
+            labelSuppliersId = new Label();
+            textBoxSuppliersEmail = new TextBox();
+            label41 = new Label();
+            textBoxSuppliersCountry = new TextBox();
+            label42 = new Label();
+            textBoxSuppliersCity = new TextBox();
+            label43 = new Label();
+            textBoxSuppliersZipCode = new TextBox();
+            label44 = new Label();
+            textBoxSuppliersStreet = new TextBox();
+            label45 = new Label();
+            textBoxSuppliersName = new TextBox();
+            label46 = new Label();
+            buttonSuppliersDelete = new Button();
+            buttonSuppliersNew = new Button();
+            dataGridViewSuppliers = new DataGridView();
+            dataGridViewTextBoxColumnSupplierId = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumnSupplierName = new DataGridViewTextBoxColumn();
+            labelSuppliers = new Label();
             panel1.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageOverview.SuspendLayout();
@@ -305,15 +356,17 @@
             groupBoxSettingsBankData.SuspendLayout();
             groupBoxSettingsAddress.SuspendLayout();
             groupBoxSettingsCompanyData.SuspendLayout();
+            tabPageSuppliers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSuppliers).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(buttonSuppliers);
             panel1.Controls.Add(buttonUpdate);
             panel1.Controls.Add(buttonCustomers);
             panel1.Controls.Add(buttonInvoices);
             panel1.Controls.Add(buttonInvoiceEntry);
-            panel1.Controls.Add(buttonCustomerEntry);
             panel1.Controls.Add(buttonItems);
             panel1.Controls.Add(buttonItemEntry);
             panel1.Controls.Add(labelControlCentral);
@@ -329,6 +382,21 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(200, 644);
             panel1.TabIndex = 0;
+            // 
+            // buttonSuppliers
+            // 
+            buttonSuppliers.BackColor = Color.DarkSlateBlue;
+            buttonSuppliers.FlatAppearance.BorderSize = 0;
+            buttonSuppliers.FlatStyle = FlatStyle.Flat;
+            buttonSuppliers.Font = new Font("Cascadia Code", 12F);
+            buttonSuppliers.ForeColor = Color.White;
+            buttonSuppliers.Location = new Point(0, 256);
+            buttonSuppliers.Name = "buttonSuppliers";
+            buttonSuppliers.Size = new Size(200, 32);
+            buttonSuppliers.TabIndex = 16;
+            buttonSuppliers.Text = "Lieferanten";
+            buttonSuppliers.UseVisualStyleBackColor = false;
+            buttonSuppliers.Click += buttonSuppliers_Click;
             // 
             // buttonUpdate
             // 
@@ -351,7 +419,7 @@
             buttonCustomers.FlatStyle = FlatStyle.Flat;
             buttonCustomers.Font = new Font("Cascadia Code", 12F);
             buttonCustomers.ForeColor = Color.White;
-            buttonCustomers.Location = new Point(0, 256);
+            buttonCustomers.Location = new Point(0, 216);
             buttonCustomers.Name = "buttonCustomers";
             buttonCustomers.Size = new Size(200, 32);
             buttonCustomers.TabIndex = 14;
@@ -388,21 +456,6 @@
             buttonInvoiceEntry.Text = "Rechnungserfassung";
             buttonInvoiceEntry.UseVisualStyleBackColor = false;
             buttonInvoiceEntry.Click += buttonInvoiceEntry_Click;
-            // 
-            // buttonCustomerEntry
-            // 
-            buttonCustomerEntry.BackColor = Color.DarkSlateBlue;
-            buttonCustomerEntry.FlatAppearance.BorderSize = 0;
-            buttonCustomerEntry.FlatStyle = FlatStyle.Flat;
-            buttonCustomerEntry.Font = new Font("Cascadia Code", 12F);
-            buttonCustomerEntry.ForeColor = Color.White;
-            buttonCustomerEntry.Location = new Point(0, 216);
-            buttonCustomerEntry.Name = "buttonCustomerEntry";
-            buttonCustomerEntry.Size = new Size(200, 32);
-            buttonCustomerEntry.TabIndex = 13;
-            buttonCustomerEntry.Text = "Kundenerfassung";
-            buttonCustomerEntry.UseVisualStyleBackColor = false;
-            buttonCustomerEntry.Click += buttonCustomerEntry_Click;
             // 
             // buttonItems
             // 
@@ -576,6 +629,7 @@
             tabControl.Controls.Add(tabPageDataexport);
             tabControl.Controls.Add(tabPageSettings);
             tabControl.Controls.Add(tabPageAbout);
+            tabControl.Controls.Add(tabPageSuppliers);
             tabControl.Location = new Point(218, -24);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
@@ -1089,6 +1143,10 @@
             // tabPageEntry
             // 
             tabPageEntry.BackColor = Color.White;
+            tabPageEntry.Controls.Add(labelEntryCustomer);
+            tabPageEntry.Controls.Add(comboBoxEntryCustomer);
+            tabPageEntry.Controls.Add(labelEntrySupplier);
+            tabPageEntry.Controls.Add(comboBoxEntrySupplier);
             tabPageEntry.Controls.Add(comboBoxEntryTransactionOpenInvoices);
             tabPageEntry.Controls.Add(checkBoxSettleInvoice);
             tabPageEntry.Controls.Add(textBoxEntryPostingType);
@@ -1118,15 +1176,65 @@
             tabPageEntry.TabIndex = 0;
             tabPageEntry.Text = "Erfassung";
             // 
+            // labelEntryCustomer
+            // 
+            labelEntryCustomer.AutoSize = true;
+            labelEntryCustomer.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelEntryCustomer.ForeColor = Color.Black;
+            labelEntryCustomer.Location = new Point(8, 472);
+            labelEntryCustomer.Name = "labelEntryCustomer";
+            labelEntryCustomer.Size = new Size(48, 17);
+            labelEntryCustomer.TabIndex = 30;
+            labelEntryCustomer.Text = "Kunde";
+            // 
+            // comboBoxEntryCustomer
+            // 
+            comboBoxEntryCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBoxEntryCustomer.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBoxEntryCustomer.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEntryCustomer.Enabled = false;
+            comboBoxEntryCustomer.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEntryCustomer.FormattingEnabled = true;
+            comboBoxEntryCustomer.Items.AddRange(new object[] { "Material / Bedarf", "Facebook-Rechnung", "Sonstiges" });
+            comboBoxEntryCustomer.Location = new Point(8, 488);
+            comboBoxEntryCustomer.Name = "comboBoxEntryCustomer";
+            comboBoxEntryCustomer.Size = new Size(224, 25);
+            comboBoxEntryCustomer.TabIndex = 29;
+            // 
+            // labelEntrySupplier
+            // 
+            labelEntrySupplier.AutoSize = true;
+            labelEntrySupplier.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelEntrySupplier.ForeColor = Color.Black;
+            labelEntrySupplier.Location = new Point(8, 424);
+            labelEntrySupplier.Name = "labelEntrySupplier";
+            labelEntrySupplier.Size = new Size(80, 17);
+            labelEntrySupplier.TabIndex = 28;
+            labelEntrySupplier.Text = "Lieferant";
+            // 
+            // comboBoxEntrySupplier
+            // 
+            comboBoxEntrySupplier.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBoxEntrySupplier.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBoxEntrySupplier.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEntrySupplier.Enabled = false;
+            comboBoxEntrySupplier.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEntrySupplier.FormattingEnabled = true;
+            comboBoxEntrySupplier.Items.AddRange(new object[] { "Material / Bedarf", "Facebook-Rechnung", "Sonstiges" });
+            comboBoxEntrySupplier.Location = new Point(8, 440);
+            comboBoxEntrySupplier.Name = "comboBoxEntrySupplier";
+            comboBoxEntrySupplier.Size = new Size(224, 25);
+            comboBoxEntrySupplier.TabIndex = 27;
+            // 
             // comboBoxEntryTransactionOpenInvoices
             // 
             comboBoxEntryTransactionOpenInvoices.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEntryTransactionOpenInvoices.Enabled = false;
             comboBoxEntryTransactionOpenInvoices.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxEntryTransactionOpenInvoices.FormattingEnabled = true;
-            comboBoxEntryTransactionOpenInvoices.Location = new Point(8, 368);
+            comboBoxEntryTransactionOpenInvoices.Location = new Point(8, 392);
             comboBoxEntryTransactionOpenInvoices.Name = "comboBoxEntryTransactionOpenInvoices";
-            comboBoxEntryTransactionOpenInvoices.Size = new Size(272, 25);
+            comboBoxEntryTransactionOpenInvoices.Size = new Size(224, 25);
             comboBoxEntryTransactionOpenInvoices.TabIndex = 26;
             comboBoxEntryTransactionOpenInvoices.SelectionChangeCommitted += comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted;
             // 
@@ -1134,7 +1242,7 @@
             // 
             checkBoxSettleInvoice.AutoSize = true;
             checkBoxSettleInvoice.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBoxSettleInvoice.Location = new Point(8, 352);
+            checkBoxSettleInvoice.Location = new Point(8, 376);
             checkBoxSettleInvoice.Name = "checkBoxSettleInvoice";
             checkBoxSettleInvoice.Size = new Size(203, 21);
             checkBoxSettleInvoice.TabIndex = 25;
@@ -1145,10 +1253,10 @@
             // textBoxEntryPostingType
             // 
             textBoxEntryPostingType.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxEntryPostingType.Location = new Point(8, 272);
+            textBoxEntryPostingType.Location = new Point(8, 296);
             textBoxEntryPostingType.Name = "textBoxEntryPostingType";
             textBoxEntryPostingType.ReadOnly = true;
-            textBoxEntryPostingType.Size = new Size(272, 23);
+            textBoxEntryPostingType.Size = new Size(224, 23);
             textBoxEntryPostingType.TabIndex = 24;
             textBoxEntryPostingType.TabStop = false;
             textBoxEntryPostingType.TextChanged += textBoxEntryPostingType_TextChanged;
@@ -1156,10 +1264,10 @@
             // textBoxEntryNote
             // 
             textBoxEntryNote.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxEntryNote.Location = new Point(8, 416);
+            textBoxEntryNote.Location = new Point(240, 80);
             textBoxEntryNote.Multiline = true;
             textBoxEntryNote.Name = "textBoxEntryNote";
-            textBoxEntryNote.Size = new Size(272, 112);
+            textBoxEntryNote.Size = new Size(232, 520);
             textBoxEntryNote.TabIndex = 21;
             // 
             // labelInputNotes
@@ -1167,7 +1275,7 @@
             labelInputNotes.AutoSize = true;
             labelInputNotes.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelInputNotes.ForeColor = Color.Black;
-            labelInputNotes.Location = new Point(8, 400);
+            labelInputNotes.Location = new Point(240, 64);
             labelInputNotes.Name = "labelInputNotes";
             labelInputNotes.Size = new Size(64, 17);
             labelInputNotes.TabIndex = 20;
@@ -1189,7 +1297,7 @@
             labelPostingType.AutoSize = true;
             labelPostingType.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelPostingType.ForeColor = Color.Black;
-            labelPostingType.Location = new Point(8, 256);
+            labelPostingType.Location = new Point(8, 280);
             labelPostingType.Name = "labelPostingType";
             labelPostingType.Size = new Size(96, 17);
             labelPostingType.TabIndex = 18;
@@ -1200,7 +1308,7 @@
             labelSelectedFilename.AutoSize = true;
             labelSelectedFilename.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelSelectedFilename.ForeColor = Color.Black;
-            labelSelectedFilename.Location = new Point(376, 584);
+            labelSelectedFilename.Location = new Point(568, 608);
             labelSelectedFilename.Name = "labelSelectedFilename";
             labelSelectedFilename.Size = new Size(40, 17);
             labelSelectedFilename.TabIndex = 16;
@@ -1211,7 +1319,7 @@
             labelCategory.AutoSize = true;
             labelCategory.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelCategory.ForeColor = Color.Black;
-            labelCategory.Location = new Point(8, 208);
+            labelCategory.Location = new Point(8, 232);
             labelCategory.Name = "labelCategory";
             labelCategory.Size = new Size(80, 17);
             labelCategory.TabIndex = 13;
@@ -1253,9 +1361,9 @@
             // buttonVoucherPost
             // 
             buttonVoucherPost.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonVoucherPost.Location = new Point(8, 576);
+            buttonVoucherPost.Location = new Point(8, 568);
             buttonVoucherPost.Name = "buttonVoucherPost";
-            buttonVoucherPost.Size = new Size(272, 35);
+            buttonVoucherPost.Size = new Size(224, 35);
             buttonVoucherPost.TabIndex = 9;
             buttonVoucherPost.Text = "Erfassung buchen";
             buttonVoucherPost.UseVisualStyleBackColor = true;
@@ -1266,7 +1374,7 @@
             labelFilename.AutoSize = true;
             labelFilename.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelFilename.ForeColor = Color.Black;
-            labelFilename.Location = new Point(288, 584);
+            labelFilename.Location = new Point(480, 608);
             labelFilename.Name = "labelFilename";
             labelFilename.Size = new Size(88, 17);
             labelFilename.TabIndex = 8;
@@ -1274,18 +1382,18 @@
             // 
             // pictureBoxEntryPreview
             // 
-            pictureBoxEntryPreview.Location = new Point(288, 80);
+            pictureBoxEntryPreview.Location = new Point(480, 80);
             pictureBoxEntryPreview.Name = "pictureBoxEntryPreview";
-            pictureBoxEntryPreview.Size = new Size(464, 488);
+            pictureBoxEntryPreview.Size = new Size(272, 520);
             pictureBoxEntryPreview.TabIndex = 7;
             pictureBoxEntryPreview.TabStop = false;
             // 
             // buttonLoadFile
             // 
             buttonLoadFile.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonLoadFile.Location = new Point(8, 536);
+            buttonLoadFile.Location = new Point(8, 528);
             buttonLoadFile.Name = "buttonLoadFile";
-            buttonLoadFile.Size = new Size(272, 32);
+            buttonLoadFile.Size = new Size(224, 32);
             buttonLoadFile.TabIndex = 6;
             buttonLoadFile.Text = "Bild / PDF hinzufügen...";
             buttonLoadFile.UseVisualStyleBackColor = true;
@@ -1297,18 +1405,18 @@
             comboBoxReferenceVoucher.Enabled = false;
             comboBoxReferenceVoucher.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxReferenceVoucher.FormattingEnabled = true;
-            comboBoxReferenceVoucher.Location = new Point(8, 320);
+            comboBoxReferenceVoucher.Location = new Point(8, 344);
             comboBoxReferenceVoucher.Name = "comboBoxReferenceVoucher";
-            comboBoxReferenceVoucher.Size = new Size(272, 25);
+            comboBoxReferenceVoucher.Size = new Size(224, 25);
             comboBoxReferenceVoucher.TabIndex = 5;
             comboBoxReferenceVoucher.SelectedIndexChanged += comboBoxReferenceVoucher_SelectedIndexChanged;
             // 
             // checkBoxReversal
             // 
             checkBoxReversal.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBoxReversal.Location = new Point(8, 304);
+            checkBoxReversal.Location = new Point(8, 328);
             checkBoxReversal.Name = "checkBoxReversal";
-            checkBoxReversal.Size = new Size(272, 20);
+            checkBoxReversal.Size = new Size(224, 20);
             checkBoxReversal.TabIndex = 4;
             checkBoxReversal.Text = "Beleg stornieren ?";
             checkBoxReversal.UseVisualStyleBackColor = true;
@@ -1320,7 +1428,7 @@
             textBoxText.Location = new Point(8, 176);
             textBoxText.Multiline = true;
             textBoxText.Name = "textBoxText";
-            textBoxText.Size = new Size(272, 24);
+            textBoxText.Size = new Size(224, 48);
             textBoxText.TabIndex = 3;
             // 
             // comboBoxEntryCategory
@@ -1331,9 +1439,9 @@
             comboBoxEntryCategory.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxEntryCategory.FormattingEnabled = true;
             comboBoxEntryCategory.Items.AddRange(new object[] { "Material / Bedarf", "Facebook-Rechnung", "Sonstiges" });
-            comboBoxEntryCategory.Location = new Point(8, 224);
+            comboBoxEntryCategory.Location = new Point(8, 248);
             comboBoxEntryCategory.Name = "comboBoxEntryCategory";
-            comboBoxEntryCategory.Size = new Size(272, 25);
+            comboBoxEntryCategory.Size = new Size(224, 25);
             comboBoxEntryCategory.TabIndex = 2;
             comboBoxEntryCategory.SelectedIndexChanged += comboBoxEntryCategory_SelectedIndexChanged;
             // 
@@ -1345,7 +1453,7 @@
             numericUpDownAmount.Location = new Point(8, 128);
             numericUpDownAmount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericUpDownAmount.Name = "numericUpDownAmount";
-            numericUpDownAmount.Size = new Size(272, 23);
+            numericUpDownAmount.Size = new Size(224, 23);
             numericUpDownAmount.TabIndex = 1;
             numericUpDownAmount.ThousandsSeparator = true;
             // 
@@ -1355,12 +1463,16 @@
             dateTimePickerVoucherDate.Format = DateTimePickerFormat.Short;
             dateTimePickerVoucherDate.Location = new Point(8, 80);
             dateTimePickerVoucherDate.Name = "dateTimePickerVoucherDate";
-            dateTimePickerVoucherDate.Size = new Size(272, 23);
+            dateTimePickerVoucherDate.Size = new Size(224, 23);
             dateTimePickerVoucherDate.TabIndex = 0;
             // 
             // tabPageJournal
             // 
             tabPageJournal.BackColor = Color.White;
+            tabPageJournal.Controls.Add(textBoxJournalSupplierId);
+            tabPageJournal.Controls.Add(label47);
+            tabPageJournal.Controls.Add(textBoxJournalCustomerId);
+            tabPageJournal.Controls.Add(label40);
             tabPageJournal.Controls.Add(textBoxJournalAsset);
             tabPageJournal.Controls.Add(labelJournalAsset);
             tabPageJournal.Controls.Add(textBoxJournalInvoiceReference);
@@ -1398,6 +1510,44 @@
             tabPageJournal.TabIndex = 1;
             tabPageJournal.Text = "Journal";
             // 
+            // textBoxJournalSupplierId
+            // 
+            textBoxJournalSupplierId.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxJournalSupplierId.Location = new Point(584, 536);
+            textBoxJournalSupplierId.Name = "textBoxJournalSupplierId";
+            textBoxJournalSupplierId.ReadOnly = true;
+            textBoxJournalSupplierId.Size = new Size(176, 23);
+            textBoxJournalSupplierId.TabIndex = 44;
+            // 
+            // label47
+            // 
+            label47.AutoSize = true;
+            label47.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label47.Location = new Point(584, 520);
+            label47.Name = "label47";
+            label47.Size = new Size(80, 17);
+            label47.TabIndex = 43;
+            label47.Text = "Lieferant";
+            // 
+            // textBoxJournalCustomerId
+            // 
+            textBoxJournalCustomerId.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxJournalCustomerId.Location = new Point(584, 488);
+            textBoxJournalCustomerId.Name = "textBoxJournalCustomerId";
+            textBoxJournalCustomerId.ReadOnly = true;
+            textBoxJournalCustomerId.Size = new Size(176, 23);
+            textBoxJournalCustomerId.TabIndex = 42;
+            // 
+            // label40
+            // 
+            label40.AutoSize = true;
+            label40.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label40.Location = new Point(584, 472);
+            label40.Name = "label40";
+            label40.Size = new Size(48, 17);
+            label40.TabIndex = 41;
+            label40.Text = "Kunde";
+            // 
             // textBoxJournalAsset
             // 
             textBoxJournalAsset.Font = new Font("Cascadia Code", 9.75F);
@@ -1405,7 +1555,7 @@
             textBoxJournalAsset.Multiline = true;
             textBoxJournalAsset.Name = "textBoxJournalAsset";
             textBoxJournalAsset.ReadOnly = true;
-            textBoxJournalAsset.Size = new Size(352, 24);
+            textBoxJournalAsset.Size = new Size(176, 24);
             textBoxJournalAsset.TabIndex = 40;
             // 
             // labelJournalAsset
@@ -1425,7 +1575,7 @@
             textBoxJournalInvoiceReference.Multiline = true;
             textBoxJournalInvoiceReference.Name = "textBoxJournalInvoiceReference";
             textBoxJournalInvoiceReference.ReadOnly = true;
-            textBoxJournalInvoiceReference.Size = new Size(352, 24);
+            textBoxJournalInvoiceReference.Size = new Size(176, 24);
             textBoxJournalInvoiceReference.TabIndex = 38;
             // 
             // labelJournalInvoiceReference
@@ -1690,23 +1840,23 @@
             dataGridViewJournal.BorderStyle = BorderStyle.None;
             dataGridViewJournal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewJournal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = SystemColors.Control;
-            dataGridViewCellStyle15.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewJournal.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = SystemColors.Window;
-            dataGridViewCellStyle16.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle16.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle16.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.True;
-            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridViewJournal.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridViewJournal.GridColor = SystemColors.Window;
             dataGridViewJournal.Location = new Point(-40, 88);
             dataGridViewJournal.MultiSelect = false;
@@ -1743,23 +1893,23 @@
             dataGridViewAssets.BorderStyle = BorderStyle.None;
             dataGridViewAssets.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewAssets.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = SystemColors.Control;
-            dataGridViewCellStyle17.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle17.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle17.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle17.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridViewAssets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = SystemColors.Window;
-            dataGridViewCellStyle18.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle18.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle18.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle18.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.True;
-            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridViewAssets.DefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewAssets.GridColor = SystemColors.Control;
             dataGridViewAssets.Location = new Point(-40, 88);
             dataGridViewAssets.MultiSelect = false;
@@ -1938,6 +2088,23 @@
             // tabPageCustomers
             // 
             tabPageCustomers.BackColor = Color.White;
+            tabPageCustomers.Controls.Add(labelCustomersZipCode);
+            tabPageCustomers.Controls.Add(textBoxCustomersId);
+            tabPageCustomers.Controls.Add(labelCustomersId);
+            tabPageCustomers.Controls.Add(textBoxCustomersEmail);
+            tabPageCustomers.Controls.Add(label33);
+            tabPageCustomers.Controls.Add(textBoxCustomersCountry);
+            tabPageCustomers.Controls.Add(label34);
+            tabPageCustomers.Controls.Add(textBoxCustomersCity);
+            tabPageCustomers.Controls.Add(label35);
+            tabPageCustomers.Controls.Add(textBoxCustomersZipCode);
+            tabPageCustomers.Controls.Add(label36);
+            tabPageCustomers.Controls.Add(textBoxCustomersStreet);
+            tabPageCustomers.Controls.Add(label37);
+            tabPageCustomers.Controls.Add(textBoxCustomersName);
+            tabPageCustomers.Controls.Add(label38);
+            tabPageCustomers.Controls.Add(buttonCustomersDelete);
+            tabPageCustomers.Controls.Add(buttonCustomersNew);
             tabPageCustomers.Controls.Add(dataGridViewCustomers);
             tabPageCustomers.Controls.Add(labelCustomers);
             tabPageCustomers.Location = new Point(4, 24);
@@ -1945,6 +2112,173 @@
             tabPageCustomers.Size = new Size(762, 668);
             tabPageCustomers.TabIndex = 8;
             tabPageCustomers.Text = "Kunden";
+            tabPageCustomers.Leave += tabPageCustomers_Leave;
+            // 
+            // labelCustomersZipCode
+            // 
+            labelCustomersZipCode.AutoSize = true;
+            labelCustomersZipCode.Font = new Font("Cascadia Code", 9.75F);
+            labelCustomersZipCode.Location = new Point(456, 224);
+            labelCustomersZipCode.Name = "labelCustomersZipCode";
+            labelCustomersZipCode.Size = new Size(32, 17);
+            labelCustomersZipCode.TabIndex = 40;
+            labelCustomersZipCode.Text = "PLZ";
+            // 
+            // textBoxCustomersId
+            // 
+            textBoxCustomersId.Enabled = false;
+            textBoxCustomersId.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersId.Location = new Point(456, 104);
+            textBoxCustomersId.Name = "textBoxCustomersId";
+            textBoxCustomersId.Size = new Size(304, 26);
+            textBoxCustomersId.TabIndex = 39;
+            // 
+            // labelCustomersId
+            // 
+            labelCustomersId.AutoSize = true;
+            labelCustomersId.Font = new Font("Cascadia Code", 9.75F);
+            labelCustomersId.Location = new Point(456, 88);
+            labelCustomersId.Name = "labelCustomersId";
+            labelCustomersId.Size = new Size(104, 17);
+            labelCustomersId.TabIndex = 38;
+            labelCustomersId.Text = "Kundennummer";
+            // 
+            // textBoxCustomersEmail
+            // 
+            textBoxCustomersEmail.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersEmail.Location = new Point(456, 384);
+            textBoxCustomersEmail.Name = "textBoxCustomersEmail";
+            textBoxCustomersEmail.Size = new Size(304, 26);
+            textBoxCustomersEmail.TabIndex = 37;
+            textBoxCustomersEmail.Leave += textBoxCustomersEmail_Leave;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Font = new Font("Cascadia Code", 9.75F);
+            label33.Location = new Point(456, 368);
+            label33.Name = "label33";
+            label33.Size = new Size(56, 17);
+            label33.TabIndex = 36;
+            label33.Text = "E-Mail";
+            // 
+            // textBoxCustomersCountry
+            // 
+            textBoxCustomersCountry.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersCountry.Location = new Point(456, 336);
+            textBoxCustomersCountry.Name = "textBoxCustomersCountry";
+            textBoxCustomersCountry.Size = new Size(304, 26);
+            textBoxCustomersCountry.TabIndex = 35;
+            textBoxCustomersCountry.Leave += textBoxCustomersCountry_Leave;
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Font = new Font("Cascadia Code", 9.75F);
+            label34.Location = new Point(456, 320);
+            label34.Name = "label34";
+            label34.Size = new Size(40, 17);
+            label34.TabIndex = 34;
+            label34.Text = "Land";
+            // 
+            // textBoxCustomersCity
+            // 
+            textBoxCustomersCity.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersCity.Location = new Point(456, 288);
+            textBoxCustomersCity.Name = "textBoxCustomersCity";
+            textBoxCustomersCity.Size = new Size(304, 26);
+            textBoxCustomersCity.TabIndex = 33;
+            textBoxCustomersCity.Leave += textBoxCustomersCity_Leave;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Font = new Font("Cascadia Code", 9.75F);
+            label35.Location = new Point(456, 272);
+            label35.Name = "label35";
+            label35.Size = new Size(48, 17);
+            label35.TabIndex = 32;
+            label35.Text = "Stadt";
+            // 
+            // textBoxCustomersZipCode
+            // 
+            textBoxCustomersZipCode.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersZipCode.Location = new Point(456, 240);
+            textBoxCustomersZipCode.Name = "textBoxCustomersZipCode";
+            textBoxCustomersZipCode.Size = new Size(304, 26);
+            textBoxCustomersZipCode.TabIndex = 31;
+            textBoxCustomersZipCode.Leave += textBoxCustomersZipCode_Leave;
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Font = new Font("Cascadia Code", 9.75F);
+            label36.Location = new Point(472, 288);
+            label36.Name = "label36";
+            label36.Size = new Size(32, 17);
+            label36.TabIndex = 30;
+            label36.Text = "PLZ";
+            // 
+            // textBoxCustomersStreet
+            // 
+            textBoxCustomersStreet.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersStreet.Location = new Point(456, 192);
+            textBoxCustomersStreet.Name = "textBoxCustomersStreet";
+            textBoxCustomersStreet.Size = new Size(304, 26);
+            textBoxCustomersStreet.TabIndex = 29;
+            textBoxCustomersStreet.Leave += textBoxCustomersStreet_Leave;
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Font = new Font("Cascadia Code", 9.75F);
+            label37.Location = new Point(456, 176);
+            label37.Name = "label37";
+            label37.Size = new Size(160, 17);
+            label37.TabIndex = 28;
+            label37.Text = "Straße + Hausnummer";
+            // 
+            // textBoxCustomersName
+            // 
+            textBoxCustomersName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxCustomersName.Location = new Point(456, 144);
+            textBoxCustomersName.Name = "textBoxCustomersName";
+            textBoxCustomersName.Size = new Size(304, 26);
+            textBoxCustomersName.TabIndex = 27;
+            textBoxCustomersName.Leave += textBoxCustomersName_Leave;
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Font = new Font("Cascadia Code", 9.75F);
+            label38.Location = new Point(456, 128);
+            label38.Name = "label38";
+            label38.Size = new Size(40, 17);
+            label38.TabIndex = 26;
+            label38.Text = "Name";
+            // 
+            // buttonCustomersDelete
+            // 
+            buttonCustomersDelete.Enabled = false;
+            buttonCustomersDelete.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonCustomersDelete.Location = new Point(224, 56);
+            buttonCustomersDelete.Name = "buttonCustomersDelete";
+            buttonCustomersDelete.Size = new Size(224, 32);
+            buttonCustomersDelete.TabIndex = 18;
+            buttonCustomersDelete.Text = "Löschen";
+            buttonCustomersDelete.UseVisualStyleBackColor = true;
+            buttonCustomersDelete.Click += buttonCustomersDelete_Click;
+            // 
+            // buttonCustomersNew
+            // 
+            buttonCustomersNew.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonCustomersNew.Location = new Point(0, 56);
+            buttonCustomersNew.Name = "buttonCustomersNew";
+            buttonCustomersNew.Size = new Size(224, 32);
+            buttonCustomersNew.TabIndex = 17;
+            buttonCustomersNew.Text = "Neu";
+            buttonCustomersNew.UseVisualStyleBackColor = true;
+            buttonCustomersNew.Click += buttonCustomersNew_Click;
             // 
             // dataGridViewCustomers
             // 
@@ -1957,25 +2291,26 @@
             dataGridViewCustomers.BorderStyle = BorderStyle.None;
             dataGridViewCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = SystemColors.Control;
-            dataGridViewCellStyle19.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle19.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle19.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle19.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = SystemColors.Control;
-            dataGridViewCellStyle20.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle20.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle20.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle20.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.True;
-            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCustomers.Columns.AddRange(new DataGridViewColumn[] { Id, name });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dataGridViewCustomers.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridViewCustomers.GridColor = SystemColors.Control;
-            dataGridViewCustomers.Location = new Point(-40, 88);
+            dataGridViewCustomers.Location = new Point(0, 88);
             dataGridViewCustomers.MultiSelect = false;
             dataGridViewCustomers.Name = "dataGridViewCustomers";
             dataGridViewCustomers.ReadOnly = true;
@@ -1984,8 +2319,23 @@
             dataGridViewCustomers.RowTemplate.ReadOnly = true;
             dataGridViewCustomers.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewCustomers.Size = new Size(800, 568);
+            dataGridViewCustomers.Size = new Size(448, 568);
             dataGridViewCustomers.TabIndex = 16;
+            dataGridViewCustomers.SelectionChanged += dataGridViewCustomers_SelectionChanged;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Kundennummer";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Width = 120;
+            // 
+            // name
+            // 
+            name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            name.HeaderText = "Name";
+            name.Name = "name";
+            name.ReadOnly = true;
             // 
             // labelCustomers
             // 
@@ -2174,23 +2524,23 @@
             dataGridViewProducts.BorderStyle = BorderStyle.None;
             dataGridViewProducts.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = SystemColors.Control;
-            dataGridViewCellStyle21.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle21.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle21.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle21.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle22.BackColor = SystemColors.Control;
-            dataGridViewCellStyle22.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle22.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle22.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle22.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle22.WrapMode = DataGridViewTriState.True;
-            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle8;
             dataGridViewProducts.GridColor = SystemColors.Control;
             dataGridViewProducts.Location = new Point(-40, 88);
             dataGridViewProducts.MultiSelect = false;
@@ -2273,24 +2623,24 @@
             dataGridViewInvoiceEntry.BorderStyle = BorderStyle.None;
             dataGridViewInvoiceEntry.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoiceEntry.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = SystemColors.Control;
-            dataGridViewCellStyle23.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle23.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle23.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle23.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dataGridViewInvoiceEntry.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewInvoiceEntry.Columns.AddRange(new DataGridViewColumn[] { colProductId, colProductName, colQuantity, colPrice, colTotal });
-            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = SystemColors.Control;
-            dataGridViewCellStyle24.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle24.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle24.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle24.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.Control;
+            dataGridViewCellStyle10.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoiceEntry.DefaultCellStyle = dataGridViewCellStyle10;
             dataGridViewInvoiceEntry.GridColor = SystemColors.Control;
             dataGridViewInvoiceEntry.Location = new Point(-44, 232);
             dataGridViewInvoiceEntry.Name = "dataGridViewInvoiceEntry";
@@ -2424,23 +2774,23 @@
             dataGridViewInvoicesLines.BorderStyle = BorderStyle.None;
             dataGridViewInvoicesLines.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoicesLines.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle25.BackColor = SystemColors.Control;
-            dataGridViewCellStyle25.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle25.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle25.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoicesLines.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = SystemColors.Control;
+            dataGridViewCellStyle11.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoicesLines.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dataGridViewInvoicesLines.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle26.BackColor = SystemColors.Control;
-            dataGridViewCellStyle26.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle26.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle26.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle26.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoicesLines.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = SystemColors.Control;
+            dataGridViewCellStyle12.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoicesLines.DefaultCellStyle = dataGridViewCellStyle12;
             dataGridViewInvoicesLines.GridColor = SystemColors.Control;
             dataGridViewInvoicesLines.Location = new Point(-40, 432);
             dataGridViewInvoicesLines.MultiSelect = false;
@@ -2546,23 +2896,23 @@
             dataGridViewInvoices.BorderStyle = BorderStyle.None;
             dataGridViewInvoices.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewInvoices.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = SystemColors.Control;
-            dataGridViewCellStyle27.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle27.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle27.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle27.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = SystemColors.Control;
+            dataGridViewCellStyle13.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle13.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dataGridViewInvoices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.BackColor = SystemColors.Control;
-            dataGridViewCellStyle28.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle28.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle28.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle28.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.True;
-            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = SystemColors.Control;
+            dataGridViewCellStyle14.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle14.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle14.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            dataGridViewInvoices.DefaultCellStyle = dataGridViewCellStyle14;
             dataGridViewInvoices.GridColor = SystemColors.Control;
             dataGridViewInvoices.Location = new Point(-40, 88);
             dataGridViewInvoices.MultiSelect = false;
@@ -2601,6 +2951,17 @@
             tabPageDataexport.Size = new Size(762, 668);
             tabPageDataexport.TabIndex = 4;
             tabPageDataexport.Text = "Datenexport";
+            // 
+            // buttonDataExportExportEUER
+            // 
+            buttonDataExportExportEUER.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonDataExportExportEUER.Location = new Point(8, 152);
+            buttonDataExportExportEUER.Name = "buttonDataExportExportEUER";
+            buttonDataExportExportEUER.Size = new Size(288, 32);
+            buttonDataExportExportEUER.TabIndex = 15;
+            buttonDataExportExportEUER.Text = "EÜR Zusammenfassung exportieren";
+            buttonDataExportExportEUER.UseVisualStyleBackColor = true;
+            buttonDataExportExportEUER.Click += btnExportEuerFinal_Click;
             // 
             // buttonDataExportExportData
             // 
@@ -3012,16 +3373,267 @@
             tabPageAbout.TabIndex = 6;
             tabPageAbout.Text = "Über...";
             // 
-            // buttonDataExportExportEUER
+            // tabPageSuppliers
             // 
-            buttonDataExportExportEUER.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            buttonDataExportExportEUER.Location = new Point(8, 152);
-            buttonDataExportExportEUER.Name = "buttonDataExportExportEUER";
-            buttonDataExportExportEUER.Size = new Size(288, 32);
-            buttonDataExportExportEUER.TabIndex = 15;
-            buttonDataExportExportEUER.Text = "EÜR Zusammenfassung exportieren";
-            buttonDataExportExportEUER.UseVisualStyleBackColor = true;
-            buttonDataExportExportEUER.Click += btnExportEuerFinal_Click;
+            tabPageSuppliers.Controls.Add(label39);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersId);
+            tabPageSuppliers.Controls.Add(labelSuppliersId);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersEmail);
+            tabPageSuppliers.Controls.Add(label41);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersCountry);
+            tabPageSuppliers.Controls.Add(label42);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersCity);
+            tabPageSuppliers.Controls.Add(label43);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersZipCode);
+            tabPageSuppliers.Controls.Add(label44);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersStreet);
+            tabPageSuppliers.Controls.Add(label45);
+            tabPageSuppliers.Controls.Add(textBoxSuppliersName);
+            tabPageSuppliers.Controls.Add(label46);
+            tabPageSuppliers.Controls.Add(buttonSuppliersDelete);
+            tabPageSuppliers.Controls.Add(buttonSuppliersNew);
+            tabPageSuppliers.Controls.Add(dataGridViewSuppliers);
+            tabPageSuppliers.Controls.Add(labelSuppliers);
+            tabPageSuppliers.Location = new Point(4, 24);
+            tabPageSuppliers.Name = "tabPageSuppliers";
+            tabPageSuppliers.Size = new Size(762, 668);
+            tabPageSuppliers.TabIndex = 13;
+            tabPageSuppliers.Text = "Lieferanten";
+            tabPageSuppliers.UseVisualStyleBackColor = true;
+            tabPageSuppliers.Leave += tabPageSuppliers_Leave;
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Font = new Font("Cascadia Code", 9.75F);
+            label39.Location = new Point(457, 222);
+            label39.Name = "label39";
+            label39.Size = new Size(32, 17);
+            label39.TabIndex = 59;
+            label39.Text = "PLZ";
+            // 
+            // textBoxSuppliersId
+            // 
+            textBoxSuppliersId.Enabled = false;
+            textBoxSuppliersId.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersId.Location = new Point(457, 102);
+            textBoxSuppliersId.Name = "textBoxSuppliersId";
+            textBoxSuppliersId.Size = new Size(304, 26);
+            textBoxSuppliersId.TabIndex = 58;
+            // 
+            // labelSuppliersId
+            // 
+            labelSuppliersId.AutoSize = true;
+            labelSuppliersId.Font = new Font("Cascadia Code", 9.75F);
+            labelSuppliersId.Location = new Point(457, 86);
+            labelSuppliersId.Name = "labelSuppliersId";
+            labelSuppliersId.Size = new Size(144, 17);
+            labelSuppliersId.TabIndex = 57;
+            labelSuppliersId.Text = "Lieferantennummer";
+            // 
+            // textBoxSuppliersEmail
+            // 
+            textBoxSuppliersEmail.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersEmail.Location = new Point(457, 382);
+            textBoxSuppliersEmail.Name = "textBoxSuppliersEmail";
+            textBoxSuppliersEmail.Size = new Size(304, 26);
+            textBoxSuppliersEmail.TabIndex = 56;
+            textBoxSuppliersEmail.Leave += textBoxSuppliersEmail_Leave;
+            // 
+            // label41
+            // 
+            label41.AutoSize = true;
+            label41.Font = new Font("Cascadia Code", 9.75F);
+            label41.Location = new Point(457, 366);
+            label41.Name = "label41";
+            label41.Size = new Size(56, 17);
+            label41.TabIndex = 55;
+            label41.Text = "E-Mail";
+            // 
+            // textBoxSuppliersCountry
+            // 
+            textBoxSuppliersCountry.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersCountry.Location = new Point(457, 334);
+            textBoxSuppliersCountry.Name = "textBoxSuppliersCountry";
+            textBoxSuppliersCountry.Size = new Size(304, 26);
+            textBoxSuppliersCountry.TabIndex = 54;
+            textBoxSuppliersCountry.Leave += textBoxSuppliersCountry_Leave;
+            // 
+            // label42
+            // 
+            label42.AutoSize = true;
+            label42.Font = new Font("Cascadia Code", 9.75F);
+            label42.Location = new Point(457, 318);
+            label42.Name = "label42";
+            label42.Size = new Size(40, 17);
+            label42.TabIndex = 53;
+            label42.Text = "Land";
+            // 
+            // textBoxSuppliersCity
+            // 
+            textBoxSuppliersCity.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersCity.Location = new Point(457, 286);
+            textBoxSuppliersCity.Name = "textBoxSuppliersCity";
+            textBoxSuppliersCity.Size = new Size(304, 26);
+            textBoxSuppliersCity.TabIndex = 52;
+            textBoxSuppliersCity.Leave += textBoxSuppliersCity_Leave;
+            // 
+            // label43
+            // 
+            label43.AutoSize = true;
+            label43.Font = new Font("Cascadia Code", 9.75F);
+            label43.Location = new Point(457, 270);
+            label43.Name = "label43";
+            label43.Size = new Size(48, 17);
+            label43.TabIndex = 51;
+            label43.Text = "Stadt";
+            // 
+            // textBoxSuppliersZipCode
+            // 
+            textBoxSuppliersZipCode.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersZipCode.Location = new Point(457, 238);
+            textBoxSuppliersZipCode.Name = "textBoxSuppliersZipCode";
+            textBoxSuppliersZipCode.Size = new Size(304, 26);
+            textBoxSuppliersZipCode.TabIndex = 50;
+            textBoxSuppliersZipCode.Leave += textBoxSuppliersZipCode_Leave;
+            // 
+            // label44
+            // 
+            label44.AutoSize = true;
+            label44.Font = new Font("Cascadia Code", 9.75F);
+            label44.Location = new Point(473, 286);
+            label44.Name = "label44";
+            label44.Size = new Size(32, 17);
+            label44.TabIndex = 49;
+            label44.Text = "PLZ";
+            // 
+            // textBoxSuppliersStreet
+            // 
+            textBoxSuppliersStreet.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersStreet.Location = new Point(457, 190);
+            textBoxSuppliersStreet.Name = "textBoxSuppliersStreet";
+            textBoxSuppliersStreet.Size = new Size(304, 26);
+            textBoxSuppliersStreet.TabIndex = 48;
+            textBoxSuppliersStreet.Leave += textBoxSuppliersStreet_Leave;
+            // 
+            // label45
+            // 
+            label45.AutoSize = true;
+            label45.Font = new Font("Cascadia Code", 9.75F);
+            label45.Location = new Point(457, 174);
+            label45.Name = "label45";
+            label45.Size = new Size(160, 17);
+            label45.TabIndex = 47;
+            label45.Text = "Straße + Hausnummer";
+            // 
+            // textBoxSuppliersName
+            // 
+            textBoxSuppliersName.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSuppliersName.Location = new Point(457, 142);
+            textBoxSuppliersName.Name = "textBoxSuppliersName";
+            textBoxSuppliersName.Size = new Size(304, 26);
+            textBoxSuppliersName.TabIndex = 46;
+            textBoxSuppliersName.Leave += textBoxSuppliersName_Leave;
+            // 
+            // label46
+            // 
+            label46.AutoSize = true;
+            label46.Font = new Font("Cascadia Code", 9.75F);
+            label46.Location = new Point(457, 126);
+            label46.Name = "label46";
+            label46.Size = new Size(40, 17);
+            label46.TabIndex = 45;
+            label46.Text = "Name";
+            // 
+            // buttonSuppliersDelete
+            // 
+            buttonSuppliersDelete.Enabled = false;
+            buttonSuppliersDelete.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonSuppliersDelete.Location = new Point(225, 54);
+            buttonSuppliersDelete.Name = "buttonSuppliersDelete";
+            buttonSuppliersDelete.Size = new Size(224, 32);
+            buttonSuppliersDelete.TabIndex = 44;
+            buttonSuppliersDelete.Text = "Löschen";
+            buttonSuppliersDelete.UseVisualStyleBackColor = true;
+            buttonSuppliersDelete.Click += buttonSuppliersDelete_Click;
+            // 
+            // buttonSuppliersNew
+            // 
+            buttonSuppliersNew.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonSuppliersNew.Location = new Point(1, 54);
+            buttonSuppliersNew.Name = "buttonSuppliersNew";
+            buttonSuppliersNew.Size = new Size(224, 32);
+            buttonSuppliersNew.TabIndex = 43;
+            buttonSuppliersNew.Text = "Neu";
+            buttonSuppliersNew.UseVisualStyleBackColor = true;
+            buttonSuppliersNew.Click += buttonSuppliersNew_Click;
+            // 
+            // dataGridViewSuppliers
+            // 
+            dataGridViewSuppliers.AllowUserToAddRows = false;
+            dataGridViewSuppliers.AllowUserToDeleteRows = false;
+            dataGridViewSuppliers.AllowUserToResizeColumns = false;
+            dataGridViewSuppliers.AllowUserToResizeRows = false;
+            dataGridViewSuppliers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewSuppliers.BackgroundColor = Color.White;
+            dataGridViewSuppliers.BorderStyle = BorderStyle.None;
+            dataGridViewSuppliers.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridViewSuppliers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = SystemColors.Control;
+            dataGridViewCellStyle15.Font = new Font("Cascadia Code", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle15.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dataGridViewSuppliers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewSuppliers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSuppliers.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumnSupplierId, dataGridViewTextBoxColumnSupplierName });
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = SystemColors.Control;
+            dataGridViewCellStyle16.Font = new Font("Cascadia Code", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle16.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle16.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle16.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.True;
+            dataGridViewSuppliers.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewSuppliers.GridColor = SystemColors.Control;
+            dataGridViewSuppliers.Location = new Point(1, 86);
+            dataGridViewSuppliers.MultiSelect = false;
+            dataGridViewSuppliers.Name = "dataGridViewSuppliers";
+            dataGridViewSuppliers.ReadOnly = true;
+            dataGridViewSuppliers.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewSuppliers.RowTemplate.Height = 50;
+            dataGridViewSuppliers.RowTemplate.ReadOnly = true;
+            dataGridViewSuppliers.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridViewSuppliers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSuppliers.Size = new Size(448, 568);
+            dataGridViewSuppliers.TabIndex = 42;
+            dataGridViewSuppliers.SelectionChanged += dataGridViewSuppliers_SelectionChanged;
+            // 
+            // dataGridViewTextBoxColumnSupplierId
+            // 
+            dataGridViewTextBoxColumnSupplierId.HeaderText = "Lieferantennummer";
+            dataGridViewTextBoxColumnSupplierId.Name = "dataGridViewTextBoxColumnSupplierId";
+            dataGridViewTextBoxColumnSupplierId.ReadOnly = true;
+            dataGridViewTextBoxColumnSupplierId.Width = 120;
+            // 
+            // dataGridViewTextBoxColumnSupplierName
+            // 
+            dataGridViewTextBoxColumnSupplierName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumnSupplierName.HeaderText = "Name";
+            dataGridViewTextBoxColumnSupplierName.Name = "dataGridViewTextBoxColumnSupplierName";
+            dataGridViewTextBoxColumnSupplierName.ReadOnly = true;
+            // 
+            // labelSuppliers
+            // 
+            labelSuppliers.AutoSize = true;
+            labelSuppliers.Font = new Font("Cascadia Code", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelSuppliers.Location = new Point(0, 16);
+            labelSuppliers.Name = "labelSuppliers";
+            labelSuppliers.Size = new Size(191, 35);
+            labelSuppliers.TabIndex = 41;
+            labelSuppliers.Text = "Lieferanten";
             // 
             // Form1
             // 
@@ -3086,6 +3698,9 @@
             groupBoxSettingsAddress.PerformLayout();
             groupBoxSettingsCompanyData.ResumeLayout(false);
             groupBoxSettingsCompanyData.PerformLayout();
+            tabPageSuppliers.ResumeLayout(false);
+            tabPageSuppliers.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSuppliers).EndInit();
             ResumeLayout(false);
         }
 
@@ -3162,7 +3777,6 @@
         private Button buttonItems;
         private Button buttonItemEntry;
         private Button buttonCustomers;
-        private Button buttonCustomerEntry;
         private DataGridView dataGridViewAssets;
         private Label labelAssets;
         private Panel panelOverview;
@@ -3323,5 +3937,55 @@
         private Label label32;
         private ComboBox comboBoxDataExportYear;
         private Button buttonDataExportExportEUER;
+        private Label labelEntrySupplier;
+        private ComboBox comboBoxEntrySupplier;
+        private Label labelEntryCustomer;
+        private ComboBox comboBoxEntryCustomer;
+        private Button buttonCustomersDelete;
+        private Button buttonCustomersNew;
+        private TextBox textBoxCustomersId;
+        private Label labelCustomersId;
+        private TextBox textBoxCustomersEmail;
+        private Label label33;
+        private TextBox textBoxCustomersCountry;
+        private Label label34;
+        private TextBox textBoxCustomersCity;
+        private Label label35;
+        private TextBox textBoxCustomersZipCode;
+        private Label label36;
+        private TextBox textBoxCustomersStreet;
+        private Label label37;
+        private TextBox textBoxCustomersName;
+        private Label label38;
+        private Label labelCustomersZipCode;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn name;
+        private Button buttonSuppliers;
+        private TabPage tabPageSuppliers;
+        private Label label39;
+        private TextBox textBoxSuppliersId;
+        private Label labelSuppliersId;
+        private TextBox textBoxSuppliersEmail;
+        private Label label41;
+        private TextBox textBoxSuppliersCountry;
+        private Label label42;
+        private TextBox textBoxSuppliersCity;
+        private Label label43;
+        private TextBox textBoxSuppliersZipCode;
+        private Label label44;
+        private TextBox textBoxSuppliersStreet;
+        private Label label45;
+        private TextBox textBoxSuppliersName;
+        private Label label46;
+        private Button buttonSuppliersDelete;
+        private Button buttonSuppliersNew;
+        private DataGridView dataGridViewSuppliers;
+        private Label labelSuppliers;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumnSupplierId;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumnSupplierName;
+        private TextBox textBoxJournalSupplierId;
+        private Label label47;
+        private TextBox textBoxJournalCustomerId;
+        private Label label40;
     }
 }

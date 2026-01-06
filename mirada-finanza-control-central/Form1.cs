@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace mirada_finanza_control_central
 {
@@ -137,7 +138,7 @@ namespace mirada_finanza_control_central
             buttonAssets.BackColor = Color.DarkSlateBlue;
             buttonSettings.BackColor = Color.DarkSlateBlue;
             buttonExport.BackColor = Color.DarkSlateBlue;
-            buttonCustomerEntry.BackColor = Color.DarkSlateBlue;
+            buttonSuppliers.BackColor = Color.DarkSlateBlue;
             buttonCustomers.BackColor = Color.DarkSlateBlue;
             buttonItemEntry.BackColor = Color.DarkSlateBlue;
             buttonItems.BackColor = Color.DarkSlateBlue;
@@ -230,7 +231,16 @@ namespace mirada_finanza_control_central
                     // Bei ReversalReferenceVoucher prüfen wir auf null beim SelectedValue
                     ReversalReferenceVoucher = checkBoxReversal.Checked ? comboBoxReferenceVoucher.SelectedValue?.ToString() : null,
                     // InvoiceReference einfach null lassen, wenn sie leer ist
-                    InvoiceReference = checkBoxSettleInvoice.Checked ? comboBoxEntryTransactionOpenInvoices.SelectedValue?.ToString() : null
+                    InvoiceReference = checkBoxSettleInvoice.Checked ? comboBoxEntryTransactionOpenInvoices.SelectedValue?.ToString() : null,
+
+                    // Wir prüfen den Typ und konvertieren den SelectedValue in ein int?
+                    CustomerId = (textBoxEntryPostingType.Text == "Einnahme" && comboBoxEntryCustomer.SelectedValue != null)
+                 ? Convert.ToInt32(comboBoxEntryCustomer.SelectedValue)
+                 : (int?)null,
+
+                    SupplierId = (textBoxEntryPostingType.Text != "Einnahme" && comboBoxEntrySupplier.SelectedValue != null)
+                 ? Convert.ToInt32(comboBoxEntrySupplier.SelectedValue)
+                 : (int?)null
                 };
 
                 if (checkBoxSettleInvoice.Checked && comboBoxEntryTransactionOpenInvoices.SelectedValue != null)
@@ -285,6 +295,16 @@ namespace mirada_finanza_control_central
             comboBoxEntryTransactionOpenInvoices.Enabled = false;
             comboBoxEntryTransactionOpenInvoices.DataSource = null;
             comboBoxEntryTransactionOpenInvoices.Text = "";
+
+            comboBoxEntryCustomer.SelectedIndex = -1;
+            comboBoxEntryCustomer.Enabled = false;
+            comboBoxEntryCustomer.DataSource = null;
+            comboBoxEntryCustomer.Text = "";
+
+            comboBoxEntrySupplier.SelectedIndex = -1;
+            comboBoxEntrySupplier.Enabled = false;
+            comboBoxEntrySupplier.DataSource = null;
+            comboBoxEntrySupplier.Text = "";
         }
 
         private void RefreshJournal()
@@ -307,7 +327,7 @@ namespace mirada_finanza_control_central
                 if (dataGridViewJournal.Columns.Count > 0)
                 {
                     // Original-Daten-Spalten ausblenden
-                    string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description", "Reversal", "ReversalReferenceVoucher", "InvoiceReference", "AssetId" };
+                    string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description", "Reversal", "ReversalReferenceVoucher", "InvoiceReference", "AssetId", "CustomerId", "SupplierId" };
                     foreach (var colName in hiddenCols)
                     {
                         if (dataGridViewJournal.Columns[colName] != null)
@@ -329,19 +349,6 @@ namespace mirada_finanza_control_central
             catch (Exception ex)
             {
                 MessageBox.Show("Fehler beim Laden des Journals: " + ex.Message);
-            }
-        }
-
-        // Kleine Hilfsmethode, um den Code noch cleaner zu machen
-        private void SetColumnStyle(string name, string header, int width, int displayIndex)
-        {
-            if (dataGridViewJournal.Columns[name] != null)
-            {
-                var col = dataGridViewJournal.Columns[name];
-                col.HeaderText = header;
-                col.Width = width;
-                col.DisplayIndex = displayIndex;
-                col.Visible = true;
             }
         }
 
@@ -429,6 +436,8 @@ namespace mirada_finanza_control_central
 
         private void dataGridViewJournal_SelectionChanged(object sender, EventArgs e)
         {
+            ClearJournalDetails();
+
             if (dataGridViewJournal.SelectedRows.Count > 0)
             {
                 string voucherNr = dataGridViewJournal.SelectedRows[0].Cells["Voucher"].Value?.ToString();
@@ -450,6 +459,26 @@ namespace mirada_finanza_control_central
                     textBoxJournalPostingText.Text = entry.Description;
                     textBoxJournalPostingType.Text = entry.TransactionType;
                     textBoxJournalInvoiceReference.Text = entry.InvoiceReference;
+
+                    // 1. Prüfung auf Customer
+                    if (entry.CustomerId.HasValue && entry.CustomerId.Value != 0)
+                    {
+                        // Wir übergeben explizit .Value (das echte int)
+                        var customer = dbManager.GetCustomerById(entry.CustomerId.Value);
+                        if (customer != null)
+                        {
+                            textBoxJournalCustomerId.Text = customer.Name;
+                        }
+                    }
+                    // 2. Prüfung auf Supplier
+                    else if (entry.SupplierId.HasValue && entry.SupplierId.Value != 0)
+                    {
+                        var supplier = dbManager.GetSupplierById(entry.SupplierId.Value);
+                        if (supplier != null)
+                        {
+                            textBoxJournalSupplierId.Text = supplier.Name;
+                        }
+                    }
 
                     // DATUM FORMATIEREN
                     if (!string.IsNullOrEmpty(entry.CreatedDate))
@@ -489,6 +518,8 @@ namespace mirada_finanza_control_central
             textBoxJournalPostingType.Clear();
             textBoxJournalCreationDate.Clear();
             textBoxJournalInvoiceReference.Clear();
+            textBoxJournalCustomerId.Clear();
+            textBoxJournalSupplierId.Clear();
         }
 
         private void checkBoxReversal_CheckedChanged(object sender, EventArgs e)
@@ -559,6 +590,15 @@ namespace mirada_finanza_control_central
 
                     comboBoxEntryCategory.Text = original.EntryCategoryName;
                     textBoxEntryPostingType.Text = original.TransactionType;
+
+                    if (original.CustomerId.HasValue && original.CustomerId.Value != 0)
+                    {
+                        comboBoxEntryCustomer.Text = dbManager.GetCustomerById(original.CustomerId.Value).Name;
+                    }
+                    if (original.SupplierId.HasValue && original.SupplierId.Value != 0)
+                    {
+                        comboBoxEntrySupplier.Text = dbManager.GetSupplierById(original.SupplierId.Value).Name;
+                    }
 
                     // --- FELDER SPERREN ---
                     SetEntryFieldsEnabled(false);
@@ -702,7 +742,58 @@ namespace mirada_finanza_control_central
 
         private void textBoxEntryPostingType_TextChanged(object sender, EventArgs e)
         {
+            string selectedType = textBoxEntryPostingType.Text;
 
+            if (selectedType == "Einnahme")
+            {
+                comboBoxEntryCustomer.Enabled = true;
+                comboBoxEntrySupplier.Enabled = false;
+
+                // Nur die Kundenliste befüllen
+                FillEntryComboBox(comboBoxEntryCustomer, "Customer");
+
+                // Lieferantenliste leeren
+                comboBoxEntrySupplier.DataSource = null;
+            }
+            else
+            {
+                comboBoxEntryCustomer.Enabled = false;
+                comboBoxEntrySupplier.Enabled = true;
+
+                // Nur die Lieferantenliste befüllen
+                FillEntryComboBox(comboBoxEntrySupplier, "Supplier");
+
+                // Kundenliste leeren
+                comboBoxEntryCustomer.DataSource = null;
+            }
+        }
+
+        private void FillEntryComboBox(ComboBox comboBox, string type)
+        {
+            try
+            {
+                // Daten vom DBManager holen
+                DataTable dt = (type == "Customer")
+                               ? dbManager.FetchAllCustomers()
+                               : dbManager.FetchAllSuppliers();
+
+                // Wichtig: Zuerst DataSource auf null setzen, um alte Bindungen zu lösen
+                comboBox.DataSource = null;
+
+                comboBox.DisplayMember = "Name"; // Was man sieht
+                comboBox.ValueMember = "Id";     // Was im Hintergrund gespeichert wird
+                comboBox.DataSource = dt;
+
+                // Suche erleichtern (Tippen schlägt Namen vor)
+                comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+                comboBox.SelectedIndex = -1; // Startet leer
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Laden der {type}-Liste: {ex.Message}");
+            }
         }
 
         private void dataGridViewAssetsRefresh()
@@ -769,6 +860,10 @@ namespace mirada_finanza_control_central
             else if (tabControl.SelectedTab == tabPageCustomers)
             {
                 tabPageCustomersRefresh();
+            }
+            else if (tabControl.SelectedTab == tabPageSuppliers)
+            {
+                tabPageSuppliersRefresh();
             }
         }
 
@@ -892,7 +987,12 @@ namespace mirada_finanza_control_central
 
                 // 2. Binden
                 dataGridViewCustomers.DataSource = null;
-                dataGridViewCustomers.AutoGenerateColumns = true;
+                dataGridViewCustomers.AutoGenerateColumns = false;
+
+                dataGridViewCustomers.Columns["Id"].DataPropertyName = "Id";
+                dataGridViewCustomers.Columns["Name"].DataPropertyName = "Name";
+
+
                 dataGridViewCustomers.DataSource = dt;
 
                 // 3. Optik-Finishing
@@ -909,36 +1009,42 @@ namespace mirada_finanza_control_central
             }
         }
 
+        private void tabPageSuppliersRefresh()
+        {
+            try
+            {
+                // 1. Daten vom Manager holen
+                DataTable dt = dbManager.FetchAllSuppliers();
+
+                // 2. Binden
+                dataGridViewSuppliers.DataSource = null;
+                dataGridViewSuppliers.AutoGenerateColumns = false;
+
+                dataGridViewSuppliers.Columns[0].DataPropertyName = "Id";
+                dataGridViewSuppliers.Columns[1].DataPropertyName = "Name";
+
+
+                dataGridViewSuppliers.DataSource = dt;
+
+                // 3. Optik-Finishing
+                if (dataGridViewSuppliers.Columns.Count > 0)
+                {
+                    ApplySupplierGridStyle();
+                }
+
+                dataGridViewSuppliers.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void ApplyCustomerGridStyle()
         {
             // Umbruch-Style definieren
             DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True };
             dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            // Spalten konfigurieren
-            var cols = dataGridViewCustomers.Columns;
-
-            if (cols["Id"] != null) cols["Id"].Width = 40;
-
-            if (cols["Name"] != null)
-            {
-                cols["Name"].Width = 110;
-                cols["Name"].DefaultCellStyle = wrapStyle;
-            }
-
-            if (cols["Street"] != null)
-            {
-                cols["Street"].Width = 120;
-                cols["Street"].DefaultCellStyle = wrapStyle;
-            }
-
-            if (cols["Zipcode"] != null) cols["Zipcode"].Width = 70;
-
-            if (cols["Email"] != null)
-            {
-                cols["Email"].Width = 220;
-                cols["Email"].DefaultCellStyle = wrapStyle;
-            }
 
             // Allgemeine Einstellungen
             dataGridViewCustomers.AllowUserToAddRows = false;
@@ -950,10 +1056,27 @@ namespace mirada_finanza_control_central
             dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
         }
 
-        private void buttonCustomerEntry_Click(object sender, EventArgs e)
+        private void ApplySupplierGridStyle()
         {
-            tabControl.SelectedTab = tabPageCustomerEntry;
-            HighlightButton(buttonCustomerEntry);
+            // Umbruch-Style definieren
+            DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True };
+            dataGridViewSuppliers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // Allgemeine Einstellungen
+            dataGridViewSuppliers.AllowUserToAddRows = false;
+            dataGridViewSuppliers.ReadOnly = true;
+            dataGridViewSuppliers.RowHeadersVisible = false;
+            dataGridViewSuppliers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSuppliers.MultiSelect = false;
+            dataGridViewSuppliers.EnableHeadersVisualStyles = false;
+            dataGridViewSuppliers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+        }
+
+        private void buttonSuppliers_Click(object sender, EventArgs e)
+        {
+            tabPageSuppliers.Refresh();
+            tabControl.SelectedTab = tabPageSuppliers;
+            HighlightButton(buttonSuppliers);
         }
 
         private void buttonCustomers_Click(object sender, EventArgs e)
@@ -1900,6 +2023,416 @@ namespace mirada_finanza_control_central
                 MessageBoxIcon.Warning);
 
             return false;
+        }
+
+        private void dataGridViewCustomers_SelectionChanged(object sender, EventArgs e)
+        {
+            // 1. Sicherheitscheck: Gibt es eine aktive Zeile mit Daten?
+            if (dataGridViewCustomers.CurrentRow != null &&
+                dataGridViewCustomers.CurrentRow.DataBoundItem != null)
+            {
+                // 2. Die ID aus der Zelle holen (Achte darauf, dass "Id" der Name der Spalte im Designer ist!)
+                var cellValue = dataGridViewCustomers.CurrentRow.Cells["Id"].Value;
+
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int selectedId))
+                {
+                    // 3. Daten laden
+                    Customer customer = dbManager.GetCustomerById(selectedId);
+
+                    if (customer != null)
+                    {
+                        // 4. Textboxen befüllen
+                        textBoxCustomersId.Text = customer.Id.ToString();
+                        textBoxCustomersName.Text = customer.Name;
+                        textBoxCustomersStreet.Text = customer.Street;
+                        textBoxCustomersCity.Text = customer.City;
+                        textBoxCustomersZipCode.Text = customer.Zipcode;
+                        textBoxCustomersCountry.Text = customer.Country;
+                        textBoxCustomersEmail.Text = customer.Email;
+
+                        textBoxCustomersName.Focus();
+                        buttonCustomersDelete.Enabled = true;
+                    }
+                }
+            }
+            else
+            {
+                // Nichts ausgewählt -> Felder leeren
+                ClearCustomerDetailFields();
+                buttonCustomersDelete.Enabled = false;
+            }
+        }
+
+        private void buttonCustomersNew_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Nur die ID in der Datenbank reservieren
+                int newId = dbManager.CreateEmptyCustomer();
+
+                // 2. Das Grid aktualisieren (ruft deine Fetch-Methode auf)
+                tabPageCustomersRefresh();
+
+                // 3. Den neuen Eintrag im Grid suchen und selektieren
+                foreach (DataGridViewRow row in dataGridViewCustomers.Rows)
+                {
+                    if (Convert.ToInt32(row.Cells["Id"].Value) == newId)
+                    {
+                        row.Selected = true;
+                        dataGridViewCustomers.CurrentCell = row.Cells["Id"];
+                        break;
+                    }
+                }
+
+                textBoxCustomersId.Text = newId.ToString();
+
+                // Andere Infos von DB holen.
+                Customer customer = dbManager.GetCustomerById(newId);
+                textBoxCustomersId.Text = customer.Id.ToString();
+                textBoxCustomersName.Text = customer.Name;
+                textBoxCustomersStreet.Text = customer.Street;
+                textBoxCustomersCity.Text = customer.City;
+                textBoxCustomersZipCode.Text = customer.Zipcode;
+                textBoxCustomersCountry.Text = customer.Country;
+                textBoxCustomersEmail.Text = customer.Email;
+
+                textBoxCustomersName.Focus();
+                buttonCustomersDelete.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Erstellen der Kundennummer: " + ex.Message);
+            }
+        }
+
+        private void SaveCurrentCustomerFromUI()
+        {
+            // 1. Validierung: Haben wir überhaupt eine ID?
+            if (string.IsNullOrWhiteSpace(textBoxCustomersId.Text) || !int.TryParse(textBoxCustomersId.Text, out int customerId))
+            {
+                return;
+            }
+
+            try
+            {
+                // 2. Objekt mit den aktuellen Werten aus den Textboxen erstellen
+                Customer customerToUpdate = new Customer
+                {
+                    Id = customerId,
+                    Name = textBoxCustomersName.Text.Trim(),
+                    Street = textBoxCustomersStreet.Text.Trim(),
+                    Zipcode = textBoxCustomersZipCode.Text.Trim(),
+                    City = textBoxCustomersCity.Text.Trim(),
+                    Country = textBoxCustomersCountry.Text.Trim(),
+                    Email = textBoxCustomersEmail.Text.Trim()
+                };
+
+                // 3. Ab in die Datenbank damit
+                dbManager.UpdateCustomer(customerToUpdate);
+
+                // 4. Das Grid links aktualisieren, damit dort nicht noch der alte Name steht
+                if (dataGridViewCustomers.CurrentRow != null)
+                {
+                    DataRowView row = (DataRowView)dataGridViewCustomers.CurrentRow.DataBoundItem;
+                    // Nur aktualisieren, wenn der Wert im Grid wirklich anders ist (verhindert Flackern)
+                    if (row["Name"].ToString() != customerToUpdate.Name)
+                    {
+                        row["Name"] = customerToUpdate.Name;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim automatischen Speichern: " + ex.Message);
+            }
+        }
+
+        private void textBoxCustomersName_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void textBoxCustomersStreet_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void textBoxCustomersZipCode_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void textBoxCustomersCity_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void textBoxCustomersCountry_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void textBoxCustomersEmail_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void tabPageCustomers_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentCustomerFromUI();
+        }
+
+        private void buttonCustomersDelete_Click(object sender, EventArgs e)
+        {
+            // 1. Prüfen, ob überhaupt jemand im Grid ausgewählt ist
+            if (dataGridViewCustomers.CurrentRow == null) return;
+
+            // 2. ID und Name für die Bestätigung holen
+            // "Id" muss der Name deiner Spalte im DataGridView-Designer sein
+            int id = Convert.ToInt32(dataGridViewCustomers.CurrentRow.Cells["Id"].Value);
+            string name = textBoxCustomersName.Text; // Wir nehmen den Namen direkt aus der Textbox
+
+            // 3. Sicherheitsabfrage
+            var result = MessageBox.Show(
+                $"Möchtest du den Kunden '{name}' (ID: {id}) wirklich unwiderruflich löschen?",
+                "Löschen bestätigen",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    // 4. Aus DB löschen
+                    dbManager.DeleteCustomer(id);
+
+                    // 5. UI aufräumen
+                    tabPageCustomersRefresh(); // Grid neu laden
+                    ClearCustomerDetailFields(); // Alle Textboxen rechts leeren
+
+                    MessageBox.Show("Kunde wurde erfolgreich gelöscht.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Löschen: " + ex.Message);
+                }
+            }
+        }
+
+        private void ClearCustomerDetailFields()
+        {
+            textBoxCustomersId.Text = "";
+            textBoxCustomersName.Text = "";
+            textBoxCustomersStreet.Text = "";
+            textBoxCustomersCity.Text = "";
+            textBoxCustomersZipCode.Text = "";
+            textBoxCustomersCountry.Text = "";
+            textBoxCustomersEmail.Text = "";
+        }
+
+        private void dataGridViewSuppliers_SelectionChanged(object sender, EventArgs e)
+        {
+            // 1. Sicherheitscheck: Gibt es eine aktive Zeile mit Daten?
+            if (dataGridViewSuppliers.CurrentRow != null &&
+                dataGridViewSuppliers.CurrentRow.DataBoundItem != null)
+            {
+                // 2. Die ID aus der Zelle holen (Achte darauf, dass "Id" der Name der Spalte im Designer ist!)
+                var cellValue = dataGridViewSuppliers.CurrentRow.Cells[0].Value;
+
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int selectedId))
+                {
+                    // 3. Daten laden
+                    Supplier supplier = dbManager.GetSupplierById(selectedId);
+
+                    if (supplier != null)
+                    {
+                        // 4. Textboxen befüllen
+                        textBoxSuppliersId.Text = supplier.Id.ToString();
+                        textBoxSuppliersName.Text = supplier.Name;
+                        textBoxSuppliersStreet.Text = supplier.Street;
+                        textBoxSuppliersCity.Text = supplier.City;
+                        textBoxSuppliersZipCode.Text = supplier.Zipcode;
+                        textBoxSuppliersCountry.Text = supplier.Country;
+                        textBoxSuppliersEmail.Text = supplier.Email;
+
+                        textBoxCustomersName.Focus();
+                        buttonSuppliersDelete.Enabled = true;
+                    }
+                }
+            }
+            else
+            {
+                // Nichts ausgewählt -> Felder leeren
+                ClearSupplierDetailFields();
+                buttonSuppliersDelete.Enabled = false;
+            }
+        }
+
+        private void buttonSuppliersNew_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Nur die ID in der Datenbank reservieren
+                int newId = dbManager.CreateEmptySupplier();
+
+                // 2. Das Grid aktualisieren (ruft deine Fetch-Methode auf)
+                tabPageSuppliersRefresh();
+
+                // 3. Den neuen Eintrag im Grid suchen und selektieren
+                foreach (DataGridViewRow row in dataGridViewSuppliers.Rows)
+                {
+                    if (Convert.ToInt32(row.Cells[0].Value) == newId)
+                    {
+                        row.Selected = true;
+                        dataGridViewSuppliers.CurrentCell = row.Cells[0];
+                        break;
+                    }
+                }
+
+                textBoxSuppliersId.Text = newId.ToString();
+
+                // Andere Infos von DB holen.
+                Supplier supplier = dbManager.GetSupplierById(newId);
+                textBoxSuppliersId.Text = supplier.Id.ToString();
+                textBoxSuppliersName.Text = supplier.Name;
+                textBoxSuppliersStreet.Text = supplier.Street;
+                textBoxSuppliersCity.Text = supplier.City;
+                textBoxSuppliersZipCode.Text = supplier.Zipcode;
+                textBoxSuppliersCountry.Text = supplier.Country;
+                textBoxSuppliersEmail.Text = supplier.Email;
+
+                textBoxSuppliersName.Focus();
+                buttonSuppliersDelete.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Erstellen der Lieferantennummer: " + ex.Message);
+            }
+        }
+
+        private void SaveCurrentSupplierFromUI()
+        {
+            // 1. Validierung: Haben wir überhaupt eine ID?
+            if (string.IsNullOrWhiteSpace(textBoxSuppliersId.Text) || !int.TryParse(textBoxSuppliersId.Text, out int supplierId))
+            {
+                return;
+            }
+
+            try
+            {
+                // 2. Objekt mit den aktuellen Werten aus den Textboxen erstellen
+                Supplier supplierToUpdate = new Supplier
+                {
+                    Id = supplierId,
+                    Name = textBoxSuppliersName.Text.Trim(),
+                    Street = textBoxSuppliersStreet.Text.Trim(),
+                    Zipcode = textBoxSuppliersZipCode.Text.Trim(),
+                    City = textBoxSuppliersCity.Text.Trim(),
+                    Country = textBoxSuppliersCountry.Text.Trim(),
+                    Email = textBoxSuppliersEmail.Text.Trim()
+                };
+
+                // 3. Ab in die Datenbank damit
+                dbManager.UpdateSupplier(supplierToUpdate);
+
+                // 4. Das Grid links aktualisieren, damit dort nicht noch der alte Name steht
+                if (dataGridViewSuppliers.CurrentRow != null)
+                {
+                    DataRowView row = (DataRowView)dataGridViewSuppliers.CurrentRow.DataBoundItem;
+                    // Nur aktualisieren, wenn der Wert im Grid wirklich anders ist (verhindert Flackern)
+                    if (row[1].ToString() != supplierToUpdate.Name)
+                    {
+                        row[1] = supplierToUpdate.Name;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim automatischen Speichern: " + ex.Message);
+            }
+        }
+
+        private void textBoxSuppliersName_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void textBoxSuppliersStreet_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void textBoxSuppliersZipCode_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void textBoxSuppliersCity_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void textBoxSuppliersCountry_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void textBoxSuppliersEmail_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void tabPageSuppliers_Leave(object sender, EventArgs e)
+        {
+            SaveCurrentSupplierFromUI();
+        }
+
+        private void buttonSuppliersDelete_Click(object sender, EventArgs e)
+        {
+            // 1. Prüfen, ob überhaupt jemand im Grid ausgewählt ist
+            if (dataGridViewSuppliers.CurrentRow == null) return;
+
+            // 2. ID und Name für die Bestätigung holen
+            // "Id" muss der Name deiner Spalte im DataGridView-Designer sein
+            int id = Convert.ToInt32(dataGridViewSuppliers.CurrentRow.Cells[0].Value);
+            string name = textBoxSuppliersName.Text; // Wir nehmen den Namen direkt aus der Textbox
+
+            // 3. Sicherheitsabfrage
+            var result = MessageBox.Show(
+                $"Möchtest du den Lieferanten '{name}' (ID: {id}) wirklich unwiderruflich löschen?",
+                "Löschen bestätigen",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    // 4. Aus DB löschen
+                    dbManager.DeleteSupplier(id);
+
+                    // 5. UI aufräumen
+                    tabPageSuppliersRefresh(); // Grid neu laden
+                    ClearSupplierDetailFields(); // Alle Textboxen rechts leeren
+
+                    MessageBox.Show("Kunde wurde erfolgreich gelöscht.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Löschen: " + ex.Message);
+                }
+            }
+        }
+
+        private void ClearSupplierDetailFields()
+        {
+            textBoxSuppliersId.Text = "";
+            textBoxSuppliersName.Text = "";
+            textBoxSuppliersStreet.Text = "";
+            textBoxSuppliersCity.Text = "";
+            textBoxSuppliersZipCode.Text = "";
+            textBoxSuppliersCountry.Text = "";
+            textBoxSuppliersEmail.Text = "";
         }
     }
 }
