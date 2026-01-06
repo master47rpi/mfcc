@@ -19,6 +19,10 @@ Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\mira
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
 
+; SCHRIFTART INSTALLATION
+; Kopiert die Schriftart in den Windows-Fonts-Ordner und registriert sie im System
+Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\CascadiaCode.ttf"; DestDir: "{fonts}"; FontInstall: "Cascadia Code"; Flags: onlyifdestfileexists uninsneveruninstall
+
 ; Der 'runtimes' Ordner ist wichtig für Bibliotheken wie SQLite
 Source: "mirada-finanza-control-central\bin\Any CPU\Release\net10.0-windows\runtimes\*"; DestDir: "{app}\runtimes"; Flags: ignoreversion recursesubdirs
 
