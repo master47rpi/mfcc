@@ -247,6 +247,71 @@ namespace mirada_finanza_control_central
                         cmd.ExecuteNonQuery();
                     }
 
+                    string sqlEntryLineTransaction = @"
+                    CREATE TABLE IF NOT EXISTS EntryLineTransaction (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ParentId INTEGER NOT NULL,
+                        ProductId INTEGER NOT NULL,
+                        Unit TEXT,
+                        Quantity REAL NOT NULL,
+                        Price DECIMAL(10,2),
+                        FOREIGN KEY (ParentId) REFERENCES EntryTransaction(Id)
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlEntryLineTransaction, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    string sqlProductInventPurchase = @"
+                    CREATE TABLE IF NOT EXISTS ProductInventPurchase (
+                        Id INTEGER PRIMARY KEY,           -- Jede Preisänderung = neue ID
+                        Name TEXT NOT NULL,               -- z.B. ""Fleece Blau (Chargen-Nr oder Datum)""
+                        Vendor TEXT,
+                        Stock REAL DEFAULT 0,
+                        Unit TEXT,
+                        Price DECIMAL(10,2)               -- Der feste Preis für diesen spezifischen Artikel
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlProductInventPurchase, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+
+                    string sqlProductInventSales = @"
+                    CREATE TABLE IF NOT EXISTS ProductInventSales (
+                        Id INTEGER PRIMARY KEY,           -- Artikelnummer (z.B. 5001)
+                        Name TEXT NOT NULL,               -- z.B. ""Teddybär Klassik""
+                        Stock REAL DEFAULT 0,             -- Fertige Exemplare
+                        Unit TEXT DEFAULT 'Stk',
+                        SalesPrice DECIMAL(10,2),         -- Was der Kunde zahlt
+                        ProductionCost DECIMAL(10,2),     -- Kalkulierter Wert
+                        HasBOM BOOLEAN DEFAULT 0          -- Hat es eine Stückliste?
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlProductInventSales, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+
+                    string sqlProductBOM = @"
+                    CREATE TABLE IF NOT EXISTS ProductBOM (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ParentProductId INTEGER NOT NULL,    -- Die ID aus ProductInventSales (Das fertige Teil)
+                        ComponentType TEXT NOT NULL,         -- 'PURCHASE' oder 'SALES'
+                        ComponentId INTEGER NOT NULL,        -- ID aus der jeweiligen Tabelle
+                        Quantity REAL NOT NULL,              -- Menge pro Stück
+                        Position INTEGER,                    -- Sortierung
+                        FOREIGN KEY (ParentProductId) REFERENCES ProductInventSales(Id)
+                    );";
+
+                    using (var cmd = new SQLiteCommand(sqlProductBOM, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
                     // DB aktualisieren.
                     UpdateDatabaseSchema();
 
@@ -1859,6 +1924,147 @@ namespace mirada_finanza_control_central
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public void ProcessStockTransaction(string targetTable, int productId, double qty, decimal price, string unit)
+        {
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Prüfen, ob der Artikel bereits existiert
+                        string checkSql = $"SELECT COUNT(*) FROM {targetTable} WHERE Id = @id";
+                        var cmdCheck = new SQLiteCommand(checkSql, connection, transaction);
+                        cmdCheck.Parameters.AddWithValue("@id", productId);
+
+                        long count = (long)cmdCheck.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            // 2. Artikel existiert -> Menge aktualisieren (funktioniert für + und -)
+                            // Wir aktualisieren auch den Preis (z.B. letzter Einkaufspreis)
+                            string updateSql = $@"UPDATE {targetTable} 
+                                        SET Stock = Stock + @qty, 
+                                            LastPrice = @price 
+                                        WHERE Id = @id";
+
+                            var cmdUpdate = new SQLiteCommand(updateSql, connection, transaction);
+                            cmdUpdate.Parameters.AddWithValue("@qty", qty);
+                            cmdUpdate.Parameters.AddWithValue("@price", price);
+                            cmdUpdate.Parameters.AddWithValue("@id", productId);
+                            cmdUpdate.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            // 3. Artikel existiert nicht -> Neu anlegen
+                            // Hinweis: Wenn qty negativ ist (Storno/Abgang), startet der Stock im Minus
+                            string insertSql = $@"INSERT INTO {targetTable} (Id, Stock, Unit, LastPrice) 
+                                        VALUES (@id, @qty, @unit, @price)";
+
+                            var cmdInsert = new SQLiteCommand(insertSql, connection, transaction);
+                            cmdInsert.Parameters.AddWithValue("@id", productId);
+                            cmdInsert.Parameters.AddWithValue("@qty", qty);
+                            cmdInsert.Parameters.AddWithValue("@unit", unit);
+                            cmdInsert.Parameters.AddWithValue("@price", price);
+                            cmdInsert.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Fehler bei der Bestandsbuchung: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public void Produce(int salesProductId, double amount)
+        {
+            // Hol mir die Bestandteile für dieses Produkt
+            var components = GetBOMEntries(salesProductId);
+
+            foreach (var comp in components)
+            {
+                double totalNeeded = comp.Quantity * amount;
+
+                if (comp.ComponentType == "PURCHASE")
+                {
+                    // Direktes Material abziehen
+                    ProcessStockTransaction("ProductInventPurchase", comp.ComponentId, -totalNeeded, 0, "Stk");
+                }
+                else if (comp.ComponentType == "SALES")
+                {
+                    // Eine Unter-Baugruppe! 
+                    // Wir ziehen sie aus dem Sales-Lager ab
+                    ProcessStockTransaction("ProductInventSales", comp.ComponentId, -totalNeeded, 0, "Stk");
+
+                    // OPTIONAL: Wenn du willst, dass das Programm auch die 
+                    // Materialien für die Unter-Baugruppe automatisch mit abbucht, 
+                    // rufst du die Funktion hier einfach selbst wieder auf:
+                    // Produce(comp.ComponentId, totalNeeded); 
+                }
+            }
+
+            // Am Ende das Hauptprodukt zubuchen
+            ProcessStockTransaction("ProductInventSales", salesProductId, amount, 0, "Paar");
+        }
+
+        public List<ProductBOM> GetBOMEntries(int parentProductId)
+        {
+            List<ProductBOM> entries = new List<ProductBOM>();
+
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                string sql = "SELECT ComponentType, ComponentId, Quantity FROM ProductBOM WHERE ParentProductId = @pId ORDER BY Position";
+
+                using (var cmd = new SQLiteCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@pId", parentProductId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            entries.Add(new ProductBOM
+                            {
+                                ComponentType = reader["ComponentType"].ToString(),
+                                ComponentId = Convert.ToInt32(reader["ComponentId"]),
+                                Quantity = Convert.ToDouble(reader["Quantity"])
+                            });
+                        }
+                    }
+                }
+            }
+            return entries;
+        }
+
+        public void SaveEntryLine(int parentId, int productId, double qty, decimal price, string unit)
+        {
+            using (var connection = new SQLiteConnection(connString))
+            {
+                connection.Open();
+                string sql = @"INSERT INTO EntryLineTransaction (ParentId, ProductId, Quantity, Price, Unit) 
+                       VALUES (@pId, @prodId, @qty, @price, @unit)";
+
+                using (var cmd = new SQLiteCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@pId", parentId);
+                    cmd.Parameters.AddWithValue("@prodId", productId);
+                    cmd.Parameters.AddWithValue("@qty", qty);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@unit", unit);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            // Danach rufst du direkt deine Bestands-Funktion auf:
+            ProcessStockTransaction("ProductInventPurchase", productId, qty, price, unit);
         }
     }
 }

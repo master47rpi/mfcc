@@ -28,6 +28,11 @@ namespace mirada_finanza_control_central
         private byte[] selectedFileBytesCompanyLogo = null;
         private string selectedFileExtensionCompanyLogo = "";
 
+        MaskTabPageEntryInternal maskTabPageEntryInternal;
+        MaskTabPageEntryExternal maskTabPageEntryExternal;
+        MaskTabPageOverview maskTabPageOverview;
+        MaskTabPageJournal maskTabPageJournal;
+
         public Form1()
         {
             // 1. ZUERST DIE LIZENZ PRÜFEN
@@ -41,7 +46,6 @@ namespace mirada_finanza_control_central
 
             dbManager = new DBManager();
             dbManager.SetupDatabase();
-            this.LoadCategories();
 
             foreach (Control ctrl in panelSettings.Controls) // panelSettings ist dein scrollbares Panel
             {
@@ -66,12 +70,6 @@ namespace mirada_finanza_control_central
             this.FormClosing += (s, e) => AutoSaveSettings();
 
             // Entfernt die Linien zwischen den Spaltenköpfen
-            dataGridViewJournal.EnableHeadersVisualStyles = false;
-            dataGridViewJournal.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewJournal.ColumnHeadersDefaultCellStyle.BackColor;
-            // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
-            dataGridViewJournal.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
-
-            // Entfernt die Linien zwischen den Spaltenköpfen
             dataGridViewAssets.EnableHeadersVisualStyles = false;
             dataGridViewAssets.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewAssets.ColumnHeadersDefaultCellStyle.BackColor;
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
@@ -89,7 +87,6 @@ namespace mirada_finanza_control_central
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
             dataGridViewProducts.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
 
-            RefreshJournal();
             dataGridViewAssetsRefresh();
             tabPageOverviewRefresh();
             tabPageCustomersRefresh();
@@ -107,6 +104,30 @@ namespace mirada_finanza_control_central
             HighlightButton(buttonOverview);
 
             CreateNewInvoice();
+
+            maskTabPageEntryInternal = new MaskTabPageEntryInternal(
+                this.tabControl,
+                this.tabPageEntryInternal,
+                this.buttonEntryInternal,
+                this.dbManager);
+
+            maskTabPageEntryExternal = new MaskTabPageEntryExternal(
+                this.tabControl,
+                this.tabPageEntry,
+                this.buttonEntry,
+                this.dbManager);
+
+            maskTabPageOverview = new MaskTabPageOverview(
+                this.tabControl,
+                this.tabPageOverview,
+                this.buttonOverview,
+                this.dbManager);
+
+            maskTabPageJournal = new MaskTabPageJournal(
+                this.tabControl,
+                this.tabPageJournal,
+                this.buttonJournal,
+                this.dbManager);
         }
 
         private void CreateNewInvoice()
@@ -122,10 +143,7 @@ namespace mirada_finanza_control_central
 
         private void buttonEntry_Click(object sender, EventArgs e)
         {
-            tabPageEntry.Refresh();
-            dataGridViewJournal.Refresh();
-            tabControl.SelectedTab = tabPageEntry;
-            HighlightButton(buttonEntry);
+            maskTabPageEntryExternal.Show();
         }
 
         // Kleiner Helfer, um den aktiven Button optisch hervorzuheben
@@ -151,51 +169,12 @@ namespace mirada_finanza_control_central
 
         private void buttonJournal_Click(object sender, EventArgs e)
         {
-            tabPageJournal.Refresh();
-            dataGridViewJournal.Refresh();
-            tabControl.SelectedTab = tabPageJournal;
-            HighlightButton(buttonJournal);
-        }
-
-        private void LoadCategories()
-        {
-            try
-            {
-                comboBoxEntryCategory.Items.Clear();
-                var categories = dbManager.GetCategoryNames();
-                comboBoxEntryCategory.Items.AddRange(categories.ToArray());
-
-                if (comboBoxEntryCategory.Items.Count > 0)
-                    comboBoxEntryCategory.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim Laden der Kategorien: " + ex.Message);
-            }
+            maskTabPageJournal.Show();
         }
 
         private void comboBoxEntryCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxEntryCategory.SelectedItem != null)
-            {
-                string selectedCategory = comboBoxEntryCategory.SelectedItem.ToString();
-
-                // Typ aus DB holen
-                string type = dbManager.GetTransactionTypeFromCategory(selectedCategory);
-
-                // In das nicht-editierbare Feld schreiben
-                textBoxEntryPostingType.Text = type;
-
-                // Kleiner Bonus: Farbe ändern für bessere Übersicht
-                if (type == "Einnahme")
-                {
-                    textBoxEntryPostingType.BackColor = Color.LightGreen;
-                }
-                else
-                {
-                    textBoxEntryPostingType.BackColor = Color.LightCoral;
-                }
-            }
+            this.maskTabPageEntryExternal.comboBoxEntryCategorySelectedIndexChanged();
         }
 
         private void buttonVoucherPost_Click(object sender, EventArgs e)
@@ -645,8 +624,7 @@ namespace mirada_finanza_control_central
 
         private void buttonOverview_Click(object sender, EventArgs e)
         {
-            tabControl.SelectedTab = tabPageOverview;
-            HighlightButton(buttonOverview);
+            maskTabPageOverview.Show();
         }
 
         private void buttonAssets_Click(object sender, EventArgs e)
@@ -2433,6 +2411,12 @@ namespace mirada_finanza_control_central
             textBoxSuppliersZipCode.Text = "";
             textBoxSuppliersCountry.Text = "";
             textBoxSuppliersEmail.Text = "";
+        }
+
+        private void buttonEntryInternal_Click(object sender, EventArgs e)
+        {
+            // Clear mask and show mask.
+            maskTabPageEntryInternal.Show();
         }
     }
 }
