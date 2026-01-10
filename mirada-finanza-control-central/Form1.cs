@@ -32,6 +32,9 @@ namespace mirada_finanza_control_central
         MaskTabPageEntryExternal maskTabPageEntryExternal;
         MaskTabPageOverview maskTabPageOverview;
         MaskTabPageJournal maskTabPageJournal;
+        MaskTabPageAsset maskTabPageAsset;
+        MaskTabPageCustomerEntry maskTabPageCustomerEntry;
+        MaskTabPageCustomers maskTabPageCustomers;
 
         public Form1()
         {
@@ -70,12 +73,6 @@ namespace mirada_finanza_control_central
             this.FormClosing += (s, e) => AutoSaveSettings();
 
             // Entfernt die Linien zwischen den Spaltenköpfen
-            dataGridViewAssets.EnableHeadersVisualStyles = false;
-            dataGridViewAssets.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewAssets.ColumnHeadersDefaultCellStyle.BackColor;
-            // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
-            dataGridViewAssets.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
-
-            // Entfernt die Linien zwischen den Spaltenköpfen
             dataGridViewCustomers.EnableHeadersVisualStyles = false;
             dataGridViewCustomers.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridViewCustomers.ColumnHeadersDefaultCellStyle.BackColor;
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
@@ -87,9 +84,7 @@ namespace mirada_finanza_control_central
             // Dies erzwingt, dass kein Rahmen gezeichnet wird, wenn die Zelle gemalt wird
             dataGridViewProducts.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
 
-            dataGridViewAssetsRefresh();
             tabPageOverviewRefresh();
-            tabPageCustomersRefresh();
             tabPageProductsRefresh();
 
             LoadSettingsIntoUI();
@@ -128,6 +123,24 @@ namespace mirada_finanza_control_central
                 this.tabPageJournal,
                 this.buttonJournal,
                 this.dbManager);
+
+            maskTabPageAsset = new MaskTabPageAsset(
+                this.tabControl,
+                this.tabPageAssets,
+                this.buttonAssets,
+                this.dbManager);
+
+            maskTabPageCustomerEntry = new MaskTabPageCustomerEntry(
+                this.tabControl,
+                this.tabPageCustomerEntry,
+                this.buttonCustomersNew,
+                this.dbManager);
+
+            maskTabPageCustomers = new MaskTabPageCustomers(
+                this.tabControl,
+                this.tabPageCustomers,
+                this.buttonCustomers,
+                this.dbManager);
         }
 
         private void CreateNewInvoice()
@@ -150,10 +163,6 @@ namespace mirada_finanza_control_central
         private void HighlightButton(Button activeBtn)
         {
             buttonAbout.BackColor = Color.DarkSlateBlue;
-            buttonOverview.BackColor = Color.DarkSlateBlue;
-            buttonEntry.BackColor = Color.DarkSlateBlue;
-            buttonJournal.BackColor = Color.DarkSlateBlue;
-            buttonAssets.BackColor = Color.DarkSlateBlue;
             buttonSettings.BackColor = Color.DarkSlateBlue;
             buttonExport.BackColor = Color.DarkSlateBlue;
             buttonSuppliers.BackColor = Color.DarkSlateBlue;
@@ -177,449 +186,56 @@ namespace mirada_finanza_control_central
             this.maskTabPageEntryExternal.comboBoxEntryCategorySelectedIndexChanged();
         }
 
-        private void buttonVoucherPost_Click(object sender, EventArgs e)
+        private void buttonVoucherPost_Click(
+            object _sender,
+            EventArgs _e)
         {
-            try
-            {
-                // 1. Daten validieren
-                if (comboBoxEntryCategory.SelectedItem == null) { MessageBox.Show("Bitte Kategorie wählen!"); return; }
-                if (!decimal.TryParse(numericUpDownAmount.Text, out decimal amount) || amount <= 0)
-                {
-                    MessageBox.Show("Bitte einen gültigen Betrag eingeben!"); return;
-                }
-
-                // 2. Jahr vom Belegdatum holen (wichtig für Nacherfassungen!)
-                int voucherYear = dateTimePickerVoucherDate.Value.Year;
-                string voucher = dbManager.GetNextVoucher(voucherYear);
-
-                EntryTransaction entryTransaction = new EntryTransaction
-                {
-                    Voucher = voucher,
-                    Year = voucherYear,
-                    EntryCategoryName = comboBoxEntryCategory.SelectedItem.ToString(),
-                    TransactionType = textBoxEntryPostingType.Text,
-                    Amount = amount,
-                    Description = textBoxText.Text,
-                    Note = textBoxEntryNote.Text,
-                    TransDate = dateTimePickerVoucherDate.Value.ToString("yyyy-MM-dd"),
-                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    // Wenn Bytes da sind (Länge > 0), dann nimm sie, sonst null
-                    Attachment = (selectedFileBytes != null && selectedFileBytes.Length > 0) ? selectedFileBytes : null,
-                    FileExt = (selectedFileBytes != null && selectedFileBytes.Length > 0) ? selectedFileExt : null,
-                    Reversal = checkBoxReversal.Checked ? true : false,
-                    // Bei ReversalReferenceVoucher prüfen wir auf null beim SelectedValue
-                    ReversalReferenceVoucher = checkBoxReversal.Checked ? comboBoxReferenceVoucher.SelectedValue?.ToString() : null,
-                    // InvoiceReference einfach null lassen, wenn sie leer ist
-                    InvoiceReference = checkBoxSettleInvoice.Checked ? comboBoxEntryTransactionOpenInvoices.SelectedValue?.ToString() : null,
-
-                    // Wir prüfen den Typ und konvertieren den SelectedValue in ein int?
-                    CustomerId = (textBoxEntryPostingType.Text == "Einnahme" && comboBoxEntryCustomer.SelectedValue != null)
-                 ? Convert.ToInt32(comboBoxEntryCustomer.SelectedValue)
-                 : (int?)null,
-
-                    SupplierId = (textBoxEntryPostingType.Text != "Einnahme" && comboBoxEntrySupplier.SelectedValue != null)
-                 ? Convert.ToInt32(comboBoxEntrySupplier.SelectedValue)
-                 : (int?)null
-                };
-
-                if (checkBoxSettleInvoice.Checked && comboBoxEntryTransactionOpenInvoices.SelectedValue != null)
-                {
-                    int selectedId = (int)comboBoxEntryTransactionOpenInvoices.SelectedValue;
-                    dbManager.MarkInvoiceAsPaid(selectedId);
-                }
-
-                dbManager.PostEntryTransaction(entryTransaction);
-
-                MessageBox.Show($"Erfolgreich gespeichert! Belegnummer: {voucher}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshJournal();
-                dataGridViewAssetsRefresh();
-                tabPageOverviewRefresh();
-                ClearForm(); // Felder leeren für den nächsten Beleg
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim Speichern: " + ex.Message);
-            }
-        }
-
-        private void ClearForm()
-        {
-            numericUpDownAmount.Value = 0;
-            textBoxText.Clear();
-            textBoxEntryNote.Clear();
-            comboBoxEntryCategory.SelectedIndex = -1;
-            textBoxEntryPostingType.Clear();
-            textBoxEntryPostingType.BackColor = SystemColors.Control;
-            checkBoxReversal.Checked = false;
-            comboBoxReferenceVoucher.SelectedIndex = -1;
-            // Datum lassen wir meistens stehen, falls man mehrere Belege vom selben Tag hat
-
-            comboBoxReferenceVoucher.Enabled = false;
-            comboBoxReferenceVoucher.DataSource = null;
-            comboBoxReferenceVoucher.Text = "";
-            numericUpDownAmount.Enabled = true;
-            comboBoxEntryCategory.Enabled = true;
-            textBoxEntryPostingType.Enabled = true;
-            textBoxText.Enabled = true;
-            textBoxEntryNote.Enabled = true;
-            dateTimePickerVoucherDate.Enabled = true;
-
-            selectedFileBytes = null;
-            selectedFileExt = "";
-            pictureBoxEntryPreview.Image = null;
-            labelSelectedFilename.Text = "";
-
-            checkBoxSettleInvoice.Checked = false;
-            comboBoxEntryTransactionOpenInvoices.SelectedIndex = -1;
-            comboBoxEntryTransactionOpenInvoices.Enabled = false;
-            comboBoxEntryTransactionOpenInvoices.DataSource = null;
-            comboBoxEntryTransactionOpenInvoices.Text = "";
-
-            comboBoxEntryCustomer.SelectedIndex = -1;
-            comboBoxEntryCustomer.Enabled = false;
-            comboBoxEntryCustomer.DataSource = null;
-            comboBoxEntryCustomer.Text = "";
-
-            comboBoxEntrySupplier.SelectedIndex = -1;
-            comboBoxEntrySupplier.Enabled = false;
-            comboBoxEntrySupplier.DataSource = null;
-            comboBoxEntrySupplier.Text = "";
-        }
-
-        private void RefreshJournal()
-        {
-            // UI-Einstellungen vorab
-            dataGridViewJournal.DefaultCellStyle.SelectionBackColor = Color.Transparent;
-            dataGridViewJournal.DefaultCellStyle.SelectionForeColor = Color.Black;
-
-            try
-            {
-                // 1. DATEN HOLEN (über den Manager)
-                DataTable dt = dbManager.FetchEntryTransactionData();
-
-                // 2. DATEN BINDEN
-                dataGridViewJournal.DataSource = null;
-                dataGridViewJournal.AutoGenerateColumns = true;
-                dataGridViewJournal.DataSource = dt;
-
-                // 3. OPTIK (Spalten konfigurieren)
-                if (dataGridViewJournal.Columns.Count > 0)
-                {
-                    // Original-Daten-Spalten ausblenden
-                    string[] hiddenCols = { "Voucher", "TransDate", "TransactionType", "EntryCategoryName", "Amount", "Description", "Reversal", "ReversalReferenceVoucher", "InvoiceReference", "AssetId", "CustomerId", "SupplierId" };
-                    foreach (var colName in hiddenCols)
-                    {
-                        if (dataGridViewJournal.Columns[colName] != null)
-                            dataGridViewJournal.Columns[colName].Visible = false;
-                    }
-
-                    // Anzeige-Spalten konfigurieren (Ich gehe davon aus, ConfigureDisplayColumn existiert noch bei dir)
-                    ConfigureDisplayColumn("Disp_VoucherDate", "Beleg\nDatum", 100, 0);
-                    ConfigureDisplayColumn("Disp_TypeCategory", "Typ\nKategorie", 140, 1);
-                    ConfigureDisplayColumn("Disp_AmountDesc", "Betrag\nBeschreibung", 140, 2);
-
-                    // Storno- & Asset-Spalten
-                    //SetColumnStyle("Reversal", "Storno", 60, 3);
-                    //SetColumnStyle("ReversalReferenceVoucher", "Stornobeleg", 102, 4);
-                    //SetColumnStyle("InvoiceReference", "Rechnungsbeleg", 102, 5);
-                    //SetColumnStyle("AssetId", "Anlagen-Nr.", 102, 6);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim Laden des Journals: " + ex.Message);
-            }
-        }
-
-        void ConfigureDisplayColumn(string name, string header, int width, int displayIndex)
-        {
-            if (dataGridViewJournal.Columns[name] != null)
-            {
-                dataGridViewJournal.Columns[name].HeaderText = header;
-                dataGridViewJournal.Columns[name].Width = width;
-                dataGridViewJournal.Columns[name].DisplayIndex = displayIndex;
-                dataGridViewJournal.Columns[name].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
-                dataGridViewJournal.Columns[name].Visible = true;
-            }
+            maskTabPageEntryExternal.buttonVoucherPostClick(
+                _sender,
+                _e);
         }
 
         private void dataGridViewJournal_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Wir prüfen bei jeder Zelle, welcher Typ in der aktuellen Zeile steht
-            // (Damit wir die Farbe für die gesamte Zeile festlegen können)
-            var row = dataGridViewJournal.Rows[e.RowIndex];
-
-            // Prüfen, ob wir in der Spalte "Reversal" sind
-            if (dataGridViewJournal.Columns[e.ColumnIndex].Name == "Reversal" && e.Value != null)
-            {
-                // Wir holen den Wert (0 oder 1)
-                string val = e.Value.ToString();
-
-                if (val == "1")
-                {
-                    e.Value = "Ja";
-                    //e.CellStyle.ForeColor = Color.Red; // Stornos direkt rot markieren
-                    //e.FormattingApplied = true; // Sagt dem Programm: "Ich hab's erledigt"
-                }
-                else if (val == "0")
-                {
-                    e.Value = "Nein";
-                    //e.FormattingApplied = true;
-                }
-            }
-
-            // WICHTIG: "TransactionType" muss im SELECT deiner Refresh-Methode enthalten sein!
-            if (row.Cells["TransactionType"].Value != null)
-            {
-                string type = row.Cells["TransactionType"].Value.ToString();
-                bool reversal = Convert.ToBoolean(row.Cells["Reversal"].Value);
-
-                if (type == "Einnahme")
-                {
-                    if (reversal == true)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.FromArgb(255, 80, 80);
-                    }
-                    else
-                    {
-                        // Ein dezentes, helles Grün
-                        row.DefaultCellStyle.BackColor = Color.LightGreen;
-                    }
-                }
-                else if (type == "Ausgabe")
-                {
-                    if (reversal == true)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.FromArgb(80, 180, 80);
-                    }
-                    else
-                    {
-                        // Ein dezentes, helles Rot (MistyRose oder helleres Lachs)
-                        row.DefaultCellStyle.BackColor = Color.LightCoral;
-                    }
-                }
-                else if (type == "Anlage")
-                {
-                    if (reversal == true)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.FromArgb(80, 180, 80);
-                    }
-                    else
-                    {
-                        // Ein dezentes, helles Rot (MistyRose oder helleres Lachs)
-                        row.DefaultCellStyle.BackColor = Color.LightCoral;
-                    }
-                }
-            }
+            maskTabPageJournal.dataGridViewJournalCellFormatting(
+                sender,
+                e);
         }
 
-        private void dataGridViewJournal_SelectionChanged(object sender, EventArgs e)
+        private void dataGridViewJournal_SelectionChanged(
+            object _sender,
+            EventArgs _e)
         {
-            ClearJournalDetails();
-
-            if (dataGridViewJournal.SelectedRows.Count > 0)
-            {
-                string voucherNr = dataGridViewJournal.SelectedRows[0].Cells["Voucher"].Value?.ToString();
-                if (string.IsNullOrEmpty(voucherNr)) return;
-
-                // DATEN ÜBER MANAGER HOLEN
-                EntryTransaction entry = dbManager.GetTransactionByVoucher(voucherNr);
-                Asset asset = dbManager.GetAssetByTransactionId(entry.ID);
-
-                if (entry != null)
-                {
-                    // TEXTBOXEN BEFÜLLEN
-                    textBoxJournalNote.Text = entry.Note ?? "";
-                    textBoxJournalAmount.Text = entry.Amount.ToString("N2") + " €";
-                    textBoxJournalCategory.Text = entry.EntryCategoryName;
-                    textBoxJournalVoucher.Text = entry.Voucher;
-                    textBoxJournalVoucherDate.Text = entry.TransDate;
-                    textBoxJournalReversalVoucher.Text = entry.ReversalReferenceVoucher ?? "";
-                    textBoxJournalPostingText.Text = entry.Description;
-                    textBoxJournalPostingType.Text = entry.TransactionType;
-                    textBoxJournalInvoiceReference.Text = entry.InvoiceReference;
-
-                    // 1. Prüfung auf Customer
-                    if (entry.CustomerId.HasValue && entry.CustomerId.Value != 0)
-                    {
-                        // Wir übergeben explizit .Value (das echte int)
-                        var customer = dbManager.GetCustomerById(entry.CustomerId.Value);
-                        if (customer != null)
-                        {
-                            textBoxJournalCustomerId.Text = customer.Name;
-                        }
-                    }
-                    // 2. Prüfung auf Supplier
-                    else if (entry.SupplierId.HasValue && entry.SupplierId.Value != 0)
-                    {
-                        var supplier = dbManager.GetSupplierById(entry.SupplierId.Value);
-                        if (supplier != null)
-                        {
-                            textBoxJournalSupplierId.Text = supplier.Name;
-                        }
-                    }
-
-                    // DATUM FORMATIEREN
-                    if (!string.IsNullOrEmpty(entry.CreatedDate))
-                    {
-                        if (DateTime.TryParse(entry.CreatedDate, out DateTime dt))
-                            textBoxJournalCreationDate.Text = dt.ToString("dd.MM.yyyy HH:mm");
-                        else
-                            textBoxJournalCreationDate.Text = entry.CreatedDate;
-                    }
-                    else
-                    {
-                        textBoxJournalCreationDate.Text = "Kein Datum";
-                    }
-                }
-
-                if (asset.Id != 0)
-                {
-                    textBoxJournalAsset.Text = asset.Id.ToString();
-                }
-            }
-            else
-            {
-                ClearJournalDetails();
-            }
+            maskTabPageJournal.dataGridViewJournalSelectionChanged(
+                _sender,
+                _e);
         }
 
-        // Hilfsmethode zum Leeren der Felder
-        private void ClearJournalDetails()
+        private void checkBoxReversal_CheckedChanged(
+            object _sender,
+            EventArgs _e)
         {
-            textBoxJournalNote.Clear();
-            textBoxJournalAmount.Clear();
-            textBoxJournalCategory.Clear();
-            textBoxJournalVoucher.Clear();
-            textBoxJournalVoucherDate.Clear();
-            textBoxJournalReversalVoucher.Clear();
-            textBoxJournalPostingText.Clear();
-            textBoxJournalPostingType.Clear();
-            textBoxJournalCreationDate.Clear();
-            textBoxJournalInvoiceReference.Clear();
-            textBoxJournalCustomerId.Clear();
-            textBoxJournalSupplierId.Clear();
+            maskTabPageEntryExternal.checkBoxReversalCheckedChanged(
+                _sender,
+                _e);
         }
 
-        private void checkBoxReversal_CheckedChanged(object sender, EventArgs e)
+        private void comboBoxReferenceVoucher_SelectedIndexChanged(
+            object _sender,
+            EventArgs _e)
         {
-            if (checkBoxReversal.Checked)
-            {
-                comboBoxReferenceVoucher.Enabled = true;
-                LoadVouchersIntoComboBox();
-                comboBoxReferenceVoucher.Focus();
-                // comboBoxReferenceVoucher.DroppedDown = true; // Öffnet die Liste sofort
-            }
-            else
-            {
-                comboBoxReferenceVoucher.Enabled = false;
-                comboBoxReferenceVoucher.DataSource = null;
-                comboBoxReferenceVoucher.Text = "";
-                numericUpDownAmount.Enabled = true;
-                comboBoxEntryCategory.Enabled = true;
-                textBoxEntryPostingType.Enabled = true;
-                textBoxText.Enabled = true;
-                textBoxEntryNote.Enabled = true;
-                dateTimePickerVoucherDate.Enabled = true;
-
-                ClearForm();
-            }
+            maskTabPageEntryExternal.comboBoxReferenceVoucherSelectedIndexChanged(
+                _sender,
+                _e);
         }
 
-        private void LoadVouchersIntoComboBox()
+        private void buttonLoadFile_Click(
+            object _sender,
+            EventArgs _e)
         {
-            try
-            {
-                // Daten vom Manager holen
-                DataTable dt = dbManager.GetAvailableVouchersForReversal();
-
-                // UI binden
-                comboBoxReferenceVoucher.DataSource = null; // Reset
-                comboBoxReferenceVoucher.DisplayMember = "DisplayText";
-                comboBoxReferenceVoucher.ValueMember = "Voucher";
-                comboBoxReferenceVoucher.DataSource = dt;
-
-                // Optional: Falls die Box leer starten soll
-                comboBoxReferenceVoucher.SelectedIndex = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void comboBoxReferenceVoucher_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxReferenceVoucher.SelectedValue != null && checkBoxReversal.Checked)
-            {
-                string selectedVoucher = comboBoxReferenceVoucher.SelectedValue.ToString();
-
-                // DATEN ÜBER MANAGER HOLEN
-                EntryTransaction original = dbManager.GetTransactionForReversal(selectedVoucher);
-
-                if (original != null)
-                {
-                    // Felder automatisch füllen
-                    textBoxText.Text = "STORNO zu: " + original.Description;
-                    numericUpDownAmount.Value = original.Amount;
-                    textBoxEntryNote.Text = "STORNO zu: " + original.Note;
-
-                    if (DateTime.TryParse(original.TransDate, out DateTime vDate))
-                        dateTimePickerVoucherDate.Value = vDate;
-
-                    comboBoxEntryCategory.Text = original.EntryCategoryName;
-                    textBoxEntryPostingType.Text = original.TransactionType;
-
-                    if (original.CustomerId.HasValue && original.CustomerId.Value != 0)
-                    {
-                        comboBoxEntryCustomer.Text = dbManager.GetCustomerById(original.CustomerId.Value).Name;
-                    }
-                    if (original.SupplierId.HasValue && original.SupplierId.Value != 0)
-                    {
-                        comboBoxEntrySupplier.Text = dbManager.GetSupplierById(original.SupplierId.Value).Name;
-                    }
-
-                    // --- FELDER SPERREN ---
-                    SetEntryFieldsEnabled(false);
-                }
-            }
-        }
-
-        // Hilfsmethode, um den Code sauber zu halten
-        private void SetEntryFieldsEnabled(bool enabled)
-        {
-            numericUpDownAmount.Enabled = enabled;
-            comboBoxEntryCategory.Enabled = enabled;
-            textBoxEntryPostingType.Enabled = enabled;
-            textBoxText.Enabled = enabled;
-            textBoxEntryNote.Enabled = enabled;
-            dateTimePickerVoucherDate.Enabled = enabled;
-        }
-
-        private void buttonLoadFile_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "Bilder & PDF|*.jpg;*.jpeg;*.png;*.pdf";
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    // Datei in Bytes umwandeln
-                    selectedFileBytes = File.ReadAllBytes(ofd.FileName);
-                    // Dateiendung merken
-                    selectedFileExt = Path.GetExtension(ofd.FileName);
-
-                    labelSelectedFilename.Text = Path.GetFileName(ofd.FileName);
-
-                    // Vorschau, falls es ein Bild ist
-                    if (selectedFileExt.ToLower() != ".pdf")
-                    {
-                        using (var ms = new MemoryStream(selectedFileBytes))
-                        {
-                            pictureBoxEntryPreview.Image = Image.FromStream(ms);
-                        }
-                    }
-                }
-            }
+            maskTabPageEntryExternal.buttonLoadFileClick(
+                _sender,
+                _e);
         }
 
         private void buttonOverview_Click(object sender, EventArgs e)
@@ -629,8 +245,7 @@ namespace mirada_finanza_control_central
 
         private void buttonAssets_Click(object sender, EventArgs e)
         {
-            tabControl.SelectedTab = tabPageAssets;
-            HighlightButton(buttonAssets);
+            maskTabPageAsset.Show();
         }
 
         private void buttonExport_Click(object sender, EventArgs e)
@@ -655,178 +270,22 @@ namespace mirada_finanza_control_central
             HighlightButton(buttonAbout);
         }
 
-        private void buttonJournalPicturePDF_Click(object sender, EventArgs e)
+        private void buttonJournalPicturePDF_Click(
+            object _sender,
+            EventArgs _e)
         {
-            if (dataGridViewJournal.SelectedRows.Count == 0) return;
-
-            string voucherNr = dataGridViewJournal.SelectedRows[0].Cells["Voucher"].Value?.ToString();
-            if (string.IsNullOrEmpty(voucherNr)) return;
-
-            try
-            {
-                // 1. DATEN HOLEN
-                EntryTransaction doc = dbManager.GetAttachmentByVoucher(voucherNr);
-
-                if (doc == null || doc.Attachment == null)
-                {
-                    MessageBox.Show("Kein Beleg für diesen Eintrag gefunden.");
-                    return;
-                }
-
-                // 2. DATEI VORBEREITEN
-                string extension = doc.FileExt.ToLower().Trim();
-                if (!extension.StartsWith(".")) extension = "." + extension;
-
-                // Temporären Pfad generieren
-                string tempPath = Path.Combine(Path.GetTempPath(), $"Beleg_{voucherNr}{extension}");
-                File.WriteAllBytes(tempPath, doc.Attachment);
-
-                // 3. ANZEIGELOGIK (UI-Aufgabe)
-                if (extension == ".pdf")
-                {
-                    // PDF im Standard-Viewer öffnen
-                    Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
-                }
-                else if (new[] { ".jpg", ".jpeg", ".png", ".bmp" }.Contains(extension))
-                {
-                    // Bild in der modalen Form anzeigen
-                    ZeigeBildModal(tempPath);
-                }
-                else
-                {
-                    // Unbekanntes Format? Einfach mal versuchen mit Windows-Standard zu öffnen
-                    Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim Öffnen des Belegs: " + ex.Message);
-            }
+            maskTabPageJournal.buttonJournalPicturePDFClick(
+                _sender,
+                _e);
         }
 
-        private void ZeigeBildModal(string filePath)
+        private void textBoxEntryPostingType_TextChanged(
+            object _sender,
+            EventArgs _e)
         {
-            using (FormImageViewer viewer = new FormImageViewer())
-            {
-                // Wir laden das Bild in die PictureBox der neuen Form
-                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    viewer.pictureBox1.Image = Image.FromStream(stream);
-                    viewer.Text = "Beleg-Ansicht: " + Path.GetFileName(filePath);
-                    viewer.ShowDialog(); // ShowDialog macht die Form MODAL
-                }
-            }
-        }
-
-        private void textBoxEntryPostingType_TextChanged(object sender, EventArgs e)
-        {
-            string selectedType = textBoxEntryPostingType.Text;
-
-            if (selectedType == "Einnahme")
-            {
-                comboBoxEntryCustomer.Enabled = true;
-                comboBoxEntrySupplier.Enabled = false;
-
-                // Nur die Kundenliste befüllen
-                FillEntryComboBox(comboBoxEntryCustomer, "Customer");
-
-                // Lieferantenliste leeren
-                comboBoxEntrySupplier.DataSource = null;
-            }
-            else
-            {
-                comboBoxEntryCustomer.Enabled = false;
-                comboBoxEntrySupplier.Enabled = true;
-
-                // Nur die Lieferantenliste befüllen
-                FillEntryComboBox(comboBoxEntrySupplier, "Supplier");
-
-                // Kundenliste leeren
-                comboBoxEntryCustomer.DataSource = null;
-            }
-        }
-
-        private void FillEntryComboBox(ComboBox comboBox, string type)
-        {
-            try
-            {
-                // Daten vom DBManager holen
-                DataTable dt = (type == "Customer")
-                               ? dbManager.FetchAllCustomers()
-                               : dbManager.FetchAllSuppliers();
-
-                // Wichtig: Zuerst DataSource auf null setzen, um alte Bindungen zu lösen
-                comboBox.DataSource = null;
-
-                comboBox.DisplayMember = "Name"; // Was man sieht
-                comboBox.ValueMember = "Id";     // Was im Hintergrund gespeichert wird
-                comboBox.DataSource = dt;
-
-                // Suche erleichtern (Tippen schlägt Namen vor)
-                comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
-
-                comboBox.SelectedIndex = -1; // Startet leer
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler beim Laden der {type}-Liste: {ex.Message}");
-            }
-        }
-
-        private void dataGridViewAssetsRefresh()
-        {
-            // Optik-Reset
-            dataGridViewAssets.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
-            dataGridViewAssets.DefaultCellStyle.SelectionForeColor = Color.Black;
-
-            try
-            {
-                // 1. Daten fix und fertig berechnet vom Manager holen
-                DataTable dt = dbManager.FetchAssetData();
-
-                // 2. Binden
-                dataGridViewAssets.DataSource = null;
-                dataGridViewAssets.AutoGenerateColumns = true;
-                dataGridViewAssets.DataSource = dt;
-
-                // 3. Styling
-                if (dataGridViewAssets.Columns.Count > 0)
-                {
-                    SetAssetGridHeaders();
-
-                    // Währungsformate
-                    dataGridViewAssets.Columns["Amount"].DefaultCellStyle.Format = "C2";
-                    dataGridViewAssets.Columns["Restwert"].DefaultCellStyle.Format = "C2";
-
-                    // Unnötiges ausblenden
-                    string[] toHide = { "EntryTransactionId", "Status", "AbgeschriebenProzent", "Note" };
-                    foreach (string col in toHide)
-                    {
-                        if (dataGridViewAssets.Columns.Contains(col))
-                            dataGridViewAssets.Columns[col].Visible = false;
-                    }
-
-                    dataGridViewAssets.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SetAssetGridHeaders()
-        {
-            var cols = dataGridViewAssets.Columns;
-            if (cols.Contains("AssetNr")) cols["AssetNr"].HeaderText = "Anlagen-Nr.";
-            if (cols.Contains("Voucher")) cols["Voucher"].HeaderText = "Beleg-Nr.";
-            if (cols.Contains("Description")) cols["Description"].HeaderText = "Bezeichnung";
-            if (cols.Contains("PurchaseDate")) cols["PurchaseDate"].HeaderText = "Kaufdatum";
-            if (cols.Contains("Amount")) cols["Amount"].HeaderText = "Anschaffungspreis";
-            if (cols.Contains("UsefulLifeYears")) cols["UsefulLifeYears"].HeaderText = "Dauer (Jahre)";
-            if (cols.Contains("Restwert")) cols["Restwert"].HeaderText = "Akt. Buchwert";
-            if (cols.Contains("MonateVerbleibend")) cols["MonateVerbleibend"].HeaderText = "Restlaufzeit (Monate)";
+            maskTabPageEntryExternal.textBoxEntryPostingTypeTextChanged(
+                _sender,
+                _e);
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -834,10 +293,6 @@ namespace mirada_finanza_control_central
             if (tabControl.SelectedTab == tabPageOverview)
             {
                 tabPageOverviewRefresh();
-            }
-            else if (tabControl.SelectedTab == tabPageCustomers)
-            {
-                tabPageCustomersRefresh();
             }
             else if (tabControl.SelectedTab == tabPageSuppliers)
             {
@@ -901,90 +356,9 @@ namespace mirada_finanza_control_central
             txtEarn.ForeColor = earn >= 0 ? Color.Green : Color.Red;
         }
 
-        private void tabPageCustomerEntrySaveCustomer()
-        {
-            // 1. Model-Objekt befüllen
-            Customer newCust = new Customer
-            {
-                Name = textBoxCustomerEntryName.Text.Trim(),
-                Street = textBoxCustomerEntryStreet.Text.Trim(),
-                Zipcode = textBoxCustomerEntryZipCode.Text.Trim(),
-                City = textBoxCustomerEntryCity.Text.Trim(),
-                Country = textBoxCustomerEntryCountry.Text.Trim(),
-                Email = textBoxCustomerEntryEmail.Text.Trim()
-            };
-
-            // Validierung: Name ist Pflicht (Bleibt in der UI, da es die Benutzerführung betrifft)
-            if (string.IsNullOrWhiteSpace(newCust.Name))
-            {
-                MessageBox.Show("Bitte geben Sie mindestens einen Namen ein.", "Eingabe fehlt");
-                return;
-            }
-
-            try
-            {
-                // 2. Über Manager speichern und ID erhalten
-                int newId = dbManager.SaveCustomer(newCust);
-
-                MessageBox.Show($"Kunde erfolgreich unter ID {newId} angelegt!", "Erfolg");
-
-                // 3. UI aufräumen
-                tabPageCustomerEntryClear();
-                tabPageCustomersRefresh(); // Falls vorhanden, Liste aktualisieren
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Datenbankfehler");
-            }
-        }
-
-        private void tabPageCustomerEntryClear()
-        {
-            textBoxCustomerEntryName.Clear();
-            textBoxCustomerEntryStreet.Clear();
-            textBoxCustomerEntryZipCode.Clear();
-            textBoxCustomerEntryCity.Clear();
-            textBoxCustomerEntryCountry.Clear();
-            textBoxCustomerEntryEmail.Clear();
-
-            // Setzt den Fokus zurück auf das Namensfeld
-            textBoxCustomerEntryName.Focus();
-        }
-
         private void buttonCustomerEntrySave_Click(object sender, EventArgs e)
         {
-            tabPageCustomerEntrySaveCustomer();
-        }
-
-        private void tabPageCustomersRefresh()
-        {
-            try
-            {
-                // 1. Daten vom Manager holen
-                DataTable dt = dbManager.FetchAllCustomers();
-
-                // 2. Binden
-                dataGridViewCustomers.DataSource = null;
-                dataGridViewCustomers.AutoGenerateColumns = false;
-
-                dataGridViewCustomers.Columns["Id"].DataPropertyName = "Id";
-                dataGridViewCustomers.Columns["Name"].DataPropertyName = "Name";
-
-
-                dataGridViewCustomers.DataSource = dt;
-
-                // 3. Optik-Finishing
-                if (dataGridViewCustomers.Columns.Count > 0)
-                {
-                    ApplyCustomerGridStyle();
-                }
-
-                dataGridViewCustomers.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            maskTabPageCustomerEntry.buttonCustomerEntrySaveClick();
         }
 
         private void tabPageSuppliersRefresh()
@@ -1018,22 +392,6 @@ namespace mirada_finanza_control_central
             }
         }
 
-        private void ApplyCustomerGridStyle()
-        {
-            // Umbruch-Style definieren
-            DataGridViewCellStyle wrapStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True };
-            dataGridViewCustomers.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            // Allgemeine Einstellungen
-            dataGridViewCustomers.AllowUserToAddRows = false;
-            dataGridViewCustomers.ReadOnly = true;
-            dataGridViewCustomers.RowHeadersVisible = false;
-            dataGridViewCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewCustomers.MultiSelect = false;
-            dataGridViewCustomers.EnableHeadersVisualStyles = false;
-            dataGridViewCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-        }
-
         private void ApplySupplierGridStyle()
         {
             // Umbruch-Style definieren
@@ -1059,9 +417,7 @@ namespace mirada_finanza_control_central
 
         private void buttonCustomers_Click(object sender, EventArgs e)
         {
-            tabPageCustomers.Refresh();
-            tabControl.SelectedTab = tabPageCustomers;
-            HighlightButton(buttonCustomers);
+            maskTabPageCustomers.Show();
         }
 
         private void buttonProductEntryAddPicture_Click(object sender, EventArgs e)
@@ -1359,16 +715,6 @@ namespace mirada_finanza_control_central
             textBoxSettingsInvoiceIntroText.Text = s.IntroText;
             textBoxSettingsInvoiceFooterText.Text = s.FooterText;
             textBoxSettingsInvoiceSmallBusinessNote.Text = s.SmallBusinessNote;
-            /*
-            if (s.CompanyImage != null)
-            {
-                using (var ms = new MemoryStream(s.CompanyImage))
-                {
-                    pictureBoxLogo.Image = Image.FromStream(ms);
-                }
-                selectedFileBytesCompanyLogo = s.CompanyImage;
-                selectedFileExtensionCompanyLogo = s.CompanyImageExtension;
-            }*/
         }
 
         private void buttonInvoiceEntry_Click(object sender, EventArgs e)
@@ -1642,42 +988,22 @@ namespace mirada_finanza_control_central
             HighlightButton(buttonInvoices);
         }
 
-        private void checkBoxSettleInvoice_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxSettleInvoice_CheckedChanged(
+            object _sender,
+            EventArgs _e)
         {
-            // Dropdown aktivieren/deaktivieren
-            comboBoxEntryTransactionOpenInvoices.Enabled = checkBoxSettleInvoice.Checked;
-
-            if (checkBoxSettleInvoice.Checked)
-            {
-
-                comboBoxEntryTransactionOpenInvoices.Enabled = true;
-                // Offene Rechnungen laden
-                var openInvoices = dbManager.GetOpenInvoices();
-                comboBoxEntryTransactionOpenInvoices.DataSource = openInvoices;
-                comboBoxEntryTransactionOpenInvoices.DisplayMember = "InvoiceNumber";
-                comboBoxEntryTransactionOpenInvoices.ValueMember = "Id";
-
-                // Automatisierung: Typ und Kategorie für die Frau vorfüllen
-                // (Ersetze 'txtType'/'txtCategory' durch deine tatsächlichen Control-Namen)
-                comboBoxEntryCategory.Text = "Produktverkauf";
-                textBoxEntryPostingType.Text = "Einnahme";
-            }
+            maskTabPageEntryExternal.checkBoxSettleInvoiceCheckedChanged(
+                _sender,
+                _e);
         }
 
-        private void comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted(object sender, EventArgs e)
+        private void comboBoxEntryTransactionOpenInvoices_SelectionChangeCommitted(
+            object _sender,
+            EventArgs _e)
         {
-            // 1. Das ausgewählte Rechnungs-Objekt holen
-            if (comboBoxEntryTransactionOpenInvoices.SelectedItem is Invoice selectedInv)
-            {
-                // Betrag automatisch aus der Rechnung in das Betrags-Feld übernehmen
-                textBoxJournalAmount.Text = selectedInv.TotalAmount.ToString();
-                textBoxText.Text = $"Zahlung zu Rechnung {selectedInv.InvoiceNumber}";
-
-                // Automatisierung: Typ und Kategorie für die Frau vorfüllen
-                // (Ersetze 'txtType'/'txtCategory' durch deine tatsächlichen Control-Namen)
-                comboBoxEntryCategory.Text = "Produktverkauf";
-                textBoxEntryPostingType.Text = "Einnahme";
-            }
+            maskTabPageEntryExternal.comboBoxEntryTransactionOpenInvoicesSelectionChangeCommitted(
+                _sender,
+                _e);
         }
 
         private void buttonInvoicesIsCancelled_Clicked(object sender, EventArgs e)
@@ -2005,207 +1331,60 @@ namespace mirada_finanza_control_central
 
         private void dataGridViewCustomers_SelectionChanged(object sender, EventArgs e)
         {
-            // 1. Sicherheitscheck: Gibt es eine aktive Zeile mit Daten?
-            if (dataGridViewCustomers.CurrentRow != null &&
-                dataGridViewCustomers.CurrentRow.DataBoundItem != null)
-            {
-                // 2. Die ID aus der Zelle holen (Achte darauf, dass "Id" der Name der Spalte im Designer ist!)
-                var cellValue = dataGridViewCustomers.CurrentRow.Cells["Id"].Value;
-
-                if (cellValue != null && int.TryParse(cellValue.ToString(), out int selectedId))
-                {
-                    // 3. Daten laden
-                    Customer customer = dbManager.GetCustomerById(selectedId);
-
-                    if (customer != null)
-                    {
-                        // 4. Textboxen befüllen
-                        textBoxCustomersId.Text = customer.Id.ToString();
-                        textBoxCustomersName.Text = customer.Name;
-                        textBoxCustomersStreet.Text = customer.Street;
-                        textBoxCustomersCity.Text = customer.City;
-                        textBoxCustomersZipCode.Text = customer.Zipcode;
-                        textBoxCustomersCountry.Text = customer.Country;
-                        textBoxCustomersEmail.Text = customer.Email;
-
-                        textBoxCustomersName.Focus();
-                        buttonCustomersDelete.Enabled = true;
-                    }
-                }
-            }
-            else
-            {
-                // Nichts ausgewählt -> Felder leeren
-                ClearCustomerDetailFields();
-                buttonCustomersDelete.Enabled = false;
-            }
+            maskTabPageCustomers.dataGridViewCustomersSelectionChanged();
         }
 
-        private void buttonCustomersNew_Click(object sender, EventArgs e)
+        private void buttonCustomersNew_Click(
+            object _sender,
+            EventArgs _e)
         {
-            try
-            {
-                // 1. Nur die ID in der Datenbank reservieren
-                int newId = dbManager.CreateEmptyCustomer();
-
-                // 2. Das Grid aktualisieren (ruft deine Fetch-Methode auf)
-                tabPageCustomersRefresh();
-
-                // 3. Den neuen Eintrag im Grid suchen und selektieren
-                foreach (DataGridViewRow row in dataGridViewCustomers.Rows)
-                {
-                    if (Convert.ToInt32(row.Cells["Id"].Value) == newId)
-                    {
-                        row.Selected = true;
-                        dataGridViewCustomers.CurrentCell = row.Cells["Id"];
-                        break;
-                    }
-                }
-
-                textBoxCustomersId.Text = newId.ToString();
-
-                // Andere Infos von DB holen.
-                Customer customer = dbManager.GetCustomerById(newId);
-                textBoxCustomersId.Text = customer.Id.ToString();
-                textBoxCustomersName.Text = customer.Name;
-                textBoxCustomersStreet.Text = customer.Street;
-                textBoxCustomersCity.Text = customer.City;
-                textBoxCustomersZipCode.Text = customer.Zipcode;
-                textBoxCustomersCountry.Text = customer.Country;
-                textBoxCustomersEmail.Text = customer.Email;
-
-                textBoxCustomersName.Focus();
-                buttonCustomersDelete.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim Erstellen der Kundennummer: " + ex.Message);
-            }
-        }
-
-        private void SaveCurrentCustomerFromUI()
-        {
-            // 1. Validierung: Haben wir überhaupt eine ID?
-            if (string.IsNullOrWhiteSpace(textBoxCustomersId.Text) || !int.TryParse(textBoxCustomersId.Text, out int customerId))
-            {
-                return;
-            }
-
-            try
-            {
-                // 2. Objekt mit den aktuellen Werten aus den Textboxen erstellen
-                Customer customerToUpdate = new Customer
-                {
-                    Id = customerId,
-                    Name = textBoxCustomersName.Text.Trim(),
-                    Street = textBoxCustomersStreet.Text.Trim(),
-                    Zipcode = textBoxCustomersZipCode.Text.Trim(),
-                    City = textBoxCustomersCity.Text.Trim(),
-                    Country = textBoxCustomersCountry.Text.Trim(),
-                    Email = textBoxCustomersEmail.Text.Trim()
-                };
-
-                // 3. Ab in die Datenbank damit
-                dbManager.UpdateCustomer(customerToUpdate);
-
-                // 4. Das Grid links aktualisieren, damit dort nicht noch der alte Name steht
-                if (dataGridViewCustomers.CurrentRow != null)
-                {
-                    DataRowView row = (DataRowView)dataGridViewCustomers.CurrentRow.DataBoundItem;
-                    // Nur aktualisieren, wenn der Wert im Grid wirklich anders ist (verhindert Flackern)
-                    if (row["Name"].ToString() != customerToUpdate.Name)
-                    {
-                        row["Name"] = customerToUpdate.Name;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fehler beim automatischen Speichern: " + ex.Message);
-            }
+            maskTabPageCustomers.buttonCustomersNewClick(
+                _sender,
+                _e);
         }
 
         private void textBoxCustomersName_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersNameLeave();
         }
 
         private void textBoxCustomersStreet_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersStreetLeave();
         }
 
         private void textBoxCustomersZipCode_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersZipCodeLeave();
         }
 
         private void textBoxCustomersCity_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersCityLeave();
         }
 
         private void textBoxCustomersCountry_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersCountryLeave();
         }
 
         private void textBoxCustomersEmail_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.textBoxCustomersEmailLeave();
         }
 
         private void tabPageCustomers_Leave(object sender, EventArgs e)
         {
-            SaveCurrentCustomerFromUI();
+            maskTabPageCustomers.tabPageCustomersLeave();
         }
 
-        private void buttonCustomersDelete_Click(object sender, EventArgs e)
+        private void buttonCustomersDelete_Click(
+            object _sender,
+            EventArgs _e)
         {
-            // 1. Prüfen, ob überhaupt jemand im Grid ausgewählt ist
-            if (dataGridViewCustomers.CurrentRow == null) return;
-
-            // 2. ID und Name für die Bestätigung holen
-            // "Id" muss der Name deiner Spalte im DataGridView-Designer sein
-            int id = Convert.ToInt32(dataGridViewCustomers.CurrentRow.Cells["Id"].Value);
-            string name = textBoxCustomersName.Text; // Wir nehmen den Namen direkt aus der Textbox
-
-            // 3. Sicherheitsabfrage
-            var result = MessageBox.Show(
-                $"Möchtest du den Kunden '{name}' (ID: {id}) wirklich unwiderruflich löschen?",
-                "Löschen bestätigen",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
-
-            if (result == DialogResult.Yes)
-            {
-                try
-                {
-                    // 4. Aus DB löschen
-                    dbManager.DeleteCustomer(id);
-
-                    // 5. UI aufräumen
-                    tabPageCustomersRefresh(); // Grid neu laden
-                    ClearCustomerDetailFields(); // Alle Textboxen rechts leeren
-
-                    MessageBox.Show("Kunde wurde erfolgreich gelöscht.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Fehler beim Löschen: " + ex.Message);
-                }
-            }
-        }
-
-        private void ClearCustomerDetailFields()
-        {
-            textBoxCustomersId.Text = "";
-            textBoxCustomersName.Text = "";
-            textBoxCustomersStreet.Text = "";
-            textBoxCustomersCity.Text = "";
-            textBoxCustomersZipCode.Text = "";
-            textBoxCustomersCountry.Text = "";
-            textBoxCustomersEmail.Text = "";
+            maskTabPageCustomers.buttonCustomersDeleteClick(
+                _sender,
+                _e);
         }
 
         private void dataGridViewSuppliers_SelectionChanged(object sender, EventArgs e)

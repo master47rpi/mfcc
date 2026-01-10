@@ -53,6 +53,10 @@ namespace mirada_finanza_control_central
             this.tabPage.Refresh();
             this.tabControl.SelectedTab = this.tabPage;
             this.HighlightCallerButton();
+        }
+
+        public virtual void RefreshData()
+        {
 
         }
 
